@@ -4,7 +4,7 @@ import button
 massive_block =[]
 generate_map(massive_block)
 screen = pygame.display.set_mode((400, 400), pygame.RESIZABLE)
-main_hero = main_person(100, 100, screen)
+main_hero = main_person(80, 80, screen)
 finished = False
 FPS = 60
 clock = pygame.time.Clock()

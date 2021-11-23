@@ -8,12 +8,17 @@ class Block():
         self.x0 = x
         self.y0 = y
         self.size_block = 40
+        self.surface = pygame.Surface((self.size_block, self.size_block))
+        pygame.draw.rect(self.surface, (150, 150, 150),
+                         (0, 0, self.size_block, self.size_block),width=2) #картинку сюда
 
     def draw(self, surface):
-        self.surface = pygame.Surface((self.size_block, self.size_block))
-        pygame.draw.rect(self.surface, (100, 100, 255),
-                         (0, 0, self.size_block, self.size_block))
         surface.blit(self.surface, (self.x0 * self.size_block, self.y0 * self.size_block))
+class Air_block(Block):
+    def __init__(self,x,y):
+        super().__init__(self,x,y)
+        self.permeability = True #проницаемость
+        self.durability = 0 #прочность
 
 def generate_map(massive_block):
     for i in range(5):

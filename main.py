@@ -1,18 +1,27 @@
 from block import *
 import pygame
 import button
-button_quit = button.Button(0,0,40,40,pygame.quit,(),(255,255,255),"quit")
 massive_block =[]
 generate_map(massive_block)
-pygame.init()
-screen = pygame.display.set_mode((400, 400))
-for i in massive_block:
-    i.draw(screen)
+screen = pygame.display.set_mode((400, 400), pygame.RESIZABLE)
+main_hero = main_person(100, 100, screen)
 finished = False
+FPS = 60
+clock = pygame.time.Clock()
 pygame.display.update()
 while not finished:
-    pygame.display.update()
+    screen.fill((0, 0, 0))
+    for i in massive_block:
+        i.draw(screen)
+    main_hero.draw()
+    clock.tick(FPS)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             finished = True
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_d]:
+        main_hero.move(5)
+    elif keys[pygame.K_a]:
+        main_hero.move(-5)
+    pygame.display.update()
 pygame.quit()

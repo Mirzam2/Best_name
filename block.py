@@ -1,7 +1,7 @@
 from mobs import *
 import pygame
 from pygame import surface
-
+import json
 
 class Block():
     def __init__(self, x, y):
@@ -26,17 +26,29 @@ class Air_Block(Block):
                          (0, 0, self.size_block, self.size_block))  # картинку сюда
 
 
-def generate_map(massive_block):
+def generate_new_map(massive_block:list):
+    """
+    функция создающая новую карту
+    massive_block - массив для блоков
+    """
     for i in range(5):
-        for j in range(1,5):
+        for j in range(1, 5):
             massive_block.append(Block(i, j))
     for i in range(5):
         massive_block.append(Air_Block(i, 0))
 
+def save_map(massive_block:list, world_name="test"):
+    """
+    функция сохранения данных мира
+    massive_block - массив для блоков
+    world_name - название мира который нужно сохранять
 
+    """
+    with open(r"D:\Проги\Best_name\saves\test.json", 'w') as f: 
+        json.dump([1,2,3], f)
 if __name__ == "__main__":
     massive_block = []
-    generate_map(massive_block)
+    generate_new_map(massive_block)
     pygame.init()
     screen = pygame.display.set_mode((400, 400))
     for i in massive_block:

@@ -2,7 +2,7 @@ from block import *
 import pygame
 import button
 massive_block =[]
-generate_map(massive_block)
+generate_new_map(massive_block)
 screen = pygame.display.set_mode((400, 400), pygame.RESIZABLE)
 main_hero = main_person(80, 80, screen)
 finished = False

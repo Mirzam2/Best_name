@@ -2,6 +2,7 @@ from mobs import *
 import pygame
 from pygame import surface
 import json
+import pickle
 
 class Block():
     def __init__(self, x, y):
@@ -42,10 +43,13 @@ def save_map(massive_block:list, world_name="test"):
     функция сохранения данных мира
     massive_block - массив для блоков
     world_name - название мира который нужно сохранять
-
     """
+    data = []
+    for block in massive_block:
+        data.append([str(type(block)),block.x0,block.y0])
+    print(data)
     with open(r"D:\Проги\Best_name\saves\test.json", 'w') as f: 
-        json.dump([1,2,3], f)
+        json.dump(data, f)
 if __name__ == "__main__":
     massive_block = []
     generate_new_map(massive_block)

@@ -1,7 +1,7 @@
 from block import *
 import pygame
 import button
-massive_block =[]
+massive_block = []
 generate_new_map(massive_block)
 screen = pygame.display.set_mode((400, 400), pygame.RESIZABLE)
 main_hero = main_person(80, 80, screen)
@@ -24,4 +24,5 @@ while not finished:
     elif keys[pygame.K_a]:
         main_hero.move(-5)
     pygame.display.update()
+save_map(massive_block)
 pygame.quit()

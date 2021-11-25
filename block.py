@@ -3,6 +3,8 @@ import pygame
 from pygame import surface
 import json
 import pickle
+import pathlib
+from pathlib import Path
 
 class Block():
     def __init__(self, x, y):
@@ -47,8 +49,11 @@ def save_map(massive_block:list, world_name="test"):
     data = []
     for block in massive_block:
         data.append([str(type(block)),block.x0,block.y0])
+    file = pathlib.Path(pathlib.Path.cwd(),"Best_name","saves",world_name+".json")
+    print(Path.cwd())
+    print(Path.home())
     print(data)
-    with open(r"D:\Проги\Best_name\saves\test.json", 'w') as f: 
+    with open(file, 'w') as f: 
         json.dump(data, f)
 if __name__ == "__main__":
     massive_block = []

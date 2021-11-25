@@ -49,10 +49,7 @@ def save_map(massive_block:list, world_name="test"):
     data = []
     for block in massive_block:
         data.append([str(type(block)),block.x0,block.y0])
-    file = pathlib.Path(pathlib.Path.cwd(),"Best_name","saves",world_name+".json")
-    print(Path.cwd())
-    print(Path.home())
-    print(data)
+    file = pathlib.Path(pathlib.Path.cwd(),"saves",world_name+".json")
     with open(file, 'w') as f: 
         json.dump(data, f)
 if __name__ == "__main__":

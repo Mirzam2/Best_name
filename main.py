@@ -1,6 +1,9 @@
 from block import *
 import pygame
 import button
+
+size_map_x = 20
+size_map_y = 20
 massive_block = []
 generate_new_map(massive_block)
 screen = pygame.display.set_mode((400, 400), pygame.RESIZABLE)

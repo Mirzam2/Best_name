@@ -3,7 +3,8 @@ import pickle
 import pathlib
 from pathlib import Path
 
-
+def save_data(massive_block,main_person):
+    pass
 def save_map(massive_block: list, world_name="test"):
     """
     функция сохранения данных карты мира

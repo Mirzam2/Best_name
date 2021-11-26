@@ -1,11 +1,6 @@
 from mobs import *
 import pygame
 from pygame import surface
-import json
-import pickle
-import pathlib
-from pathlib import Path
-
 class Block():
     def __init__(self, x, y):
         self.x0 = x
@@ -39,19 +34,6 @@ def generate_new_map(massive_block:list):
             massive_block.append(Block(i, j))
     for i in range(5):
         massive_block.append(Air_Block(i, 0))
-
-def save_map(massive_block:list, world_name="test"):
-    """
-    функция сохранения данных мира
-    massive_block - массив для блоков
-    world_name - название мира который нужно сохранять
-    """
-    data = []
-    for block in massive_block:
-        data.append([str(type(block)),block.x0,block.y0])
-    file = pathlib.Path(pathlib.Path.cwd(),"saves",world_name+".json")
-    with open(file, 'w') as f: 
-        json.dump(data, f)
 if __name__ == "__main__":
     massive_block = []
     generate_new_map(massive_block)

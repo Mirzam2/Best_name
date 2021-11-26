@@ -1,4 +1,5 @@
 from block import *
+from mobs import *
 import pygame
 import button
 massive_block =[]
@@ -18,10 +19,13 @@ while not finished:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             finished = True
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_w:
+                main_hero.move_y()
     keys = pygame.key.get_pressed()
     if keys[pygame.K_d]:
-        main_hero.move(5)
+        main_hero.move_x(5)
     elif keys[pygame.K_a]:
-        main_hero.move(-5)
+        main_hero.move_x(-5)
     pygame.display.update()
 pygame.quit()

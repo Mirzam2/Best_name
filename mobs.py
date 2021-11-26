@@ -7,8 +7,11 @@ class main_person:
         self.vx = 0
         self.vy = 0
         self.screen = screen
-    def move(self, vx):
+    def move_x(self, vx):
         self.vx = vx
         self.x += self.vx
+    def move_y(self):
+        self.vy += 10
+        self.y -= self.vy
     def draw(self):
         pygame.draw.rect(self.screen, (225, 0, 0), (self.x, self.y, 40, 80))

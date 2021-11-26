@@ -11,6 +11,7 @@ class main_person:
         self.vx = vx
         self.x += self.vx
     def move_y(self):
+        if 
         self.vy += 10
         self.y -= self.vy
     def draw(self):

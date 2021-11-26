@@ -2,8 +2,8 @@ from block import *
 from mobs import *
 import pygame
 import button
-massive_block =[]
-generate_map(massive_block)
+massive_block = []
+generate_new_map(massive_block)
 screen = pygame.display.set_mode((400, 400), pygame.RESIZABLE)
 main_hero = main_person(80, 80, screen)
 finished = False
@@ -21,11 +21,12 @@ while not finished:
             finished = True
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_w:
-                main_hero.move_y()
+                main_hero.y(3)
     keys = pygame.key.get_pressed()
     if keys[pygame.K_d]:
         main_hero.move_x(5)
     elif keys[pygame.K_a]:
         main_hero.move_x(-5)
     pygame.display.update()
+save_map(massive_block)
 pygame.quit()

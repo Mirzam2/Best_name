@@ -27,14 +27,15 @@ class Button():
 
     def tap(self, event):
         if event:
-            if (self.x1 <= event.pos[0] <= self.x2) and (self.y1 <= event.pos[1] <= self.y2):
-                self.function(self.option)
+            if (self.x1 <= event.pos[0] <= self.x1 + self.x2) and (self.y1 <= event.pos[1] <= self.y1 + self.y2):
+                y = self.function(*self.option)
+                return y
 
     def drawing(self, surface):
         pygame.draw.rect(surface, self.color,
                          (self.x1, self.y1, self.x2, self.y2))
         self.my_font.render_to(
-            surface, (self.x1, (self.y1 + self.y2) / 2 - self.font / 2), self.text, (0, 0, 0))
+            surface, (self.x1 + self.x2 / 4 , self.y1 + self.y2 /2 - self.font / 2), self.text, (0, 0, 0))
 
 
 if __name__ == "__main__":

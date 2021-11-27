@@ -1,60 +1,25 @@
 from mobs import *
 import pygame
 from pygame import surface
-import json
-import pickle
-import pathlib
-from pathlib import Path
-
-class Block():
-    def __init__(self, x, y):
-        self.x0 = x
-        self.y0 = y
-        self.size_block = 40
-        self.surface = pygame.Surface((self.size_block, self.size_block))
-        pygame.draw.rect(self.surface, (150, 150, 150),
-                         (0, 0, self.size_block, self.size_block), width=1)  # обводка, потом можно убрать , так будет делать карту проще
-
-    def draw(self, surface):
-        surface.blit(self.surface, (self.x0 * self.size_block,
-                     self.y0 * self.size_block))
+from file import *
+class Type_block():
+    def __init__(self,name, permeability, durability, cartinka, alpha = 1):
+        self.name = name
+        self.permeability = permeability  # проницаемость
+        self.durability = durability  # прочность
+        self.size = 40 # размер
+        self.cartinka = cartinka # пока цвет кваратика
+        self.alpha = alpha # масштаб
+    def draw(self, x, y, screen):
+    	pygame.draw.rect(screen, self.cartinka, (x * self.size, y * self.size, self.size, self.size))
 
 
-class Air_Block(Block):
-    def __init__(self, x, y):
-        super().__init__(x, y)
-        self.permeability = True  # проницаемость
-        self.durability = 0  # прочность
-        pygame.draw.rect(self.surface, (150, 150, 250),
-                         (0, 0, self.size_block, self.size_block))  # картинку сюда
+def types(types_block):
+    types_block[0] = Type_block("Air", True, -1, (0, 0, 0))
+    types_block[1] = Type_block("Dirt", False, 10, (0, 225, 0))
 
-
-def generate_new_map(massive_block:list):
-    """
-    функция создающая новую карту
-    massive_block - массив для блоков
-    """
-    for i in range(5):
-        for j in range(1, 5):
-            massive_block.append(Block(i, j))
-    for i in range(5):
-        massive_block.append(Air_Block(i, 0))
-
-def save_map(massive_block:list, world_name="test"):
-    """
-    функция сохранения данных мира
-    massive_block - массив для блоков
-    world_name - название мира который нужно сохранять
-    """
-    data = []
-    for block in massive_block:
-        data.append([str(type(block)),block.x0,block.y0])
-    file = pathlib.Path(pathlib.Path.cwd(),"saves",world_name+".json")
-    with open(file, 'w') as f: 
-        json.dump(data, f)
 if __name__ == "__main__":
     massive_block = []
-    generate_new_map(massive_block)
     pygame.init()
     screen = pygame.display.set_mode((400, 400))
     for i in massive_block:
@@ -67,3 +32,5 @@ if __name__ == "__main__":
             if event.type == pygame.QUIT:
                 finished = True
     pygame.quit()
+    
+    

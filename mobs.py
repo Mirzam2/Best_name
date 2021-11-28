@@ -15,4 +15,4 @@ class main_person:
         self.vy += 10
         self.y -= self.vy
     def draw(self):
-        pygame.draw.rect(self.screen, (225, 0, 0), (self.x, self.y, 40, 80))
+        pygame.draw.rect(self.screen, (225, 0, 0), (self.x, self.y, 48, 96))

@@ -25,8 +25,6 @@ while not finished:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             finished = True
-        main_hero.move_y(event, massive_slov)
-    main_hero.move_x(event, massive_slov)
     pygame.display.update()
 save_map(massive_slov)
 pygame.quit()

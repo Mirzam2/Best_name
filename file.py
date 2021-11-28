@@ -15,7 +15,7 @@ def save_map(massive_slov: list, world_name="test"):
         json.dump(massive_slov, f)
 
 
-def load_map(massive_slov: list, world_name="test"):
+def load_map(world_name="test"):
     """
     функция загрузки данных карты мира
     massive_block - массив для блоков

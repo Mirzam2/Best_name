@@ -1,14 +1,19 @@
 import pygame
 import button
 import time
+import os
 FPS = 60
 clock = pygame.time.Clock()
 
 def new_game():
-    file = open(str(time.time()) + ".json", 'w')
+    file = open("saves" + "\\" + str(time.time()) + ".json", 'w')
     return file
 def saved_games():
     return True
+
+def finish_game():
+    pygame.quit
+    return False
 class Menu:
     def __init__(self, width, height):
         self.screen = pygame.display.set_mode((width, height), pygame.RESIZABLE)
@@ -20,7 +25,7 @@ class Menu:
            height // 16, saved_games, (), color=(128, 128, 128), text="Saved games")
         self.exit_button = button.Button(width // 2 - width // 8,\
             height // 2 - height // 16 + height // 4 , width // 4,\
-           height // 16, pygame.quit, (), color=(128, 128, 128), text="Exit")  
+           height // 16, finish_game, (), color=(128, 128, 128), text="Exit")  
     
     def event_ (self, eventq):
         y = self.exit_button.tap(eventq)
@@ -38,16 +43,19 @@ class Menu:
 
 
 pygame.init()
-x = Menu(600, 600)
+x = Menu(1000, 1000)
 f = True
-while(True):
-    pygame.init()
-    x.draw()
-    for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                finished = True
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                y = x.event_(event)
-                #print(y)
+if __name__ == "__main__":
+    while(f):
+        pygame.display.update()
+        pygame.init()
+        x.draw()
+        for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    finished = True
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    y = x.event_(event)
+                    if type(y) == bool:
+                        if y == False:
+                            f = y
                 
-    pygame.display.update()

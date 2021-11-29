@@ -1,5 +1,5 @@
 from block import *
-from mobs import *
+from mobs2 import *
 import pygame
 import button
 from file import *
@@ -10,7 +10,7 @@ massive_slov = load_map()
 types_block = {}
 screen = pygame.display.set_mode((1000, 800), pygame.RESIZABLE)
 types(types_block)
-main_hero = main_person(0, 0, screen)
+main_hero = Main_person(0, 5, screen)
 finished = False
 FPS = 60
 clock = pygame.time.Clock()
@@ -25,8 +25,9 @@ while not finished:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             finished = True
-    main_hero.control_collision(massive_slov)
-    main_hero.move(event)
+    main_hero.input(event)
+    main_hero.control_collision(massive_slov, types_block)
+    main_hero.move()
     pygame.display.update()
 save_map(massive_slov)
 pygame.quit()

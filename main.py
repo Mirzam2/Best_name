@@ -4,14 +4,14 @@ import pygame
 import button
 from file import *
 
-size_map_x = 24
-size_map_y = 24
+size_map_x = 20
+size_map_y = 20
 massive_slov =[]
 massive_slov = load_map(massive_slov)
 types_block = {}
-screen = pygame.display.set_mode((480, 480), pygame.RESIZABLE)
 types(types_block)
-main_hero = main_person(96, 96, screen)
+screen = pygame.display.set_mode((400, 400), pygame.RESIZABLE)
+main_hero = main_person(80, 80, screen)
 finished = False
 FPS = 60
 clock = pygame.time.Clock()

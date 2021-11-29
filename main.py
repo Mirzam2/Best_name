@@ -4,13 +4,13 @@ import pygame
 import button
 from file import *
 
-size_map_x = 20
-size_map_y = 20
+size_map_x = 24
+size_map_y = 24
 massive_slov = load_map()
 types_block = {}
+screen = pygame.display.set_mode((1000, 800), pygame.RESIZABLE)
 types(types_block)
-screen = pygame.display.set_mode((400, 400), pygame.RESIZABLE)
-main_hero = main_person(0, 2, screen)
+main_hero = main_person(0, 0, screen)
 finished = False
 FPS = 60
 clock = pygame.time.Clock()
@@ -25,6 +25,8 @@ while not finished:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             finished = True
+    main_hero.control_collision(massive_slov)
+    main_hero.move(event)
     pygame.display.update()
 save_map(massive_slov)
 pygame.quit()

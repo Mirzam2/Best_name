@@ -33,9 +33,9 @@ def types(types_block):
 if __name__ == "__main__":
     massive_block = []
     pygame.init()
-    screen = pygame.display.set_mode((480, 480))
+    main_screen = pygame.display.set_mode((480, 480))
     for i in massive_block:
-        i.draw(screen)
+        i.draw(main_screen)
     finished = False
     pygame.display.update()
     while not finished:

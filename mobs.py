@@ -1,73 +1,52 @@
 import pygame
 import math
-class main_person:
+def point_collision_x(x, y, vx, massive_slov):
+    if massive_slov[int(y // 1)][int((x + vx) // 1)] != 0:
+        move_x = False
+    else:
+        move_x = True
+    return move_x
+def point_collision_y(x, y, vy, massive_slov):
+    if massive_slov[int((y + vy) // 1)][int(x // 1)] != 0:
+        move_y = False
+    else:
+        move_y = True
+    return move_y
+class Main_person:
     def __init__(self, x, y, screen):
         self.x = x
         self.y = y
-        self.x_otn = int(self.x // 1)
-        self.y_otn = int(self.y // 1)
-        self.flagx = False
-        self.flagy = False
-        self.move_x = True
-        self.move_y = True
         self.vx = 0
         self.vy = 0
         self.size = 48
         self.screen = screen
-    def control_collision(self, massive_slov):
-        if (self.x - self.x_otn) < 0.02:
-            self.flagx = True
-            self.x = float(self.x_otn)
-        if (self.y - self.y_otn) < 0.02:
-            self.flagy = True
-            self.y = float(self.y_otn)
-        self.move_x, self.move_y = False, False
-        if not(self.flagx) and not(self.flagy):
-            self.move_y = True
-            self.move_x = True
-        if self.flagx and not(self.flagy):
-            self.move_y = True
-            if massive_slov[self.x_otn + 1][self.y_otn] == 0 and massive_slov[self.x_otn + 1][self.y_otn + 1] == 0 and massive_slov[self.x_otn + 1][self.y_otn + 2] == 0:
-                self.move_x = True
-            else:
-                self.move_x = False
-        if not(self.flagx) and self.flagy:
-            if massive_slov[self.x_otn][self.y_otn + 1] == 0 and massive_slov[self.x_otn + 2][self.y_otn + 2] == 0:
-                self.move_y = True
-            else:
-                self.move_y = False
-            self.move_x = True
-        if self.flagx and self.flagy:
-            if massive_slov[self.x_otn][self.y_otn + 2] == 0:
-                self.move_y = True
-            else:
-                self.move_y = False
-            if massive_slov[self.x_otn + 1][self.y_otn] == 0 and massive_slov[self.x_otn + 1][self.y_otn + 1] == 0:
-                self.move_x = True
-            else:
-                self.move_x = False
-        
-    def move(self, event):
+    def input(self, event):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_d]:
-            self.vx = 0.03
+            self.vx = 0.05
         elif keys[pygame.K_a]:
-            self.vx = -0.03
+            self.vx = -0.05
         else:
             self.vx = 0
-        if keys[pygame.K_w]:
-            self.vy = 0.2
-        if self.move_x:
-            self.x += self.vx
-        if self.move_y:
-            self.y -= self.vy
-            self.vy -=  0.025
-        elif self.vy == 0.2:
-            self.y -= self.vy
-            self.vy -= 0.025
-        else:
-            self.vy = 0
-        self.x_otn = int(self.x // 1)
-        self.y_otn = int(self.y // 1)
+        if keys[pygame.K_w] and self.vy == 0:
+            self.vy = -0.1
+        self.vy += 0.002
+    def control_collision(self, massive_slov):
+        for i in self.x + 10 ** (-10), self.x + 1 - 10 ** (-10):
+            for j in self.y + 10 ** (-10), self.y + 1, self.y + 2 - 10 ** (-10):
+                if not(point_collision_x(i, j, self.vx, massive_slov)):
+                    self.vx = 0
+                    self.x = round(self.x)
+                    break
+        for i in self.x + 10 ** (-10), self.x + 1 - 10 ** (-10):
+            for j in self.y + 10 ** (-10), self.y + 1, self.y + 2 - 10 ** (-10):
+                if not(point_collision_y(i, j, self.vy, massive_slov)):
+                    self.vy = 0
+                    self.y = round(self.y)
+                    break
+        
+    def move(self):
+        self.x += self.vx
+        self.y += self.vy
     def draw(self):
-        pygame.draw.rect(self.screen, (225, 0, 0), (self.x * self.size, self.y * self.size, self.size, self.size * 2))
+        pygame.draw.rect(self.screen, (225, 0, 0), (self.x * 48, self.y * 48, self.size, self.size * 2))

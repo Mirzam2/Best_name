@@ -1,5 +1,5 @@
 from block import *
-from mobs2 import *
+from mobs import *
 import pygame
 import button
 from file import *

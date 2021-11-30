@@ -19,6 +19,9 @@ class Main_person:
         self.vx = 0
         self.vy = 0
         self.size = 48
+        self.real_size = 42 
+        # реальный размер, меньше 37 пикселей не надо жеательно больше 40
+        self.otn = self.real_size / self.size
         self.screen = screen
     def input(self, event):
         keys = pygame.key.get_pressed()
@@ -32,21 +35,28 @@ class Main_person:
             self.vy = -0.1
         self.vy += 0.002
     def control_collision(self, massive_slov):
-        for i in self.x + 10 ** (-10), self.x + 1 - 10 ** (-10):
-            for j in self.y + 10 ** (-10), self.y + 1, self.y + 2 - 10 ** (-10):
+        for i in self.x + 10 ** (-10), self.x + 1 * self.otn - 10 ** (-10):
+            for j in self.y + 10 ** (-10), self.y + 1 * self.otn, self.y + 2 * self.otn - 10 ** (-10):
                 if not(point_collision_x(i, j, self.vx, massive_slov)):
+                    if self.vx > 0:
+                        self.x = round(self.x) + 1 - self.otn
+                    else:
+                        self.x = round(self.x)
                     self.vx = 0
-                    self.x = round(self.x)
                     break
-        for i in self.x + 10 ** (-10), self.x + 1 - 10 ** (-10):
-            for j in self.y + 10 ** (-10), self.y + 1, self.y + 2 - 10 ** (-10):
+        for i in self.x + 10 ** (-10), self.x + 1 * self.otn - 10 ** (-10):
+            for j in self.y + 10 ** (-10), self.y + 1 * self.otn, self.y + 2 * self.otn - 10 ** (-10):
                 if not(point_collision_y(i, j, self.vy, massive_slov)):
-                    self.vy = 0
-                    self.y = round(self.y)
+                    if self.vy < 0:
+                        self.y = round(self.y)
+                        self.vy = 0.002
+                    else:
+                        self.y = round(self.y) + 2 * (1 - self.otn)
+                        self.vy = 0
                     break
         
     def move(self):
         self.x += self.vx
         self.y += self.vy
     def draw(self):
-        pygame.draw.rect(self.screen, (225, 0, 0), (self.x * 48, self.y * 48, self.size, self.size * 2))
+        pygame.draw.rect(self.screen, (225, 0, 0), (self.x * self.size, self.y * self.size, self.real_size, self.real_size * 2))

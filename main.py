@@ -20,7 +20,7 @@ massive_slov = load_map()
 types_block = {}
 main_screen = pygame.display.set_mode((1000, 800), pygame.RESIZABLE)
 types(types_block)
-main_hero = Main_person(0, 5, main_screen)
+main_hero = Main_person(1, 1, main_screen)
 finished = False
 FPS = 60
 clock = pygame.time.Clock()
@@ -35,7 +35,7 @@ while not finished:
         if event.type == pygame.QUIT:
             finished = True
     main_hero.input(event)
-    main_hero.control_collision(massive_slov, types_block)
+    main_hero.control_collision(massive_slov)
     main_hero.move()
     pygame.display.update()
 save_map(massive_slov)

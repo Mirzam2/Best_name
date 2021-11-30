@@ -20,7 +20,7 @@ massive_slov = load_map()
 types_block = {}
 main_screen = pygame.display.set_mode((1000, 800), pygame.RESIZABLE)
 types(types_block)
-main_hero = Main_person(0, 5, screen)
+main_hero = Main_person(0, 5, main_screen)
 finished = False
 FPS = 60
 clock = pygame.time.Clock()

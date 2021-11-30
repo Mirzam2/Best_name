@@ -22,8 +22,8 @@ class Main_person:
             self.vx = -0.05
         else:
             self.vx = 0
-        if keys[pygame.K_w]:
-            self.vy = -0.2
+        if keys[pygame.K_w] and self.vy == 0:
+            self.vy = -0.1
         self.vy += 0.002
     def control_collision(self, massive_slov, types_block):
         self.x_otn_move = int((self.x + self.vx) // 1)
@@ -34,15 +34,17 @@ class Main_person:
         self.move_y= True
         for i in range(0, 3):
             for j in range(0,2):
-                if massive_slov[self.x_otn_move + j][self.y_otn + i] != 0:
+                if massive_slov[self.y_otn + i][self.x_otn_move + j] != 0:
                     self.move_x = False
                     self.vx = 0
+                    print(self.x)
                     break
         for i in range(0, 3):
             for j in range(0,2):
-                if massive_slov[self.x_otn + j][self.y_otn_move + i] != 0:
+                if massive_slov[self.y_otn_move + i][self.x_otn + j] != 0:
                     self.move_y = False
                     self.vy = 0
+                    print(self.y)
                     break
         
     def move(self):
@@ -51,4 +53,4 @@ class Main_person:
         if self.move_y:
             self.y += self.vy
     def draw(self):
-        pygame.draw.rect(self.screen, (225, 0, 0), (self.x * self.size, self.y * self.size, self.size, self.size * 2))
+        pygame.draw.rect(self.screen, (225, 0, 0), (self.x * 48, self.y * 48, self.size, self.size * 2))

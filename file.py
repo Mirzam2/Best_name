@@ -28,5 +28,5 @@ def load_map(world_name="test"):
 def draw_map(massive_slov, types_block, screen):
     for i in range(len(massive_slov)):
         for j in range(len(massive_slov[i])):
-            drovable_block = types_block.get(massive_slov[i][j], 0)
+            drovable_block = types_block.get(massive_slov[j][i], 0)
             drovable_block.draw(i, j, screen)

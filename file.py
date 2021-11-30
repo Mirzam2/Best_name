@@ -12,7 +12,7 @@ def save_map(massive_slov: list, world_name="test"):
     """
     file = pathlib.Path(pathlib.Path.cwd(), "saves", world_name+".json")
     with open(file, 'w') as f:
-        json.dump(massive_slov, f)
+        json.dump(massive_slov,f,sort_keys=True, indent=4)
 
 
 def load_map(world_name="test"):

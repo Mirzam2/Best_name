@@ -1,5 +1,5 @@
 from block import *
-from mobs import *
+from mobs2 import *
 import pygame
 import button
 from file import *
@@ -15,15 +15,15 @@ def veb_cam(main_screen,x_cam,y_cam):
     size_screen = main_screen.get_size()
     hight = size_screen[1]
     width = size_screen[0]
-    #x_cam = -main_hero.x * 48 + main_screen.get_size()[0] / 2
-    #y_cam = -main_hero.y * 48 + main_screen.get_size()[1] / 2
+    x_cam = -main_hero.x * 48 + main_screen.get_size()[0] / 2
+    y_cam = -main_hero.y * 48 + main_screen.get_size()[1] / 2
     main_screen.blit(screen, (x_cam,y_cam))
     return(x_cam,y_cam)
 massive_slov = load_map()
 types_block = {}
 main_screen = pygame.display.set_mode((1000, 800), pygame.RESIZABLE)
 types(types_block)
-main_hero = main_person(0, 0, main_screen)
+main_hero = Main_person(0, 0, main_screen)
 x_cam = -main_hero.x * 48 + main_screen.get_size()[0] / 2
 y_cam = -main_hero.y * 48 + main_screen.get_size()[1] / 2
 finished = False
@@ -39,8 +39,9 @@ while not finished:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             finished = True
-    main_hero.control_collision(massive_slov)
-    main_hero.move(event)
+    main_hero.input(event)
+    main_hero.control_collision(massive_slov, types_block)
+    main_hero.move()
     pygame.display.update()
 save_map(massive_slov)
 pygame.quit()

@@ -40,7 +40,7 @@ while not finished:
         if event.type == pygame.QUIT:
             finished = True
     main_hero.input(event)
-    main_hero.control_collision(massive_slov, types_block)
+    main_hero.control_collision(massive_slov)
     main_hero.move()
     pygame.display.update()
 save_map(massive_slov)

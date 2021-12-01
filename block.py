@@ -33,7 +33,7 @@ def types(types_block):
 if __name__ == "__main__":
     massive_block = []
     pygame.init()
-    main_screen = pygame.display.set_mode((480, 480))
+    main_screen = pygame.display.set_mode((10000, 10000))
     for i in massive_block:
         i.draw(main_screen)
     finished = False

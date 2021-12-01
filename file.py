@@ -1,4 +1,5 @@
 import json
+from os import write
 import pickle
 import pathlib
 from pathlib import Path
@@ -11,8 +12,17 @@ def save_map(massive_slov: list, world_name="test"):
     world_name - название мира который нужно сохранять
     """
     file = pathlib.Path(pathlib.Path.cwd(), "saves", world_name+".json")
-    with open(file, 'w') as f:
-        json.dump(massive_slov,f,sort_keys=True,allow_nan=False)
+    with open(file, 'w') as input_file:
+        main_string = "[" + "\n"
+        for slovo in massive_slov:
+            string = ""
+            for i in slovo:
+                string += (str(i) + ", ")
+            string = string[:len(string)-2]
+            main_string+=("[" + string + "]," + "\n")
+        main_string = main_string[:len(main_string)-2]
+        main_string+=("\n" + "]")
+        input_file.write(main_string)
 
 
 def load_map(world_name="test"):

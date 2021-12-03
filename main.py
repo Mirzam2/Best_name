@@ -15,15 +15,23 @@ def veb_cam(main_screen,x_cam,y_cam):
     size_screen = main_screen.get_size()
     hight = size_screen[1]
     width = size_screen[0]
-    x_cam = -main_hero.x * 48 + main_screen.get_size()[0] / 2
-    y_cam = -main_hero.y * 48 + main_screen.get_size()[1] / 2
+    if -main_hero.x * 48 + main_screen.get_size()[0] / 2 - x_cam >= 50:
+        x_cam += 2
+    if -main_hero.x * 48 + main_screen.get_size()[0] / 2 - x_cam <= -50:
+        x_cam -= 2 
+    if -main_hero.y * 48 + main_screen.get_size()[1] / 2 - y_cam >= 50:
+        y_cam += 2 
+    if -main_hero.y * 48 + main_screen.get_size()[1] / 2 - y_cam <= -50:
+        y_cam -= 2 
+    #x_cam = -main_hero.x * 48 + main_screen.get_size()[0] / 2
+    #y_cam = -main_hero.y * 48 + main_screen.get_size()[1] / 2
     main_screen.blit(screen, (x_cam,y_cam))
     return(x_cam,y_cam)
 massive_slov = load_map()
 types_block = {}
 main_screen = pygame.display.set_mode((1000, 800), pygame.RESIZABLE)
 types(types_block)
-main_hero = Main_person(0, 0, main_screen)
+main_hero = Main_person(15, 0, main_screen)
 x_cam = -main_hero.x * 48 + main_screen.get_size()[0] / 2
 y_cam = -main_hero.y * 48 + main_screen.get_size()[1] / 2
 finished = False

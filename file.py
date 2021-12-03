@@ -36,7 +36,7 @@ def load_map(world_name="test"):
         massive_slov = json.load(f)
     return massive_slov
 def draw_map(massive_slov, types_block, screen):
-    for j in range(len(massive_slov)):
-        for i in range(len(massive_slov[j])):
-            drovable_block = types_block.get(massive_slov[j][i], 0)
-            drovable_block.draw(i, j, screen)
+    for i in range(len(massive_slov)):
+        for j in range(len(massive_slov[i])):
+            drovable_block = types_block.get(massive_slov[i][j], 0)
+            drovable_block.draw(j, i, screen)

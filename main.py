@@ -4,36 +4,62 @@ import pygame
 import button
 from file import *
 
-size_map_x = 24
-size_map_y = 24
-massive_slov =[]
-massive_slov = load_map(massive_slov)
+
+def veb_cam(main_screen, x_cam, y_cam):
+    """
+    Фунция вызывающая камеру, которая рисует картинку в зависимости от положения игрока
+    main_screen - главный экран на котором должна быть картинка
+    x_cam, y_cam - положение камеры в предудущий тик
+    """
+    size_y = len(massive_slov)
+    size_x = len(massive_slov[1])
+    speed_cam = 1  # коэфициент пропорциональности скорости
+    max_distant = 96  # максимальное удаление
+    screen = pygame.Surface((size_x * 48, size_y * 48))
+    main_hero.screen = screen
+    draw_map(massive_slov, types_block, screen)
+    main_hero.draw()
+    # отдаление от центра по X
+    diff_x = -main_hero.x * 48 + main_screen.get_size()[0] / 2 - x_cam
+    # отдаление от центра по Y
+    diff_y = -main_hero.y * 48 + main_screen.get_size()[1] / 2 - y_cam
+    "Собственно движение камеры"
+    if diff_x >= max_distant:
+        x_cam += speed_cam * diff_x / max_distant
+    if diff_x <= -max_distant:
+        x_cam += speed_cam * diff_x / max_distant
+    if diff_y >= max_distant:
+        y_cam += speed_cam * diff_y / max_distant
+    if diff_y <= -max_distant:
+        y_cam += speed_cam * diff_y / max_distant
+
+    main_screen.blit(screen, (x_cam, y_cam))
+    return(x_cam, y_cam)
+
+
+massive_slov = load_map()
 types_block = {}
-screen = pygame.display.set_mode((480, 480), pygame.RESIZABLE)
+main_screen = pygame.display.set_mode((1000, 800), pygame.RESIZABLE)
 types(types_block)
-main_hero = main_person(96, 96, screen)
+main_hero = Main_person(15, 0, main_screen)
+x_cam = -main_hero.x * 48 + main_screen.get_size()[0] / 2
+y_cam = -main_hero.y * 48 + main_screen.get_size()[1] / 2
 finished = False
 FPS = 60
 clock = pygame.time.Clock()
 pygame.display.update()
 while not finished:
-    screen.fill((0, 0, 0))
+    main_screen.fill((0, 0, 0))
     '''начало блока рисования'''
-    draw_map(massive_slov, types_block, screen)
-    main_hero.draw()
+    x_cam, y_cam = veb_cam(main_screen, x_cam, y_cam)
     '''конец блока рисования'''
     clock.tick(FPS)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             finished = True
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_w:
-                main_hero.move_y()
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_d]:
-        main_hero.move_x(5)
-    elif keys[pygame.K_a]:
-        main_hero.move_x(-5)
+    main_hero.input(event)
+    main_hero.control_collision(massive_slov)
+    main_hero.move()
     pygame.display.update()
 save_map(massive_slov)
 pygame.quit()

@@ -1,5 +1,7 @@
 import pygame
 import math
+
+from constans import GRAVITAION, JUMP_SPEED, SIZE_BLOCK, SPEED_Player, DELITA
 def point_collision_x(x, y, vx, massive_slov):
     if massive_slov[int(y // 1)][int((x + vx) // 1)] != 0:
         move_x = False
@@ -18,7 +20,7 @@ class Main_person:
         self.y = y
         self.vx = 0
         self.vy = 0
-        self.size = 48
+        self.size = SIZE_BLOCK
         self.real_size = 42 
         # реальный размер, меньше 37 пикселей не надо жеательно больше 40
         self.otn = self.real_size / self.size
@@ -26,17 +28,17 @@ class Main_person:
     def input(self, event):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_d]:
-            self.vx = 0.05
+            self.vx = SPEED_Player
         elif keys[pygame.K_a]:
-            self.vx = -0.05
+            self.vx = -SPEED_Player
         else:
             self.vx = 0
         if keys[pygame.K_w] and self.vy == 0:
-            self.vy = -0.1
-        self.vy += 0.002
+            self.vy = -JUMP_SPEED
+        self.vy += GRAVITAION
     def control_collision(self, massive_slov):
-        for i in self.x + 10 ** (-10), self.x + 1 * self.otn - 10 ** (-10):
-            for j in self.y + 10 ** (-10), self.y + 1 * self.otn, self.y + 2 * self.otn - 10 ** (-10):
+        for i in self.x + DELITA, self.x + 1 * self.otn - DELITA:
+            for j in self.y + DELITA, self.y + 1 * self.otn, self.y + 2 * self.otn - DELITA:
                 if not(point_collision_x(i, j, self.vx, massive_slov)):
                     if self.vx > 0:
                         self.x = round(self.x) + 1 - self.otn
@@ -44,8 +46,8 @@ class Main_person:
                         self.x = round(self.x)
                     self.vx = 0
                     break
-        for i in self.x + 10 ** (-10), self.x + 1 * self.otn - 10 ** (-10):
-            for j in self.y + 10 ** (-10), self.y + 1 * self.otn, self.y + 2 * self.otn - 10 ** (-10):
+        for i in self.x + DELITA, self.x + 1 * self.otn - DELITA:
+            for j in self.y + DELITA, self.y + 1 * self.otn, self.y + 2 * self.otn - DELITA:
                 if not(point_collision_y(i, j, self.vy, massive_slov)):
                     if self.vy < 0:
                         self.y = round(self.y)

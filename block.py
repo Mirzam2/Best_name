@@ -10,7 +10,7 @@ class Type_block():
         self.name = name
         self.permeability = permeability  # проницаемость
         self.durability = durability  # прочность
-        self.size = 48 # размер
+        self.size = SIZE_BLOCK # размер
         self.image = image # пока цвет кваратика
         self.alpha = alpha # масштаб
         self.rect = self.image.get_rect()

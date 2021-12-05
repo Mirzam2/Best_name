@@ -9,6 +9,8 @@ def new_game():
     file = open("saves" + "\\" + str(time.time()) + ".json", 'w')
     return file
 def saved_games():
+    content = os.listdir(path='saves')
+    print(content)
     return True
 
 def finish_game():

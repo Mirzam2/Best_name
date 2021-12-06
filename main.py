@@ -4,7 +4,8 @@ import pygame
 import button
 from file import *
 from constans import *
-
+from Hume_screen import *
+kpbjorno = 0
 def veb_cam(main_screen, x_cam, y_cam):
     """
     Фунция вызывающая камеру, которая рисует картинку в зависимости от положения игрока
@@ -35,7 +36,10 @@ def veb_cam(main_screen, x_cam, y_cam):
     main_screen.blit(screen, (x_cam, y_cam))
     return(x_cam, y_cam)
 
-
+file = 0
+main_screen = pygame.display.set_mode((1000, 800), pygame.RESIZABLE)
+file = hyme_screen(main_screen)
+massive_slov = load_map(file)
 types_block = {}
 main_screen = pygame.display.set_mode((1000, 800), pygame.RESIZABLE)
 types(types_block)

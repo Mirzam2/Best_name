@@ -61,4 +61,4 @@ class Main_person:
         self.x += self.vx
         self.y += self.vy
     def draw(self):
-        pygame.draw.rect(self.screen, (225, 0, 0), (self.x * self.size, self.y * self.size, self.real_size, self.real_size * 2))
+        pygame.draw.rect(self.screen, (225, 0, 0), (self.x * self.size, self.y * self.size, self.real_size, self.real_size * 2)) 

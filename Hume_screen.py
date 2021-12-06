@@ -67,7 +67,7 @@ class Menu:
         y = self.button_saved_games.tap(eventq)
         if y != None: return y
   
-    def draw(self):
+    def draw(self,screen):
         self.new_game_button.drawing(screen)
         self.button_saved_games.drawing(screen)
         self.exit_button.drawing(screen)
@@ -75,11 +75,12 @@ class Menu:
 
 
 def hyme_screen(screen):
+    pygame.init()
     x = Menu(screen)
     f = True
     while(f):
         pygame.init()
-        x.draw()
+        x.draw(screen)
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     finished = True
@@ -89,6 +90,10 @@ def hyme_screen(screen):
                         if y == False:
                             f = y
                         print(y)
+                    if type(y) == str:
+                        f = False
+                        print(y)
+                        break
         pygame.display.update()
         screen.fill("black")
     return y

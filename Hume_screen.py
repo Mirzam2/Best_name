@@ -2,12 +2,14 @@ import pygame
 import button
 import time
 import os
+import shutil 
 FPS = 60
 clock = pygame.time.Clock()
 
 def new_game():
     tmp = str(time.time()) + ".json"
     file = open("saves" + "\\" + tmp, 'w')
+    shutil.copyfile(r"saves\test.json", r"saves" + "\\" + tmp, follow_symlinks=True)
     return tmp
 
 def return_save(x, number):
@@ -104,7 +106,7 @@ if __name__ == "__main__":
     f = True
     while(f):
         pygame.init()
-        x.draw()
+        x.draw(screen)
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     finished = True

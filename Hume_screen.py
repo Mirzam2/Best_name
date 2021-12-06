@@ -74,10 +74,27 @@ class Menu:
 
 
 
-
+def hyme_screen(screen):
+    x = Menu(screen)
+    f = True
+    while(f):
+        pygame.init()
+        x.draw()
+        for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    finished = True
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    y = x.event_(event)
+                    if type(y) == bool:
+                        if y == False:
+                            f = y
+                        print(y)
+        pygame.display.update()
+        screen.fill("black")
+    return y
 if __name__ == "__main__":
     pygame.init()
-    screen = pygame.display.set_mode((1000, 1000), pygame.RESIZABLE)
+    screen = pygame.display.set_mode((800, 800), pygame.RESIZABLE)
     x = Menu(screen)
     f = True
     while(f):

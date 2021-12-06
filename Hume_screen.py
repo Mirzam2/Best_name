@@ -6,28 +6,58 @@ FPS = 60
 clock = pygame.time.Clock()
 
 def new_game():
-    file = open("saves" + "\\" + str(time.time()) + ".json", 'w')
-    return file
-def saved_games():
+    tmp = "saves" + "\\" + str(time.time()) + ".json"
+    file = open(tmp, 'w')
+    return tmp
+
+def return_save(x, number):
+    return x[number]
+
+def saved_games(screen, width, height):
+    screen.fill("black")
     content = os.listdir(path='saves')
     print(content)
-    return True
+    buttons = []
+    for i in range(min(len(content), 5)):
+        tmp = button.Button(width // 2 - width // 8,\
+            height // 3 - height // 16 + height // 8 * i, width // 4,\
+           height // 16 , return_save, (content, i), color=(128, 128, 128), text=content[i])
+        buttons.append(tmp)
+    finished = False
+    result = ""
+    while(not finished):
+        pygame.init()
+        for i in buttons:
+            i.drawing(screen)
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                finished = True
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                for i in buttons:
+                    y = i.tap(event)
+                    if type(y) == str:
+                        finished = True
+                        result = y
+        screen.fill("black")
+    return "saves" + "\\" + result
 
 def finish_game():
     pygame.quit
     return False
 class Menu:
-    def __init__(self, width, height):
-        self.screen = pygame.display.set_mode((width, height), pygame.RESIZABLE)
-        self.new_game_button = button.Button(width // 2 - width // 8,\
-            height // 2 - height // 16, width // 4,\
-           height // 16, new_game, (), color=(128, 128, 128), text="New game")
-        self.button_saved_games = button.Button(width // 2 - width // 8,\
-            height // 2 - height // 16 + height // 8, width // 4,\
-           height // 16, saved_games, (), color=(128, 128, 128), text="Saved games")
-        self.exit_button = button.Button(width // 2 - width // 8,\
-            height // 2 - height // 16 + height // 4 , width // 4,\
-           height // 16, finish_game, (), color=(128, 128, 128), text="Exit")  
+    def __init__(self, screen):
+        self.height = screen.get_height()
+        self.width = screen.get_width()
+        self.new_game_button = button.Button(self.width // 2 - self.width // 8,\
+            self.height // 2 - self.height // 16, self.width // 4,\
+           self.height // 16, new_game, (), color=(128, 128, 128), text="New game")
+        self.button_saved_games = button.Button(self.width // 2 - self.width // 8,\
+            self.height // 2 - self.height // 16 + self.height // 8, self.width // 4,\
+           self.height // 16, saved_games, (screen, self.width, self.height), color=(128, 128, 128), text="Saved games")
+        self.exit_button = button.Button(self.width // 2 - self.width // 8,\
+            self.height // 2 - self.height // 16 + self.height // 4 , self.width // 4,\
+           self.height // 16, finish_game, (), color=(128, 128, 128), text="Exit")  
     
     def event_ (self, eventq):
         y = self.exit_button.tap(eventq)
@@ -38,18 +68,19 @@ class Menu:
         if y != None: return y
   
     def draw(self):
-        self.new_game_button.drawing(self.screen)
-        self.button_saved_games.drawing(self.screen)
-        self.exit_button.drawing(self.screen)
+        self.new_game_button.drawing(screen)
+        self.button_saved_games.drawing(screen)
+        self.exit_button.drawing(screen)
 
 
 
-pygame.init()
-x = Menu(1000, 1000)
-f = True
+
 if __name__ == "__main__":
+    pygame.init()
+    screen = pygame.display.set_mode((1000, 1000), pygame.RESIZABLE)
+    x = Menu(screen)
+    f = True
     while(f):
-        pygame.display.update()
         pygame.init()
         x.draw()
         for event in pygame.event.get():
@@ -60,4 +91,6 @@ if __name__ == "__main__":
                     if type(y) == bool:
                         if y == False:
                             f = y
-                
+                        print(y)
+        pygame.display.update()
+        screen.fill("black")

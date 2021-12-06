@@ -6,8 +6,8 @@ FPS = 60
 clock = pygame.time.Clock()
 
 def new_game():
-    tmp = "saves" + "\\" + str(time.time()) + ".json"
-    file = open(tmp, 'w')
+    tmp = str(time.time()) + ".json"
+    file = open("saves" + "\\" + tmp, 'w')
     return tmp
 
 def return_save(x, number):
@@ -40,7 +40,7 @@ def saved_games(screen, width, height):
                         finished = True
                         result = y
         screen.fill("black")
-    return "saves" + "\\" + result
+    return result
 
 def finish_game():
     pygame.quit
@@ -108,6 +108,6 @@ if __name__ == "__main__":
                     if type(y) == bool:
                         if y == False:
                             f = y
-                        print(y)
+                    print(y)
         pygame.display.update()
         screen.fill("black")

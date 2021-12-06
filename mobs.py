@@ -63,12 +63,12 @@ class Main_person:
     def broke(self, event, x0, y0):
         if event.type == pygame.MOUSEMOTION:
             if event:
-                self.an = math.atan2(((event.pos[1] - y0)/self.size-self.y), ((event.pos[0] - x0)/self.size-self.x))
+                self.an = math.atan2(((event.pos[1] - y0)/self.size-(self.y + self.otn)), ((event.pos[0] - x0) / self.size - (self.x + self.otn / 2)))
             else:
                 self.an = 0
     def draw(self):
         pygame.draw.rect(self.screen, (225, 0, 0), (self.x * self.size, self.y * self.size, self.real_size, self.real_size * 2))
-        pygame.draw.line(self.screen, (0, 225, 0), (self.x * self.size, (self.y + 1) * self.size), (math.cos(self.an) * 200 + self.x* self.size, (self.y + 1) * self.size + math.sin(self.an) * 200 ), 2)
+        pygame.draw.line(self.screen, (0, 225, 0), ((self.x + self.otn / 2) * self.size, (self.y + self.otn) * self.size), (math.cos(self.an) * 200 + (self.x + self.otn / 2) * self.size, (self.y + self.otn) * self.size + math.sin(self.an) * 200 ), 2)
 class Zombie(Main_person):
     def move():
         pass

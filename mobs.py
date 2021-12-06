@@ -21,7 +21,8 @@ class Main_person:
         self.vx = 0
         self.vy = 0
         self.size = SIZE_BLOCK
-        self.real_size = 42 
+        self.real_size = 45
+        self.an = 0
         # реальный размер, меньше 37 пикселей не надо жеательно больше 40
         self.otn = self.real_size / self.size
         self.screen = screen
@@ -56,9 +57,18 @@ class Main_person:
                         self.y = round(self.y) + 2 * (1 - self.otn)
                         self.vy = 0
                     break
-        
     def move(self):
         self.x += self.vx
         self.y += self.vy
+    def broke(self, event, x0, y0):
+        if event.type == pygame.MOUSEMOTION:
+            if event:
+                self.an = math.atan2(((event.pos[1] - y0)/self.size-self.y), ((event.pos[0] - x0)/self.size-self.x))
+            else:
+                self.an = 0
     def draw(self):
         pygame.draw.rect(self.screen, (225, 0, 0), (self.x * self.size, self.y * self.size, self.real_size, self.real_size * 2))
+        pygame.draw.line(self.screen, (0, 225, 0), (self.x * self.size, (self.y + 1) * self.size), (math.cos(self.an) * 200 + self.x* self.size, (self.y + 1) * self.size + math.sin(self.an) * 200 ), 2)
+class Zombie(Main_person):
+    def move():
+        pass

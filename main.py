@@ -36,10 +36,10 @@ def veb_cam(main_screen, x_cam, y_cam):
     return(x_cam, y_cam)
 
 
-massive_slov = load_map()
 types_block = {}
 main_screen = pygame.display.set_mode((1000, 800), pygame.RESIZABLE)
 types(types_block)
+massive_slov, map_types = load_map(types_block)
 main_hero = Main_person(15, 0, main_screen)
 x_cam = -main_hero.x * SIZE_BLOCK + main_screen.get_size()[0] / 2
 y_cam = -main_hero.y * SIZE_BLOCK + main_screen.get_size()[1] / 2
@@ -56,6 +56,7 @@ while not finished:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             finished = True
+        main_hero.broke(event, x_cam, y_cam)
     main_hero.input(event)
     main_hero.control_collision(massive_slov)
     main_hero.move()

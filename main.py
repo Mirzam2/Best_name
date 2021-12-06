@@ -4,6 +4,7 @@ import pygame
 import button
 from file import *
 from constans import *
+from Hume_screen import *
 
 def veb_cam(main_screen, x_cam, y_cam):
     """
@@ -34,9 +35,9 @@ def veb_cam(main_screen, x_cam, y_cam):
     main_hero.draw()
     main_screen.blit(screen, (x_cam, y_cam))
     return(x_cam, y_cam)
-
-
-massive_slov = load_map()
+file = 0
+file = hyme_screen(main_screen)
+massive_slov = load_map(file)
 types_block = {}
 main_screen = pygame.display.set_mode((1000, 800), pygame.RESIZABLE)
 types(types_block)

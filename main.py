@@ -38,12 +38,10 @@ def veb_cam(main_screen, x_cam, y_cam):
 
 file = 0
 main_screen = pygame.display.set_mode((1000, 800), pygame.RESIZABLE)
-file = hyme_screen(main_screen)
-massive_slov = load_map(file)
 types_block = {}
-main_screen = pygame.display.set_mode((1000, 800), pygame.RESIZABLE)
 types(types_block)
-massive_slov, map_types = load_map(types_block)
+file = hyme_screen(main_screen)
+massive_slov, map_types = load_map(types_block, file)
 main_hero = Main_person(15, 0, main_screen)
 x_cam = -main_hero.x * SIZE_BLOCK + main_screen.get_size()[0] / 2
 y_cam = -main_hero.y * SIZE_BLOCK + main_screen.get_size()[1] / 2
@@ -61,7 +59,7 @@ while not finished:
         if event.type == pygame.QUIT:
             finished = True
         main_hero.broke(event, x_cam, y_cam)
-    main_hero.input(event)
+    main_hero.input(event = 0)
     main_hero.control_collision(massive_slov)
     main_hero.move()
     pygame.display.update()

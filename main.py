@@ -5,8 +5,12 @@ import button
 from file import *
 from constans import *
 from Hume_screen import *
+<<<<<<< HEAD
 
 
+=======
+kpbjorno = 0
+>>>>>>> 1d1dba0586eb7202bbffc4c59cd5f4090fe6c5c2
 def veb_cam(main_screen, x_cam, y_cam):
     """
     Фунция вызывающая камеру, которая рисует картинку в зависимости от положения игрока
@@ -37,6 +41,7 @@ def veb_cam(main_screen, x_cam, y_cam):
     main_screen.blit(screen, (x_cam, y_cam))
     return(x_cam, y_cam)
 
+<<<<<<< HEAD
 
 file = 0
 main_screen = pygame.display.set_mode((1000, 800), pygame.RESIZABLE)
@@ -44,9 +49,14 @@ file = hyme_screen(main_screen)
 if file == False:
     exit()
 massive_slov = load_map(file)
+=======
+file = 0
+main_screen = pygame.display.set_mode((1000, 800), pygame.RESIZABLE)
+>>>>>>> 1d1dba0586eb7202bbffc4c59cd5f4090fe6c5c2
 types_block = {}
-
 types(types_block)
+file = hyme_screen(main_screen)
+massive_slov, map_types = load_map(types_block, file)
 main_hero = Main_person(15, 0, main_screen)
 x_cam = -main_hero.x * SIZE_BLOCK + main_screen.get_size()[0] / 2
 y_cam = -main_hero.y * SIZE_BLOCK + main_screen.get_size()[1] / 2
@@ -63,8 +73,8 @@ while not finished:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             finished = True
-    event = 0
-    main_hero.input(event)
+        main_hero.broke(event, x_cam, y_cam)
+    main_hero.input(event = 0)
     main_hero.control_collision(massive_slov)
     main_hero.move()
     pygame.display.update()

@@ -25,7 +25,7 @@ def save_map(massive_slov: list, world_name="test"):
         input_file.write(main_string)
 
 
-def load_map(world_name="test"):
+def load_map(types_block, world_name="test"):
     """
     функция загрузки данных карты мира
     massive_block - массив для блоков
@@ -34,7 +34,12 @@ def load_map(world_name="test"):
     file = pathlib.Path(pathlib.Path.cwd(), "saves", world_name)
     with open(file, 'r') as f:
         massive_slov = json.load(f)
-    return massive_slov
+    map_types = []
+    for i in range(len(massive_slov)):
+        map_types.append([])
+        for j in range(len(massive_slov[i])):
+            map_types[i].append(types_block.get(massive_slov[i][j], 0))
+    return massive_slov, map_types
 def draw_map(massive_slov, types_block, screen):
     for i in range(len(massive_slov)):
         for j in range(len(massive_slov[i])):

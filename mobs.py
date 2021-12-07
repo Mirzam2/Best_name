@@ -1,19 +1,25 @@
 import pygame
 import math
 
-from constans import GRAVITAION, JUMP_SPEED, SIZE_BLOCK, SPEED_Player, DELITA
+from constans import GRAVITAION, JUMP_SPEED, SIZE_BLOCK, SPEED_Player, DELITA, SPEED_Zombie
+
+
 def point_collision_x(x, y, vx, massive_slov):
     if massive_slov[int(y // 1)][int((x + vx) // 1)] != 0:
         move_x = False
     else:
         move_x = True
     return move_x
+
+
 def point_collision_y(x, y, vy, massive_slov):
     if massive_slov[int((y + vy) // 1)][int(x // 1)] != 0:
         move_y = False
     else:
         move_y = True
     return move_y
+
+
 class Main_person:
     def __init__(self, x, y, screen):
         self.x = x
@@ -26,6 +32,7 @@ class Main_person:
         # реальный размер, меньше 37 пикселей не надо жеательно больше 40
         self.otn = self.real_size / self.size
         self.screen = screen
+
     def input(self, event):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_d]:
@@ -37,6 +44,7 @@ class Main_person:
         if keys[pygame.K_w] and self.vy == 0:
             self.vy = -JUMP_SPEED
         self.vy += GRAVITAION
+
     def control_collision(self, massive_slov):
         for i in self.x + DELITA, self.x + 1 * self.otn - DELITA:
             for j in self.y + DELITA, self.y + 1 * self.otn, self.y + 2 * self.otn - DELITA:
@@ -57,18 +65,56 @@ class Main_person:
                         self.y = round(self.y) + 2 * (1 - self.otn)
                         self.vy = 0
                     break
+
     def move(self):
         self.x += self.vx
         self.y += self.vy
+
     def broke(self, event, x0, y0):
         if event.type == pygame.MOUSEMOTION:
             if event:
-                self.an = math.atan2(((event.pos[1] - y0)/self.size-self.y), ((event.pos[0] - x0)/self.size-self.x))
+                self.an = math.atan2(
+                    ((event.pos[1] - y0)/self.size-self.y), ((event.pos[0] - x0)/self.size-self.x))
             else:
                 self.an = 0
+
     def draw(self):
-        pygame.draw.rect(self.screen, (225, 0, 0), (self.x * self.size, self.y * self.size, self.real_size, self.real_size * 2))
-        pygame.draw.line(self.screen, (0, 225, 0), (self.x * self.size, (self.y + 1) * self.size), (math.cos(self.an) * 200 + self.x* self.size, (self.y + 1) * self.size + math.sin(self.an) * 200 ), 2)
+        pygame.draw.rect(self.screen, (225, 0, 0), (self.x * self.size,
+                         self.y * self.size, self.real_size, self.real_size * 2))
+        pygame.draw.line(self.screen, (0, 225, 0), (self.x * self.size, (self.y + 1) * self.size), (math.cos(
+            self.an) * 200 + self.x * self.size, (self.y + 1) * self.size + math.sin(self.an) * 200), 2)
+
+
 class Zombie(Main_person):
-    def move():
-        pass
+    def __init__(self, x, y, screen):
+        super().__init__(x, y, screen)
+        self.time_tick = 0
+        self.sign = 1
+
+    def move(self, main_hero):
+        if self.x - main_hero.x > 0:
+            self.sign = -1
+        elif self.x - main_hero.x < 0:
+            self.sign = 1
+        else:
+            self.sign = 0
+        if self.vx == 0:
+            self.time_tick += 1
+        if self.time_tick == 10:
+            self.vy = -JUMP_SPEED
+            self.time_tick = 0
+        print(self.vx)
+        self.vx = self.sign * SPEED_Zombie
+        self.vy += GRAVITAION
+        self.x += self.vx
+        self.y += self.vy
+        print(self.x, self.y, self.vx, self.vy, self.sign)
+        if self.vx == 0:
+            self.time_tick += 1
+        if self.time_tick == 10:
+            self.vy = -JUMP_SPEED
+            self.time_tick = 0
+
+    def draw(self):
+        pygame.draw.rect(self.screen, (0, 255, 0), (self.x * self.size,
+                         self.y * self.size, self.real_size, self.real_size * 2))

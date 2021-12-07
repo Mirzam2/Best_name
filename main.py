@@ -5,12 +5,8 @@ import button
 from file import *
 from constans import *
 from Hume_screen import *
-<<<<<<< HEAD
 
 
-=======
-kpbjorno = 0
->>>>>>> 1d1dba0586eb7202bbffc4c59cd5f4090fe6c5c2
 def veb_cam(main_screen, x_cam, y_cam):
     """
     Фунция вызывающая камеру, которая рисует картинку в зависимости от положения игрока
@@ -23,6 +19,7 @@ def veb_cam(main_screen, x_cam, y_cam):
     max_distant = 2 * SIZE_BLOCK  # максимальное удаление
     screen = pygame.Surface((size_x * SIZE_BLOCK, size_y * SIZE_BLOCK))
     main_hero.screen = screen
+    zombie.screen = screen
     # отдаление от центра по X
     diff_x = -main_hero.x * SIZE_BLOCK + main_screen.get_size()[0] / 2 - x_cam
     # отдаление от центра по Y
@@ -38,26 +35,18 @@ def veb_cam(main_screen, x_cam, y_cam):
         y_cam += speed_cam * diff_y / max_distant
     draw_map(massive_slov, types_block, screen)
     main_hero.draw()
+    zombie.draw()
     main_screen.blit(screen, (x_cam, y_cam))
     return(x_cam, y_cam)
 
-<<<<<<< HEAD
-
 file = 0
 main_screen = pygame.display.set_mode((1000, 800), pygame.RESIZABLE)
-file = hyme_screen(main_screen)
-if file == False:
-    exit()
-massive_slov = load_map(file)
-=======
-file = 0
-main_screen = pygame.display.set_mode((1000, 800), pygame.RESIZABLE)
->>>>>>> 1d1dba0586eb7202bbffc4c59cd5f4090fe6c5c2
 types_block = {}
 types(types_block)
 file = hyme_screen(main_screen)
 massive_slov, map_types = load_map(types_block, file)
 main_hero = Main_person(15, 0, main_screen)
+zombie = Zombie(10, 0, main_screen)
 x_cam = -main_hero.x * SIZE_BLOCK + main_screen.get_size()[0] / 2
 y_cam = -main_hero.y * SIZE_BLOCK + main_screen.get_size()[1] / 2
 finished = False
@@ -76,7 +65,11 @@ while not finished:
         main_hero.broke(event, x_cam, y_cam)
     main_hero.input(event = 0)
     main_hero.control_collision(massive_slov)
+    zombie.move(main_hero)
+    zombie.control_collision(massive_slov)
     main_hero.move()
+
+    
     pygame.display.update()
 save_map(massive_slov)
 pygame.quit()

@@ -73,8 +73,7 @@ class Main_person:
     def broke(self, event, x0, y0):
         if event.type == pygame.MOUSEMOTION:
             if event:
-                self.an = math.atan2(
-                    ((event.pos[1] - y0)/self.size-self.y), ((event.pos[0] - x0)/self.size-self.x))
+                self.an = math.atan2(((event.pos[1] - y0)/self.size-(self.y + self.otn)), ((event.pos[0] - x0) / self.size - (self.x + self.otn / 2)))
             else:
                 self.an = 0
 

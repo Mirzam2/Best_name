@@ -37,15 +37,16 @@ def veb_cam(main_screen, x_cam, y_cam):
     main_hero.draw()
     zombie.draw()
     main_screen.blit(screen, (x_cam, y_cam))
-    return(x_cam, y_cam)
+    return x_cam, y_cam
 
-file = 0
+
 main_screen = pygame.display.set_mode((1000, 800), pygame.RESIZABLE)
 types_block = {}
-types(types_block)
+person_images = {}
+types(types_block, person_images)
 file = hyme_screen(main_screen)
 massive_slov, map_types = load_map(types_block, file)
-main_hero = Main_person(15, 0, main_screen)
+main_hero = Main_person(15, 0, person_images, main_screen)
 zombie = Zombie(10, 0, main_screen)
 x_cam = -main_hero.x * SIZE_BLOCK + main_screen.get_size()[0] / 2
 y_cam = -main_hero.y * SIZE_BLOCK + main_screen.get_size()[1] / 2
@@ -58,18 +59,18 @@ while not finished:
     '''начало блока рисования'''
     x_cam, y_cam = veb_cam(main_screen, x_cam, y_cam)
     '''конец блока рисования'''
-    clock.tick(FPS)
+    dt = clock.tick(FPS) / 1000  # Amount of seconds between each loop.
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             finished = True
         main_hero.broke(event, x_cam, y_cam)
-    main_hero.input(event = 0)
+    main_hero.input(event=0)
     main_hero.control_collision(massive_slov)
+    main_hero.update_frame_dependent()
     zombie.move(main_hero)
     zombie.control_collision(massive_slov)
     main_hero.move()
+    pygame.display.flip()
 
-    
-    pygame.display.update()
 save_map(massive_slov)
 pygame.quit()

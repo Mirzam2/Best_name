@@ -51,7 +51,7 @@ massive_slov, map_types = load_map(types_block, file)
 size_y = len(massive_slov)
 size_x = len(massive_slov[1])
 screen = pygame.Surface((size_x * SIZE_BLOCK, size_y * SIZE_BLOCK))
-main_hero = Main_person(15, 0, main_screen)
+main_hero = Main_person(15, 0, person_images, main_screen)
 massive_mobs = []
 
 massive_mobs.append(Zombie(10, 0, main_screen))
@@ -74,8 +74,10 @@ while not finished:
     main_hero.input(event=0)
     main_hero.control_collision(massive_slov)
     main_hero.update_frame_dependent()
-    zombie.move(main_hero)
-    zombie.control_collision(massive_slov)
+    for i in massive_mobs:
+        i.input(main_hero)
+        i.control_collision(massive_slov)
+        i.move()
     main_hero.move()
     pygame.display.flip()
 

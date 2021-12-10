@@ -1,7 +1,7 @@
 import pygame
 import math
 
-from constans import GRAVITAION, JUMP_SPEED, SIZE_BLOCK, SPEED_Player, DELITA, SPEED_Zombie
+from constans import GRAVITAION, JUMP_SPEED, KICK_CONSTANT, SIZE_BLOCK, TIME_STOP, SPEED_Player, DELITA, SPEED_Zombie
 
 
 def point_collision_x(x, y, vx, massive_slov):
@@ -123,14 +123,8 @@ class Zombie(Main_person):
             self.sign = 0
         if self.vx == 0:
             self.time_tick += 1
-        if self.time_tick == 10:
-            self.vy = -JUMP_SPEED
-            self.time_tick = 0
-        print(self.vx)
-        if self.vx == 0:
-            self.time_tick += 1
-        if self.time_tick == 10:
-            self.vy = -JUMP_SPEED
+        if self.time_tick == TIME_STOP:
+            if self.vy ==0:self.vy = -JUMP_SPEED
             self.time_tick = 0
         self.vx = self.sign * SPEED_Zombie
         self.vy += GRAVITAION
@@ -138,3 +132,6 @@ class Zombie(Main_person):
     def draw(self):
         pygame.draw.rect(self.screen, (0, 255, 0), (self.x * self.size,
                          self.y * self.size, self.real_size, self.real_size * 2))
+    def kick(self, main_hero):
+        if math.sqrt((main_hero.x - self.x) ** 2 + (main_hero.y - self.y) ** 2) <= 1:
+            main_hero.vx += self.sign * KICK_CONSTANT

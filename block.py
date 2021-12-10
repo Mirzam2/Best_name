@@ -3,7 +3,7 @@ import pygame
 from pygame import surface
 from file import *
 from spritesheet import SpriteSheet
-
+from map import *
 
 class Type_block:
     def __init__(self,name, permeability, durability, image, alpha = 1):

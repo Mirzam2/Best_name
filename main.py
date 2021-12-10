@@ -5,8 +5,6 @@ import button
 from file import *
 from constans import *
 from Hume_screen import *
-
-
 def veb_cam(main_screen, x_cam, y_cam):
     """
     Фунция вызывающая камеру, которая рисует картинку в зависимости от положения игрока
@@ -40,9 +38,14 @@ def veb_cam(main_screen, x_cam, y_cam):
     main_screen.blit(screen, (x_cam, y_cam))
     return x_cam, y_cam
 
-
+pygame.init()
 main_screen = pygame.display.set_mode((1000, 800), pygame.RESIZABLE)
-
+file = pathlib.Path(pathlib.Path.cwd(), "Queen Bee-Fire-kissvk.com.wav")
+pygame.mixer.music.load(file)
+pygame.mixer.music.play(1)
+"""
+ReoNa-Nainai-kissvk.com.mp3
+"""
 types_block = {}
 person_images = {}
 types(types_block, person_images)
@@ -51,11 +54,11 @@ massive_slov, map_types = load_map(types_block, file)
 size_y = len(massive_slov)
 size_x = len(massive_slov[1])
 screen = pygame.Surface((size_x * SIZE_BLOCK, size_y * SIZE_BLOCK))
-main_hero = Main_person(15, 0, person_images, main_screen)
+main_hero = Main_person(10, 0, person_images, main_screen)
 massive_mobs = []
 
 massive_mobs.append(Zombie(10, 0, main_screen))
-massive_mobs.append(Zombie(20, 0, main_screen))
+massive_mobs.append(Zombie(15, 0, main_screen))
 x_cam = -main_hero.x * SIZE_BLOCK + main_screen.get_size()[0] / 2
 y_cam = -main_hero.y * SIZE_BLOCK + main_screen.get_size()[1] / 2
 finished = False

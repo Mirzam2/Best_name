@@ -21,7 +21,7 @@ def point_collision_y(x, y, vy, massive_slov):
 
 
 class Main_person:
-    def __init__(self, x, y, screen):
+    def __init__(self, x, y, images, screen):
         self.x = x
         self.y = y
         self.vx = 0
@@ -29,18 +29,37 @@ class Main_person:
         self.size = SIZE_BLOCK
         self.real_size = 45
         self.an = 0
+        self.image_idx = 0
+        self.current_frame = 0
+        self.animation_frames = 10  # Количество кадров между сменой анимации
+        self.images = images
         # реальный размер, меньше 37 пикселей не надо жеательно больше 40
         self.otn = self.real_size / self.size
         self.screen = screen
+        self.state = 'STAYING'  # can be STAYING/R_RUNNING/L_RUNNING/JUMPING/...
+
+    def update_frame_dependent(self):
+        self.current_frame += 1
+        if self.current_frame >= self.animation_frames:
+            self.current_frame = 0
+            if self.state == 'R_RUNNING':
+                self.image_idx = self.image_idx % 2 + 1  # 1 <-> 2
+            elif self.state == 'L_RUNNING':
+                self.image_idx = (self.image_idx + 1) % 2 + 4  # 4 <-> 5
+            else:
+                self.image_idx = 0
 
     def input(self, event):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_d]:
             self.vx = SPEED_Player
+            self.state = 'R_RUNNING'
         elif keys[pygame.K_a]:
             self.vx = -SPEED_Player
+            self.state = 'L_RUNNING'
         else:
             self.vx = 0
+            self.state = 'STAYING'
         if keys[pygame.K_w] and self.vy == 0:
             self.vy = -JUMP_SPEED
         self.vy += GRAVITAION
@@ -79,15 +98,19 @@ class Main_person:
                 self.an = 0
 
     def draw(self):
-        pygame.draw.rect(self.screen, (225, 0, 0), (self.x * self.size,
-                         self.y * self.size, self.real_size, self.real_size * 2))
-        pygame.draw.line(self.screen, (0, 225, 0), (self.x * self.size, (self.y + 1) * self.size), (math.cos(
-            self.an) * 200 + self.x * self.size, (self.y + 1) * self.size + math.sin(self.an) * 200), 2)
-
+        if self.images is None:
+            pygame.draw.rect(self.screen, (225, 0, 0), (self.x * self.size,
+                             self.y * self.size, self.real_size, self.real_size * 2))
+            pygame.draw.line(self.screen, (0, 225, 0), (self.x * self.size, (self.y + 1) * self.size), (math.cos(
+                self.an) * 200 + self.x * self.size, (self.y + 1) * self.size + math.sin(self.an) * 200), 2)
+        else:
+            rect = self.images[self.image_idx].get_rect()
+            rect.topleft = self.x * self.size, self.y * self.size
+            self.screen.blit(self.images[self.image_idx], rect)
 
 class Zombie(Main_person):
-    def __init__(self, x, y, screen):
-        super().__init__(x, y, screen)
+    def __init__(self, x, y, screen, image=None):
+        super().__init__(x, y, image, screen)
         self.time_tick = 0
         self.sign = 1
 

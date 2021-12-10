@@ -73,7 +73,8 @@ class Main_person:
     def broke(self, event, x0, y0):
         if event.type == pygame.MOUSEMOTION:
             if event:
-                self.an = math.atan2(((event.pos[1] - y0)/self.size-(self.y + self.otn)), ((event.pos[0] - x0) / self.size - (self.x + self.otn / 2)))
+                self.an = math.atan2(((event.pos[1] - y0)/self.size-(self.y + self.otn)), ((
+                    event.pos[0] - x0) / self.size - (self.x + self.otn / 2)))
             else:
                 self.an = 0
 
@@ -90,7 +91,7 @@ class Zombie(Main_person):
         self.time_tick = 0
         self.sign = 1
 
-    def move(self, main_hero):
+    def input(self, main_hero):
         if self.x - main_hero.x > 0:
             self.sign = -1
         elif self.x - main_hero.x < 0:
@@ -103,16 +104,13 @@ class Zombie(Main_person):
             self.vy = -JUMP_SPEED
             self.time_tick = 0
         print(self.vx)
-        self.vx = self.sign * SPEED_Zombie
-        self.vy += GRAVITAION
-        self.x += self.vx
-        self.y += self.vy
-        print(self.x, self.y, self.vx, self.vy, self.sign)
         if self.vx == 0:
             self.time_tick += 1
         if self.time_tick == 10:
             self.vy = -JUMP_SPEED
             self.time_tick = 0
+        self.vx = self.sign * SPEED_Zombie
+        self.vy += GRAVITAION
 
     def draw(self):
         pygame.draw.rect(self.screen, (0, 255, 0), (self.x * self.size,

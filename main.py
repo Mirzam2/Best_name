@@ -19,7 +19,6 @@ def veb_cam(main_screen, x_cam, y_cam):
     max_distant = 2 * SIZE_BLOCK  # максимальное удаление
     screen = pygame.Surface((size_x * SIZE_BLOCK, size_y * SIZE_BLOCK))
     main_hero.screen = screen
-    zombie.screen = screen
     # отдаление от центра по X
     diff_x = -main_hero.x * SIZE_BLOCK + main_screen.get_size()[0] / 2 - x_cam
     # отдаление от центра по Y
@@ -35,18 +34,26 @@ def veb_cam(main_screen, x_cam, y_cam):
         y_cam += speed_cam * diff_y / max_distant
     draw_map(massive_slov, types_block, screen)
     main_hero.draw()
-    zombie.draw()
+    for i in massive_mobs:
+        i.screen = screen
+        i.draw()
     main_screen.blit(screen, (x_cam, y_cam))
     return(x_cam, y_cam)
 
 file = 0
 main_screen = pygame.display.set_mode((1000, 800), pygame.RESIZABLE)
+
 types_block = {}
 types(types_block)
 file = hyme_screen(main_screen)
 massive_slov, map_types = load_map(types_block, file)
+size_y = len(massive_slov)
+size_x = len(massive_slov[1])
+screen = pygame.Surface((size_x * SIZE_BLOCK, size_y * SIZE_BLOCK))
 main_hero = Main_person(15, 0, main_screen)
-zombie = Zombie(10, 0, main_screen)
+massive_mobs = []
+
+massive_mobs.append(Zombie(10, 0, main_screen))
 x_cam = -main_hero.x * SIZE_BLOCK + main_screen.get_size()[0] / 2
 y_cam = -main_hero.y * SIZE_BLOCK + main_screen.get_size()[1] / 2
 finished = False
@@ -65,11 +72,11 @@ while not finished:
         main_hero.broke(event, x_cam, y_cam)
     main_hero.input(event = 0)
     main_hero.control_collision(massive_slov)
-    zombie.move(main_hero)
-    zombie.control_collision(massive_slov)
     main_hero.move()
-
-    
+    for mob in massive_mobs:
+        mob.input(main_hero)
+        mob.control_collision(massive_slov)
+        mob.move()        
     pygame.display.update()
 save_map(massive_slov)
 pygame.quit()

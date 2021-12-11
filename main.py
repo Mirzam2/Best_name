@@ -74,7 +74,10 @@ while not finished:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             finished = True
-        main_hero.broke(event, x_cam, y_cam)
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            main_hero.start_time = pygame.time.get_ticks()
+        main_hero.angle(event, x_cam, y_cam)
+    main_hero.broke(massive_slov, types_block)
     main_hero.input(event=0)
     main_hero.control_collision(massive_slov)
     main_hero.update_frame_dependent()
@@ -84,6 +87,7 @@ while not finished:
         i.move()
         i.kick(main_hero)
     main_hero.move()
+    pygame.display.update()
     pygame.display.flip()
 
 save_map(massive_slov)

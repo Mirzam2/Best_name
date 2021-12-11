@@ -37,6 +37,8 @@ class Main_person:
         self.otn = self.real_size / self.size
         self.screen = screen
         self.state = 'STAYING'  # can be STAYING/R_RUNNING/L_RUNNING/JUMPING/...
+        self.mouse_pressed = None
+        self.start_time = 0
 
     def update_frame_dependent(self):
         self.current_frame += 1
@@ -89,24 +91,40 @@ class Main_person:
         self.x += self.vx
         self.y += self.vy
 
-    def broke(self, event, x0, y0):
+    def angle(self, event, x0, y0):
         if event.type == pygame.MOUSEMOTION:
             if event:
                 self.an = math.atan2(((event.pos[1] - y0)/self.size-(self.y + self.otn)), ((
                     event.pos[0] - x0) / self.size - (self.x + self.otn / 2)))
             else:
                 self.an = 0
-
+    def broke(self, massive_slov, types_block):
+        self.mouse_pressed = pygame.mouse.get_pressed()
+        if self.mouse_pressed[0]:
+            time_to_die = pygame.time.get_ticks()
+            for i in range(30):
+                self.x_dot = self.x + self.otn / 2 + math.cos(self.an) * i / 10
+                self.y_dot = self.y + self.otn + math.sin(self.an) * i / 10
+                if massive_slov[int(self.y_dot)][int(self.x_dot)] != 0:
+                    self.destroy = True
+                    break
+                else:
+                    self.destroy = False
+            if self.destroy:
+                breakable_block = types_block.get(massive_slov[int(self.y_dot)][int(self.x_dot)], 0)
+                seconds = breakable_block.durability
+                if time_to_die - self.start_time >= seconds * 10 ** 3:
+                    massive_slov[int(self.y_dot)][int(self.x_dot)] = 0
+                    time_to_die = pygame.time.get_ticks()
+                    self.start_time = pygame.time.get_ticks()
+            
+                    
+            
+            
     def draw(self):
-        if self.images is None:
-            pygame.draw.rect(self.screen, (225, 0, 0), (self.x * self.size,
-                             self.y * self.size, self.real_size, self.real_size * 2))
-            pygame.draw.line(self.screen, (0, 225, 0), (self.x * self.size, (self.y + 1) * self.size), (math.cos(
-                self.an) * 200 + self.x * self.size, (self.y + 1) * self.size + math.sin(self.an) * 200), 2)
-        else:
-            rect = self.images[self.image_idx].get_rect()
-            rect.topleft = self.x * self.size, self.y * self.size
-            self.screen.blit(self.images[self.image_idx], rect)
+        rect = self.images[self.image_idx].get_rect()
+        rect.topleft = self.x * self.size, self.y * self.size
+        self.screen.blit(self.images[self.image_idx], rect)
 
 class Zombie(Main_person):
     def __init__(self, x, y, screen, image=None):

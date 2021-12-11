@@ -2,14 +2,18 @@ import pygame
 import button
 import time
 import os
-import shutil 
+import shutil
+import map
+from file import save_map
 FPS = 60
 clock = pygame.time.Clock()
-
 def new_game():
     tmp = str(time.time()) + ".json"
     file = open("saves" + "\\" + tmp, 'w')
     shutil.copyfile(r"saves\test.json", r"saves" + "\\" + tmp, follow_symlinks=True)
+    massive_slov =[]
+    massive_slov = map.create_field(massive_slov)
+    save_map(massive_slov,tmp)
     return tmp
 
 def return_save(x, number):

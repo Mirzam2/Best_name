@@ -3,19 +3,20 @@ import pygame
 from pygame import surface
 from file import *
 from spritesheet import SpriteSheet
+from map import *
 
-
-class Type_block():
+class Type_block:
     def __init__(self,name, permeability, durability, image, alpha = 1):
         self.name = name
         self.permeability = permeability  # проницаемость
         self.durability = durability  # прочность
-        self.size = SIZE_BLOCK # размер
-        self.image = image # пока цвет кваратика
-        self.alpha = alpha # масштаб
+        self.size = SIZE_BLOCK  # размер
+        self.image = image  # пока цвет кваратика
+        self.alpha = alpha  # масштаб
         self.rect = self.image.get_rect()
         self.x = 0
         self.y = 0
+
     def draw(self, x, y, screen):
         self.x = x
         self.y = y
@@ -24,7 +25,7 @@ class Type_block():
         screen.blit(self.image, self.rect)
 
 
-def types(types_block):
+def types(types_block, person_images):
     ss = SpriteSheet("./all.png")
     types_block[0] = Type_block("Air", True, -1, ss.image_at((96, 0, 48, 48)))
     types_block[1] = Type_block("Dirt", False, 5, ss.image_at((0, 0, 48, 48)))
@@ -46,6 +47,12 @@ def types(types_block):
     types_block[17] = Type_block("CoalOre", False, 10, ss.image_at((336, 48, 48, 48)))
     types_block[18] = Type_block("Coal", False, 10, ss.image_at((384, 48, 48, 48)))
     types_block[19] = Type_block("Planks", False, 10, ss.image_at((432, 0, 48, 48)))
+    person_images[0] = ss.image_at((0, 96, 37, 90), (0,0,0))
+    person_images[1] = ss.image_at((48, 96, 37, 90), (0, 0, 0))
+    person_images[2] = ss.image_at((96, 96, 37, 90), (0, 0, 0))
+    person_images[3] = ss.image_at((96+48, 96, 37, 90), (0, 0, 0))
+    person_images[4] = ss.image_at((96+96, 96, 37, 90), (0, 0, 0))
+    person_images[5] = ss.image_at((96+96+48, 96, 37, 90), (0, 0, 0))
 
 if __name__ == "__main__":
     massive_block = []

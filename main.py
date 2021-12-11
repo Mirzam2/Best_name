@@ -90,5 +90,5 @@ while not finished:
     pygame.display.update()
     pygame.display.flip()
 
-save_map(massive_slov)
+save_map(massive_slov, file)
 pygame.quit()

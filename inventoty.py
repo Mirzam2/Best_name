@@ -29,6 +29,7 @@ class Inventory:
     И Pygame.Surface
     """
     def __init__(self, file, screen):
+        self.file = file
         self.blocks = {}
         block.types(self.blocks, {})
         self.reverseblock = {}
@@ -87,6 +88,14 @@ class Inventory:
             result = i.tap(event)
             if result != None:
                 return result
+
+    def save_inventory(self, file):
+        """
+        Сохраняет инвентарь в фаил
+        Откройте фаил с инвентарём для записи и запустите эту функцию
+        """
+        json.dump(self.main_massive, file)
+
 
 def create_buttons(main_massive, massiv_of_buttons, blocks, width, height):
     """

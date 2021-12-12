@@ -22,7 +22,7 @@ class Button():
         self.text = text
         self.function = function
         self.option = option
-        self.font = abs(self.x1 - self.x2)/len(text) * 2  # размер шрифта
+        self.font = ((self.x2)/len(text))  # размер шрифта
         self.my_font = pygame.freetype.SysFont('Times New Roman', self.font)
 
     def tap(self, event):

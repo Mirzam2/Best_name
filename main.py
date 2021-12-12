@@ -42,7 +42,7 @@ pygame.init()
 main_screen = pygame.display.set_mode((1000, 800), pygame.RESIZABLE)
 file = pathlib.Path(pathlib.Path.cwd(), "Queen Bee-Fire-kissvk.com.wav")
 pygame.mixer.music.load(file)
-pygame.mixer.music.play(1)
+pygame.mixer.music.play(-1)
 """
 ReoNa-Nainai-kissvk.com.mp3
 """

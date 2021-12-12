@@ -113,14 +113,17 @@ class Main_person:
             if self.destroy:
                 breakable_block = types_block.get(massive_slov[int(self.y_dot)][int(self.x_dot)], 0)
                 seconds = breakable_block.durability
-                if time_to_die - self.start_time >= seconds * 10 ** 3:
+                if time_to_die - self.start_time >= seconds * 10 ** 3 / 10:
                     massive_slov[int(self.y_dot)][int(self.x_dot)] = 0
                     time_to_die = pygame.time.get_ticks()
                     self.start_time = pygame.time.get_ticks()
-            
-                    
-            
-            
+    def build(self, massive_slov):
+        for i in range(30):
+            self.x_dot = self.x + self.otn / 2 + math.cos(self.an) * i / 10
+            self.y_dot = self.y + self.otn + math.sin(self.an) * i / 10
+            if massive_slov[int(self.y_dot)][int(self.x_dot)] != 0:
+                massive_slov[int(self.y + self.otn + math.sin(self.an) * (i - 1) / 10)][int(self.x + self.otn / 2 + math.cos(self.an) * (i - 1) / 10)] = 1
+                break
     def draw(self):
         rect = self.images[self.image_idx].get_rect()
         rect.topleft = self.x * self.size, self.y * self.size

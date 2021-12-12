@@ -39,8 +39,10 @@ class Inventory:
         self.width = screen.get_width()
         self.main_massive = json.load(file)
         self.massiv_of_buttons = []
-        self.massiv_of_buttons.append(button.Button(3/4 * self.width - 48, self.height * 1/4, 48,48,exit_, (),color=(73, 66, 61), text=" "))
-        create_buttons(self.main_massive,self.massiv_of_buttons,self.blocks,self.width,self.height)
+        self.massiv_of_buttons.append(button.Button(3/4 * self.width - 48,\
+           self.height * 1/4, 48,48,exit_, (),color=(73, 66, 61), text=" "))
+        create_buttons(self.main_massive,self.massiv_of_buttons,self.blocks,\
+            self.width,self.height)
         
     def draw(self, screen):
         """
@@ -56,7 +58,8 @@ class Inventory:
             if (j + 1) * 3/2 * 48 + 48 > self.width // 2:
                 k = k + 1
                 j = 0
-            self.blocks[int(i)].draw((self.width - 3 * self.width // 4)/48 + j * 3/2 + 1, (self.height - 3 * self.height // 4)/48 + k * 3/2, screen)
+            self.blocks[int(i)].draw((self.width - 3 * self.width // 4)/48 + j * 3/2 + 1,\
+               (self.height - 3 * self.height // 4)/48 + k * 3/2, screen)
             tmp_text = f1.render(str(self.main_massive.get(str(i))), False,
                   (255, 255, 255))
             screen.blit(tmp_text, (self.width - 3 * self.width // 4 + 48 * j * 3/2 + 48,\

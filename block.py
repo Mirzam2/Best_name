@@ -55,11 +55,12 @@ def types(types_block, person_images):
     person_images[5] = ss.image_at((96+96+48, 96, 37, 90), (0, 0, 0))
 
 if __name__ == "__main__":
-    massive_block = []
+    main_screen = pygame.display.set_mode((1000, 1000))
+    massive_block = {}
+    types(massive_block, {})
     pygame.init()
-    main_screen = pygame.display.set_mode((10000, 10000))
     for i in massive_block:
-        i.draw(main_screen)
+        massive_block[i].draw(10, 10, main_screen)
     finished = False
     pygame.display.update()
     while not finished:

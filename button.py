@@ -8,7 +8,7 @@ class Button():
         """
         Создание кнопки
         x1,y1 - координаты левого вернего угла
-        x2,y2 - координаты правого нижнего угла
+        x2,y2 - координаты правого нижнего угла относительно x1,x2
         function - функция, которая должна выполнять кнопка при нажатии на неё, само название функции
         option - параметры, с которыми должна подаваться функция, подаются в виде кортежа 
         color - цвет кнопки
@@ -26,12 +26,19 @@ class Button():
         self.my_font = pygame.freetype.SysFont('Times New Roman', self.font)
 
     def tap(self, event):
+        """
+        Обработка event типа pygame.event.get()
+        Возвращает значение, которое возвращает функция кнопки
+        """
         if event:
             if (self.x1 <= event.pos[0] <= self.x1 + self.x2) and (self.y1 <= event.pos[1] <= self.y1 + self.y2):
                 y = self.function(*self.option)
                 return y
 
     def drawing(self, surface):
+        """
+        Рисует кнопку на поверхности surface
+        """
         pygame.draw.rect(surface, self.color,
                          (self.x1, self.y1, self.x2, self.y2))
         self.my_font.render_to(

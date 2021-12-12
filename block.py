@@ -47,12 +47,12 @@ def types(types_block, person_images):
     types_block[17] = Type_block("CoalOre", False, 10, ss.image_at((336, 48, 48, 48)))
     types_block[18] = Type_block("Coal", False, 10, ss.image_at((384, 48, 48, 48)))
     types_block[19] = Type_block("Planks", False, 10, ss.image_at((432, 0, 48, 48)))
-    person_images[0] = ss.image_at((0, 96, 37, 90), (0,0,0))
-    person_images[1] = ss.image_at((48, 96, 37, 90), (0, 0, 0))
-    person_images[2] = ss.image_at((96, 96, 37, 90), (0, 0, 0))
-    person_images[3] = ss.image_at((96+48, 96, 37, 90), (0, 0, 0))
-    person_images[4] = ss.image_at((96+96, 96, 37, 90), (0, 0, 0))
-    person_images[5] = ss.image_at((96+96+48, 96, 37, 90), (0, 0, 0))
+    person_images[0] = ss.image_at((0, 96, 45, 90), (0, 0, 0))
+    person_images[1] = ss.image_at((48, 96, 45, 90), (0, 0, 0))
+    person_images[2] = ss.image_at((96, 96, 45, 90), (0, 0, 0))
+    person_images[3] = ss.image_at((96+48, 96, 45, 90), (0, 0, 0))
+    person_images[4] = ss.image_at((96+96, 96, 45, 90), (0, 0, 0))
+    person_images[5] = ss.image_at((96+96+48, 96, 45, 90), (0, 0, 0))
 
 if __name__ == "__main__":
     main_screen = pygame.display.set_mode((1000, 1000))

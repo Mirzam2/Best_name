@@ -1,5 +1,6 @@
 import pygame
 import math
+import time
 
 from constans import GRAVITAION, JUMP_SPEED, KICK_CONSTANT, SIZE_BLOCK, TIME_STOP, SPEED_Player, DELITA, SPEED_Zombie
 
@@ -39,6 +40,8 @@ class Main_person:
         self.state = 'STAYING'  # can be STAYING/R_RUNNING/L_RUNNING/JUMPING/...
         self.mouse_pressed = None
         self.start_time = 0
+        self.life = 10
+        self.put = True
 
     def update_frame_dependent(self):
         self.current_frame += 1
@@ -75,7 +78,10 @@ class Main_person:
                     else:
                         self.x = round(self.x)
                     self.vx = 0
+                    self.put = False
                     break
+                else:
+                    self.put = True
         for i in self.x + DELITA, self.x + 1 * self.otn - DELITA:
             for j in self.y + DELITA, self.y + 1 * self.otn, self.y + 2 * self.otn - DELITA:
                 if not(point_collision_y(i, j, self.vy, massive_slov)):
@@ -86,7 +92,22 @@ class Main_person:
                         self.y = round(self.y) + 2 * (1 - self.otn)
                         self.vy = 0
                     break
-
+    def control_collision_of_putting(self, massive_slov):
+        for i in self.x + DELITA, self.x + 1 * self.otn - DELITA:
+            for j in self.y + DELITA, self.y + 1 * self.otn, self.y + 2 * self.otn - DELITA:
+                if not(point_collision_x(i, j, 0, massive_slov)):
+                    self.put = False
+                    break
+                else:
+                    self.put = True
+        if self.put:
+            for i in self.x + DELITA, self.x + 1 * self.otn - DELITA:
+                for j in self.y + DELITA, self.y + 1 * self.otn, self.y + 2 * self.otn - DELITA:
+                    if not(point_collision_y(i, j, 0, massive_slov)):
+                        self.put = False
+                        break
+                    else:
+                        self.put = True
     def move(self):
         self.x += self.vx
         self.y += self.vy
@@ -117,13 +138,19 @@ class Main_person:
                     massive_slov[int(self.y_dot)][int(self.x_dot)] = 0
                     time_to_die = pygame.time.get_ticks()
                     self.start_time = pygame.time.get_ticks()
+
     def build(self, massive_slov):
         for i in range(30):
             self.x_dot = self.x + self.otn / 2 + math.cos(self.an) * i / 10
             self.y_dot = self.y + self.otn + math.sin(self.an) * i / 10
             if massive_slov[int(self.y_dot)][int(self.x_dot)] != 0:
                 massive_slov[int(self.y + self.otn + math.sin(self.an) * (i - 1) / 10)][int(self.x + self.otn / 2 + math.cos(self.an) * (i - 1) / 10)] = 1
+                self.control_collision_of_putting(massive_slov)
+                if not(self.put):
+                    massive_slov[int(self.y + self.otn + math.sin(self.an) * (i - 1) / 10)][int(self.x + self.otn / 2 + math.cos(self.an) * (i - 1) / 10)] = 0
                 break
+    def breath(self):
+        pass
     def draw(self):
         rect = self.images[self.image_idx].get_rect()
         rect.topleft = self.x * self.size, self.y * self.size
@@ -155,4 +182,5 @@ class Zombie(Main_person):
                          self.y * self.size, self.real_size, self.real_size * 2))
     def kick(self, main_hero):
         if math.sqrt((main_hero.x - self.x) ** 2 + (main_hero.y - self.y) ** 2) <= 1:
+            main_hero.breath()
             main_hero.vx += self.sign * KICK_CONSTANT

@@ -77,15 +77,15 @@ while not finished:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             main_hero.start_time = pygame.time.get_ticks()
             if event.button == 3:
-                main_hero.build(massive_slov)
+                main_hero.build(massive_slov, types_block)
         main_hero.angle(event, x_cam, y_cam)
     main_hero.broke(massive_slov, types_block)
     main_hero.input(event=0)
-    main_hero.control_collision(massive_slov)
+    main_hero.control_collision(massive_slov, types_block)
     main_hero.update_frame_dependent()
     for i in massive_mobs:
         i.input(main_hero)
-        i.control_collision(massive_slov)
+        i.control_collision(massive_slov, types_block)
         i.move()
         i.kick(main_hero)
     main_hero.move()

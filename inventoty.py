@@ -10,6 +10,7 @@ pygame.font.init()
 FPS = 60
 clock = pygame.time.Clock()
 
+
 def new_file(file):
     """
     Заполняет новый файл для сохранения инвентаря
@@ -19,7 +20,7 @@ def new_file(file):
     block.types(tmp_block, {})
     for i in tmp_block:
         result[i] = 0
-    json.dump(result,file)
+    json.dump(result, file)
 
 
 class Inventory:
@@ -28,6 +29,7 @@ class Inventory:
     Требуется подать фаил с инветарём
     И Pygame.Surface
     """
+
     def __init__(self, file, screen):
         self.file = file
         self.blocks = {}
@@ -39,34 +41,33 @@ class Inventory:
         self.width = screen.get_width()
         self.main_massive = json.load(file)
         self.massiv_of_buttons = []
-        self.massiv_of_buttons.append(button.Button(3/4 * self.width - 48,\
-           self.height * 1/4, 48,48,exit_, (),color=(73, 66, 61), text=" "))
-        create_buttons(self.main_massive,self.massiv_of_buttons,self.blocks,\
-            self.width,self.height)
-        
+        self.massiv_of_buttons.append(button.Button(3/4 * self.width - 48,
+                                                    self.height * 1/4, 48, 48, exit_, (), color=(73, 66, 61), text=" "))
+        create_buttons(self.main_massive, self.massiv_of_buttons, self.blocks,
+                       self.width, self.height)
+
     def draw(self, screen):
         """
         Принимает pygame.Surface
         Рискет на нём инвентарь
         """
         f1 = pygame.font.SysFont('arial', 36)
-        pygame.draw.rect(screen, (128, 128, 128), (self.width - 3 * self.width // 4,\
-            self.height - 3 * self.height // 4, self.width // 2, self.height // 2))
+        pygame.draw.rect(screen, (128, 128, 128), (self.width - 3 * self.width // 4,
+                                                   self.height - 3 * self.height // 4, self.width // 2, self.height // 2))
         j = 0
         k = 1
         for i in self.main_massive:
             if (j + 1) * 3/2 * 48 + 48 > self.width // 2:
                 k = k + 1
                 j = 0
-            self.blocks[int(i)].draw((self.width - 3 * self.width // 4)/48 + j * 3/2 + 1,\
-               (self.height - 3 * self.height // 4)/48 + k * 3/2, screen)
+            self.blocks[int(i)].draw((self.width - 3 * self.width // 4)/48 + j * 3/2 + 1,
+                                     (self.height - 3 * self.height // 4)/48 + k * 3/2, screen)
             tmp_text = f1.render(str(self.main_massive.get(str(i))), False,
-                  (255, 255, 255))
-            screen.blit(tmp_text, (self.width - 3 * self.width // 4 + 48 * j * 3/2 + 48,\
-                      self.height - 3 * self.height // 4 + 48 * k * 3/2))        
+                                 (255, 255, 255))
+            screen.blit(tmp_text, (self.width - 3 * self.width // 4 + 48 * j * 3/2 + 48,
+                                   self.height - 3 * self.height // 4 + 48 * k * 3/2))
             j = j + 1
         self.massiv_of_buttons[0].drawing(screen)
-
 
     def add_or_delete_block(self, Number_of_block, Num):
         """
@@ -83,7 +84,6 @@ class Inventory:
             return Number_of_block
         else:
             return None
-        
 
     def event_(self, event):
         """
@@ -116,13 +116,14 @@ def create_buttons(main_massive, massiv_of_buttons, blocks, width, height):
         if (j + 1) * 3/2 * 48 + 48 > width // 2:
             k = k + 1
             j = 0
-        tmp = button.Button(width - 3 * width // 4 + 48 * j * 3/2 + 48,\
-           height - 3 * height // 4 + 48 * k * 3/2, 48, 48, return_button,\
-           (main_massive,blocks, i))
+        tmp = button.Button(width - 3 * width // 4 + 48 * j * 3/2 + 48,
+                            height - 3 * height // 4 + 48 * k * 3/2, 48, 48, return_button,
+                            (main_massive, blocks, i))
         j = j + 1
         massiv_of_buttons.append(tmp)
 
-def return_button(main_massive,blocks, i):
+
+def return_button(main_massive, blocks, i):
     """
     Возвращает блок при нажатии на него,
     если блоков не 0
@@ -131,7 +132,9 @@ def return_button(main_massive,blocks, i):
     print(i)
     if main_massive.get(str(i)) != 0:
         return int(i)
-    else: return None
+    else:
+        return None
+
 
 def exit_():
     """
@@ -139,44 +142,43 @@ def exit_():
     """
     return False
 
+
 def inventoryfunction(screen, inventory):
     finished = False
     result = None
     while not finished:
         inventory.draw(screen)
         for event in pygame.event.get():
-             if event.type == pygame.QUIT:
-                 finished = True
-             elif event.type == pygame.MOUSEBUTTONDOWN:
-                 y = inventory.event_(event)
-                 if type(y) == int:
-                     result = y
-                 if type(y) == bool:
-                     if y == False:
-                         finished = True
+            if event.type == pygame.QUIT:
+                finished = True
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                y = inventory.event_(event)
+                if type(y) == int:
+                    result = y
+                if type(y) == bool:
+                    if y == False:
+                        finished = True
         pygame.display.update()
     return result
-
-
 
 
 if __name__ == "__main__":
     screen = pygame.display.set_mode((1000, 1000))
     pygame.init()
-    with open ("Saves_inventory\\tmp_invent.json", 'w') as file:
+    with open("Saves_inventory\\tmp_invent.json", 'w') as file:
         new_file(file)
-    file = open ("Saves_inventory\\tmp_invent.json", 'r')
-    m = Inventory(file, screen) 
+    file = open("Saves_inventory\\tmp_invent.json", 'r')
+    m = Inventory(file, screen)
     finished = False
     while(not finished):
         m.draw(screen)
         for event in pygame.event.get():
-                 if event.type == pygame.QUIT:
-                     finished = True
-                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                     y = m.event_(event)
-                     if type(y) == bool:
-                         if y == False:
-                             finished = y
-                     print(y)
+            if event.type == pygame.QUIT:
+                finished = True
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                y = m.event_(event)
+                if type(y) == bool:
+                    if y == False:
+                        finished = y
+                print(y)
         pygame.display.update()

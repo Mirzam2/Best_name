@@ -1,9 +1,9 @@
 from perlin_noise import PerlinNoise
 from random import randint
-
+import random
 import pygame
 from block import types
-from constans import AIR_LAYER, NUMBER_TREES, SIXE_MAP_Y, SIZE_MAP_X
+from constans import AIR_LAYER, NUMBER_TREES, SIZE_MAP_Y, SIZE_MAP_X
 
 
 def create_field(map: list):
@@ -23,13 +23,11 @@ def create_field(map: list):
     map.append(layer)
     noise = PerlinNoise(octaves=10, seed=randint(1, 1000))
     xpix = SIZE_MAP_X
-    ypix = SIXE_MAP_Y-3-AIR_LAYER
+    ypix = SIZE_MAP_Y-AIR_LAYER
     map1 = [[noise([i/xpix, j/ypix]) for j in range(xpix)]
             for i in range(ypix)]
-    print(map1)
     massive_chance = []
     massive_chance = calculate_chance(massive_chance, types_block)
-    print(massive_chance)
     for i in range(ypix):
         for j in range(xpix):
             flag = True
@@ -44,6 +42,8 @@ def create_field(map: list):
     for i in range(NUMBER_TREES):
         generate_tree(map, randint(i * interval + 2,
                       (i + 1) * interval - 2), AIR_LAYER-5)
+    #generate_cave(map)
+    generate_curb(map)
     return map
 
 
@@ -79,8 +79,27 @@ def generate_tree(map, x, y):
         for j in range(len(tree[i])):
             map[y+i][j+x] = tree[i][j]
 
+
 def generate_curb(map):
-    pass
+    for i in range(0, SIZE_MAP_X):
+        map[0][i] = 6
+        map[SIZE_MAP_Y-2][i] = 6
+    for i in range(0, SIZE_MAP_Y-1):
+        map[i][0] = 6
+        map[i][SIZE_MAP_X - 1] = 6
+def generate_cave(map):
+    a = 0.00000001
+    c = 1
+    b = SIZE_MAP_Y/SIZE_MAP_X * 2 - c / SIZE_MAP_Y - a * SIZE_MAP_X
+    for i in range(5, 25):
+        k = 2 - 1
+        y = int(a*i**3 + b*i**2 + c*i)
+        for j in range(i - k, i + k + 1):
+            for l in range(y - k, y + k + 1):
+                if l<SIZE_MAP_Y and i <SIZE_MAP_X:
+                    map[l][j] = 0
+
+
 if __name__ == "__main__":
     pygame.init()
     main_screen = pygame.display.set_mode((1000, 800), pygame.RESIZABLE)

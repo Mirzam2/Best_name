@@ -42,12 +42,12 @@ class Button():
         pygame.draw.rect(surface, self.color,
                          (self.x1, self.y1, self.x2, self.y2))
         self.my_font.render_to(
-            surface, (self.x1 + self.x2 / 4 , self.y1 + self.y2 /2 - self.font / 2), self.text, (0, 0, 0))
+            surface, (self.x1 + self.x2 / 4, self.y1 + self.y2 / 2 - self.font / 2), self.text, (0, 0, 0))
 
 
 if __name__ == "__main__":
     pygame.init()
-    button = Button(0, 0, 40,40, pygame.quit,
+    button = Button(0, 0, 40, 40, pygame.quit,
                     (), (255, 255, 255), "lmao0000")
     screen = pygame.display.set_mode((800, 800), pygame.FULLSCREEN)
     button.drawing(screen)

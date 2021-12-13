@@ -1,13 +1,11 @@
 import pygame
 import math
-import time
-
 from constans import GRAVITAION, JUMP_SPEED, KICK_CONSTANT, SIZE_BLOCK, TIME_STOP, SPEED_Player, DELITA, SPEED_Zombie
 
 
 def point_collision_x(x, y, vx, massive_slov, types_block):
     drovable_block = types_block.get(massive_slov[int(y // 1)][int((x + vx) // 1)], 0)
-    if not(drovable_block.permeability):
+    if not drovable_block.permeability:
         move_x = False
     else:
         move_x = True
@@ -16,7 +14,7 @@ def point_collision_x(x, y, vx, massive_slov, types_block):
 
 def point_collision_y(x, y, vy, massive_slov, types_block):
     drovable_block = types_block.get(massive_slov[int((y + vy) // 1)][int(x // 1)], 0)
-    if not(drovable_block.permeability):
+    if not drovable_block.permeability:
         move_y = False
     else:
         move_y = True
@@ -25,6 +23,9 @@ def point_collision_y(x, y, vy, massive_slov, types_block):
 
 class Main_person:
     def __init__(self, x, y, images, screen):
+        self.destroy = True
+        self.x_dot = None
+        self.y_dot = None
         self.x = x
         self.y = y
         self.vx = 0
@@ -74,7 +75,7 @@ class Main_person:
     def control_collision(self, massive_slov, types_block):
         for i in self.x + DELITA, self.x + 1 * self.otn - DELITA:
             for j in self.y + DELITA, self.y + 1 * self.otn, self.y + 2 * self.otn - DELITA:
-                if not(point_collision_x(i, j, self.vx, massive_slov, types_block)):
+                if not (point_collision_x(i, j, self.vx, massive_slov, types_block)):
                     if self.vx > 0:
                         self.x = round(self.x) + 1 - self.otn
                     else:
@@ -86,7 +87,7 @@ class Main_person:
                     self.put = True
         for i in self.x + DELITA, self.x + 1 * self.otn - DELITA:
             for j in self.y + DELITA, self.y + 1 * self.otn, self.y + 2 * self.otn - DELITA:
-                if not(point_collision_y(i, j, self.vy, massive_slov, types_block)):
+                if not (point_collision_y(i, j, self.vy, massive_slov, types_block)):
                     if self.vy < 0:
                         self.y = round(self.y)
                         self.vy = 0.002
@@ -94,10 +95,12 @@ class Main_person:
                         self.y = round(self.y) + 2 * (1 - self.otn)
                         self.vy = 0
                     break
+
     def control_collision_of_putting(self, massive_slov, types_block):
+        self.put = True
         for i in self.x + DELITA, self.x + 1 * self.otn - DELITA:
             for j in self.y + DELITA, self.y + 1 * self.otn, self.y + 2 * self.otn - DELITA:
-                if not(point_collision_x(i, j, 0, massive_slov, types_block)):
+                if not (point_collision_x(i, j, 0, massive_slov, types_block)):
                     self.put = False
                     break
                 else:
@@ -105,11 +108,12 @@ class Main_person:
         if self.put:
             for i in self.x + DELITA, self.x + 1 * self.otn - DELITA:
                 for j in self.y + DELITA, self.y + 1 * self.otn, self.y + 2 * self.otn - DELITA:
-                    if not(point_collision_y(i, j, 0, massive_slov, types_block)):
+                    if not (point_collision_y(i, j, 0, massive_slov, types_block)):
                         self.put = False
                         break
                     else:
                         self.put = True
+
     def move(self):
         self.x += self.vx
         self.y += self.vy
@@ -117,10 +121,13 @@ class Main_person:
     def angle(self, event, x0, y0):
         if event.type == pygame.MOUSEMOTION:
             if event:
-                self.an = math.atan2(((event.pos[1] - y0)/self.size-(self.y + self.otn)), ((
-                    event.pos[0] - x0) / self.size - (self.x + self.otn / 2)))
+                self.an = math.atan2(((event.pos[1] - y0) / self.size - (self.y + self.otn)), ((
+                                                                                                       event.pos[
+                                                                                                           0] - x0) / self.size - (
+                                                                                                       self.x + self.otn / 2)))
             else:
                 self.an = 0
+
     def broke(self, massive_slov, types_block, inventory):
         self.mouse_pressed = pygame.mouse.get_pressed()
         if self.mouse_pressed[0]:
@@ -142,22 +149,27 @@ class Main_person:
                     time_to_die = pygame.time.get_ticks()
                     self.start_time = pygame.time.get_ticks()
 
-    def build(self,block_in_hands, massive_slov, types_block, inventory):
+    def build(self, block_in_hands, massive_slov, types_block, inventory):
+
         if block_in_hands != 0:
             for i in range(30):
                 self.x_dot = self.x + self.otn / 2 + math.cos(self.an) * i / 10
                 self.y_dot = self.y + self.otn + math.sin(self.an) * i / 10
                 if massive_slov[int(self.y_dot)][int(self.x_dot)] != 0:
-                    massive_slov[int(self.y + self.otn + math.sin(self.an) * (i - 1) / 10)][int(self.x + self.otn / 2 + math.cos(self.an) * (i - 1) / 10)] = block_in_hands
-                    self.control_collision_of_putting(massive_slov, types_block)
-                    if not(self.put):
-                        massive_slov[int(self.y + self.otn + math.sin(self.an) * (i - 1) / 10)][int(self.x + self.otn / 2 + math.cos(self.an) * (i - 1) / 10)] = 0
-                    if self.put:
+                    man_rect = pygame.Rect((self.x * 10 ** 5, self.y * 10 ** 5, self.otn * 10 ** 5, 2 * self.otn * 10 ** 5))
+                    block_rect = pygame.Rect((int(self.x + self.otn / 2 + math.cos(self.an) * (i - 1) / 10) * 10 ** 5,
+                                              int(self.y + self.otn + math.sin(self.an) * (i - 1) / 10) * 10 ** 5, 10 ** 5, 10 ** 5))
+                    if not man_rect.colliderect(block_rect):
+                        print(man_rect.topleft, block_rect.topleft)
                         block_in_hands = inventory.add_or_delete_block(block_in_hands, -1)
+                        massive_slov[int(self.y + self.otn + math.sin(self.an) * (i - 1) / 10)][
+                            int(self.x + self.otn / 2 + math.cos(self.an) * (i - 1) / 10)] = block_in_hands
                     break
         return block_in_hands
+
     def breath(self):
         pass
+
     def hit(self, event, massive_mobs):
         if event.button == 1:
             print(1)
@@ -167,11 +179,12 @@ class Main_person:
                     if zombie.life == 0:
                         massive_mobs.remove(zombie)
                     break
-                    
+
     def draw(self):
         rect = self.images[self.image_idx].get_rect()
         rect.topleft = self.x * self.size, self.y * self.size
         self.screen.blit(self.images[self.image_idx], rect)
+
 
 class Zombie(Main_person):
     def __init__(self, x, y, images, screen):
@@ -194,7 +207,7 @@ class Zombie(Main_person):
         if self.vx == 0:
             self.time_tick += 1
         if self.time_tick == TIME_STOP:
-            if self.vy ==0:self.vy = -JUMP_SPEED
+            if self.vy == 0: self.vy = -JUMP_SPEED
             self.time_tick = 0
         self.vx = self.sign * SPEED_Zombie
         self.vy += GRAVITAION
@@ -204,7 +217,7 @@ class Zombie(Main_person):
         if self.current_frame >= self.animation_frames:
             self.current_frame = 0
             if self.sign == 1:
-                self.image_idx = (self.image_idx+1) % 2 + 6  # 6 <-> 7
+                self.image_idx = (self.image_idx + 1) % 2 + 6  # 6 <-> 7
             elif self.sign == -1:
                 self.image_idx = (self.image_idx + 1) % 2 + 8  # 8 <-> 9
                 print(self.image_idx)

@@ -1,9 +1,7 @@
 ﻿import pygame
-import sys
 import button
 import json
 import block
-from typing import Text
 import pygame.freetype
 from constans import *
 pygame.font.init()
@@ -78,7 +76,7 @@ class Inventory:
         Если блоки этого типа закончились, то возвращает None
         """
         tmp = self.main_massive.get(str(Number_of_block))
-        if tmp + Num >= 0:
+        if tmp + Num > 0:
             self.main_massive[str(Number_of_block)] = tmp + Num
             return Number_of_block
         else:
@@ -139,9 +137,9 @@ def exit_():
     """
     return False
 
-def inventoryfunction(screen, inventory):
+def inventoryfunction(screen, inventory, block_in_hands):
     finished = False
-    result = None
+    result = block_in_hands
     while not finished:
         inventory.draw(screen)
         for event in pygame.event.get():
@@ -149,12 +147,15 @@ def inventoryfunction(screen, inventory):
                  finished = True
              elif event.type == pygame.MOUSEBUTTONDOWN:
                  y = inventory.event_(event)
+                 if y == None:
+                     result = 0
                  if type(y) == int:
                      result = y
                  if type(y) == bool:
                      if y == False:
                          finished = True
         pygame.display.update()
+    print(result)
     return result
 
 
@@ -178,5 +179,4 @@ if __name__ == "__main__":
                      if type(y) == bool:
                          if y == False:
                              finished = y
-                     print(y)
         pygame.display.update()

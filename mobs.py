@@ -143,17 +143,19 @@ class Main_person:
                     self.start_time = pygame.time.get_ticks()
 
     def build(self,block_in_hands, massive_slov, types_block, inventory):
-        for i in range(30):
-            self.x_dot = self.x + self.otn / 2 + math.cos(self.an) * i / 10
-            self.y_dot = self.y + self.otn + math.sin(self.an) * i / 10
-            if massive_slov[int(self.y_dot)][int(self.x_dot)] != 0:
-                massive_slov[int(self.y + self.otn + math.sin(self.an) * (i - 1) / 10)][int(self.x + self.otn / 2 + math.cos(self.an) * (i - 1) / 10)] = block_in_hands
-                inventory.add_or_delete_block(block_in_hands, -1)
-                self.control_collision_of_putting(massive_slov, types_block)
-                if not(self.put):
-                    massive_slov[int(self.y + self.otn + math.sin(self.an) * (i - 1) / 10)][int(self.x + self.otn / 2 + math.cos(self.an) * (i - 1) / 10)] = 0
-                    inventory.add_or_delete_block(block_in_hands, 1)
-                break
+        if block_in_hands != 0:
+            for i in range(30):
+                self.x_dot = self.x + self.otn / 2 + math.cos(self.an) * i / 10
+                self.y_dot = self.y + self.otn + math.sin(self.an) * i / 10
+                if massive_slov[int(self.y_dot)][int(self.x_dot)] != 0:
+                    massive_slov[int(self.y + self.otn + math.sin(self.an) * (i - 1) / 10)][int(self.x + self.otn / 2 + math.cos(self.an) * (i - 1) / 10)] = block_in_hands
+                    self.control_collision_of_putting(massive_slov, types_block)
+                    if not(self.put):
+                        massive_slov[int(self.y + self.otn + math.sin(self.an) * (i - 1) / 10)][int(self.x + self.otn / 2 + math.cos(self.an) * (i - 1) / 10)] = 0
+                    if self.put:
+                        block_in_hands = inventory.add_or_delete_block(block_in_hands, -1)
+                    break
+        return block_in_hands
     def breath(self):
         pass
     def hit(self, event, massive_mobs):

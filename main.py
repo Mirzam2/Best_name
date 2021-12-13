@@ -1,10 +1,12 @@
-from block import *
-from mobs import *
+import block
+import mobs
 import pygame
-import button
-from file import *
+import file
 from constans import *
-from Hume_screen import *
+import Hume_screen
+import pathlib
+import inventoty
+
 def veb_cam(main_screen, x_cam, y_cam):
     """
     Фунция вызывающая камеру, которая рисует картинку в зависимости от положения игрока
@@ -30,7 +32,7 @@ def veb_cam(main_screen, x_cam, y_cam):
         y_cam += speed_cam * diff_y / max_distant
     if diff_y <= -max_distant:
         y_cam += speed_cam * diff_y / max_distant
-    draw_map(massive_slov, types_block, screen)
+    file.draw_map(massive_slov, types_block, screen)
     main_hero.draw()
     for i in massive_mobs:
         i.screen = screen
@@ -38,42 +40,45 @@ def veb_cam(main_screen, x_cam, y_cam):
     main_screen.blit(screen, (x_cam, y_cam))
     return x_cam, y_cam
 
+
 pygame.init()
 main_screen = pygame.display.set_mode((1000, 800), pygame.RESIZABLE)
-file = pathlib.Path(pathlib.Path.cwd(), "Queen Bee-Fire-kissvk.com.wav")
-pygame.mixer.music.load(file)
+file_world = pathlib.Path(pathlib.Path.cwd(), "Queen Bee-Fire-kissvk.com.wav")
+pygame.mixer.music.load(file_world)
 pygame.mixer.music.play(-1)
-"""
-ReoNa-Nainai-kissvk.com.mp3
-"""
 types_block = {}
 person_images = {}
-types(types_block, person_images)
-file = hyme_screen(main_screen)
-#pathlib.Path(pathlib.Path.cwd(), "Saves_inventory", "inventory" + file)
-file_inventory = open(pathlib.Path(pathlib.Path.cwd(), "Saves_inventory", "inventory" + file), 'r')
+block.types(types_block, person_images)
+file_world = Hume_screen.hyme_screen(main_screen)
+file_inventory = open(pathlib.Path(pathlib.Path.cwd(),
+                      "Saves_inventory", "inventory" + file_world), 'r')
 inventory = inventoty.Inventory(file_inventory, main_screen)
 block_in_hands = 0
-massive_slov, map_types = load_map(types_block, file)
+massive_slov, map_types = file.load_map(types_block, file_world)
 size_y = len(massive_slov)
 size_x = len(massive_slov[1])
 screen = pygame.Surface((size_x * SIZE_BLOCK, size_y * SIZE_BLOCK))
-main_hero = Main_person(10, 0, person_images, main_screen)
+main_hero = mobs.Main_person(10, 2, person_images, main_screen)
 massive_mobs = []
 
-massive_mobs.append(Zombie(20, 0, person_images, main_screen))
+massive_mobs.append(mobs.Zombie(20, 5, person_images, main_screen))
 x_cam = -main_hero.x * SIZE_BLOCK + main_screen.get_size()[0] / 2
 y_cam = -main_hero.y * SIZE_BLOCK + main_screen.get_size()[1] / 2
 finished = False
 
 clock = pygame.time.Clock()
+time = 0
 pygame.display.update()
 while not finished:
+    time += 1
     main_screen.fill((0, 0, 0))
     '''начало блока рисования'''
     x_cam, y_cam = veb_cam(main_screen, x_cam, y_cam)
     '''конец блока рисования'''
+
     dt = clock.tick(FPS) / 1000  # Amount of seconds between each loop.
+    if time % 1000 == 0:
+        massive_mobs.append(mobs.Zombie(20, 5, person_images, main_screen))
     for event in pygame.event.get():
         main_hero.angle(event, x_cam, y_cam)
         if event.type == pygame.QUIT:
@@ -83,13 +88,16 @@ while not finished:
             if event.button == 3:
                 main_hero.build(block_in_hands, massive_slov, types_block, inventory)
             main_hero.hit(event, massive_mobs)
+        main_hero.angle(event, x_cam, y_cam)
     keys = pygame.key.get_pressed()
     if keys[pygame.K_e]:
-        block_in_hands = inventoty.inventoryfunction(main_screen, inventory)
+        block_in_hands = inventoty.inventoryfunction(main_screen, inventory,block_in_hands)
+
     main_hero.broke(massive_slov, types_block, inventory)
     main_hero.input(event=0)
     main_hero.control_collision(massive_slov, types_block)
     main_hero.update_frame_dependent()
+    "Обработка событий связанных с зомби"
     for i in massive_mobs:
         i.input(main_hero)
         i.control_collision(massive_slov, types_block)
@@ -97,8 +105,11 @@ while not finished:
         i.update_frame_dependent()
         i.kick(main_hero)
     main_hero.move()
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_e]:
+        block_in_hands = inventoty.inventoryfunction(
+            main_screen, inventory, block_in_hands)
     pygame.display.update()
     pygame.display.flip()
-
-save_map(massive_slov, file)
+file.save_map(massive_slov, file_world)
 pygame.quit()

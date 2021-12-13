@@ -83,7 +83,8 @@ class Inventory:
             self.main_massive[str(Number_of_block)] = tmp + Num
             return Number_of_block
         else:
-            return None
+            return 0
+        
 
     def event_(self, event):
         """

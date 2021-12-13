@@ -78,7 +78,7 @@ class Inventory:
         Если блоки этого типа закончились, то возвращает None
         """
         tmp = self.main_massive.get(str(Number_of_block))
-        if tmp + Num >= 0:
+        if tmp + Num > 0:
             self.main_massive[str(Number_of_block)] = tmp + Num
             return Number_of_block
         else:
@@ -150,12 +150,9 @@ def inventoryfunction(screen, inventory, block_in_hands):
              elif event.type == pygame.MOUSEBUTTONDOWN:
                  y = inventory.event_(event)
                  if y == None:
-                     print("snvkjsnlkfsn")
                      result = 0
                  if type(y) == int:
                      result = y
-                     print(y)
-                     print("fsdf")
                  if type(y) == bool:
                      if y == False:
                          finished = True
@@ -184,5 +181,4 @@ if __name__ == "__main__":
                      if type(y) == bool:
                          if y == False:
                              finished = y
-                     print(y)
         pygame.display.update()

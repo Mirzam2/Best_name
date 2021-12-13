@@ -184,3 +184,4 @@ class Zombie(Main_person):
         if math.sqrt((main_hero.x - self.x) ** 2 + (main_hero.y - self.y) ** 2) <= 1:
             main_hero.breath()
             main_hero.vx += self.sign * KICK_CONSTANT
+            print("Kick")

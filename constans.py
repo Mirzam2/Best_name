@@ -1,4 +1,9 @@
 SIZE_BLOCK = 48
+SIXE_MAP_Y = 50
+SIZE_MAP_X = 30
+AIR_LAYER = 7 
+
+
 FPS = 60
 
 SPEED_Player = 0.05

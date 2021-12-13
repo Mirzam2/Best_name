@@ -141,12 +141,12 @@ class Main_person:
                     time_to_die = pygame.time.get_ticks()
                     self.start_time = pygame.time.get_ticks()
 
-    def build(self, massive_slov, types_block):
+    def build(self,block_in_hands, massive_slov, types_block):
         for i in range(30):
             self.x_dot = self.x + self.otn / 2 + math.cos(self.an) * i / 10
             self.y_dot = self.y + self.otn + math.sin(self.an) * i / 10
             if massive_slov[int(self.y_dot)][int(self.x_dot)] != 0:
-                massive_slov[int(self.y + self.otn + math.sin(self.an) * (i - 1) / 10)][int(self.x + self.otn / 2 + math.cos(self.an) * (i - 1) / 10)] = 1
+                massive_slov[int(self.y + self.otn + math.sin(self.an) * (i - 1) / 10)][int(self.x + self.otn / 2 + math.cos(self.an) * (i - 1) / 10)] = block_in_hands
                 self.control_collision_of_putting(massive_slov, types_block)
                 if not(self.put):
                     massive_slov[int(self.y + self.otn + math.sin(self.an) * (i - 1) / 10)][int(self.x + self.otn / 2 + math.cos(self.an) * (i - 1) / 10)] = 0

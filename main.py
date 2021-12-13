@@ -50,6 +50,10 @@ types_block = {}
 person_images = {}
 types(types_block, person_images)
 file = hyme_screen(main_screen)
+#pathlib.Path(pathlib.Path.cwd(), "Saves_inventory", "inventory" + file)
+file_inventory = open(pathlib.Path(pathlib.Path.cwd(), "Saves_inventory", "inventory" + file), 'r')
+inventory = inventoty.Inventory(file_inventory, main_screen)
+block_in_hands = None
 massive_slov, map_types = load_map(types_block, file)
 size_y = len(massive_slov)
 size_x = len(massive_slov[1])
@@ -77,8 +81,11 @@ while not finished:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             main_hero.start_time = pygame.time.get_ticks()
             if event.button == 3:
-                main_hero.build(massive_slov, types_block)
+                main_hero.build(block_in_hands, massive_slov, types_block)
         main_hero.angle(event, x_cam, y_cam)
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_e]:
+        block_in_hands = inventoty.inventoryfunction(main_screen, inventory)
     main_hero.broke(massive_slov, types_block)
     main_hero.input(event=0)
     main_hero.control_collision(massive_slov, types_block)

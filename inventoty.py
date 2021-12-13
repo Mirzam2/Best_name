@@ -68,16 +68,22 @@ class Inventory:
         self.massiv_of_buttons[0].drawing(screen)
 
 
-    def add_or_delete_block(self, type_of_block, Num):
+    def add_or_delete_block(self, Number_of_block, Num):
         """
-        Принимает Type_block и изменяет количество блоков в инвентаре
+        Принимает Number_of_block - номер блока и изменяет количество блоков в инвентаре
         Num - количство блоков, которые надо добавить или убрать
         Если Num < 0, то блоки убираются из инвентаря
         Если Num > 0, то блоки добовляются
+        Возвращает тот же блок, если они ещё есть
+        Если блоки этого типа закончились, то возвращает None
         """
-        tmp = self.main_massive.get(str(self.reverseblock.get(type_of_block)))
+        tmp = self.main_massive.get(str(Number_of_block))
         if tmp + Num >= 0:
-            self.main_massive[str(self.reverseblock.get(type_of_block))] = tmp + Num
+            self.main_massive[str(Number_of_block)] = tmp + Num
+            return Number_of_block
+        else:
+            return None
+        
 
     def event_(self, event):
         """
@@ -122,9 +128,9 @@ def return_button(main_massive,blocks, i):
     если блоков не 0
     В остальных случаях возвращает None
     """
-    print(main_massive.get(str(i)))
+    print(i)
     if main_massive.get(str(i)) != 0:
-        return blocks[i]
+        return int(i)
     else: return None
 
 def exit_():
@@ -132,6 +138,26 @@ def exit_():
     Возвращае False
     """
     return False
+
+def inventoryfunction(screen, inventory):
+    finished = False
+    result = None
+    while not finished:
+        inventory.draw(screen)
+        for event in pygame.event.get():
+             if event.type == pygame.QUIT:
+                 finished = True
+             elif event.type == pygame.MOUSEBUTTONDOWN:
+                 y = inventory.event_(event)
+                 if type(y) == int:
+                     result = y
+                 if type(y) == bool:
+                     if y == False:
+                         finished = True
+        pygame.display.update()
+    return result
+
+
 
 
 if __name__ == "__main__":

@@ -5,6 +5,7 @@ import pathlib
 from pathlib import Path
 from block import *
 
+
 def save_map(massive_slov: list, world_name="test"):
     """
     функция сохранения данных карты мира
@@ -19,9 +20,9 @@ def save_map(massive_slov: list, world_name="test"):
             for i in slovo:
                 string += (str(i) + ", ")
             string = string[:len(string)-2]
-            main_string+=("[" + string + "]," + "\n")
+            main_string += ("[" + string + "]," + "\n")
         main_string = main_string[:len(main_string)-2]
-        main_string+=("\n" + "]")
+        main_string += ("\n" + "]")
         input_file.write(main_string)
 
 
@@ -40,6 +41,8 @@ def load_map(types_block, world_name="test"):
         for j in range(len(massive_slov[i])):
             map_types[i].append(types_block.get(massive_slov[i][j], 0))
     return massive_slov, map_types
+
+
 def draw_map(massive_slov, types_block, screen):
     for i in range(len(massive_slov)):
         for j in range(len(massive_slov[i])):

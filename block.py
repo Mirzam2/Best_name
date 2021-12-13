@@ -32,8 +32,8 @@ def types(types_block, person_images):
     types_block[2] = Type_block("Grass", False, 5, ss.image_at((48, 0, 48, 48)), 0)
     types_block[3] = Type_block("Stone", False, 10, ss.image_at((144, 0, 48, 48)), 20)
     types_block[4] = Type_block("Log", False, 10, ss.image_at((192, 0, 48, 48)))
-    types_block[5] = Type_block("Sand", False, 10, ss.image_at((240, 0, 48, 48)),5)
-    types_block[6] = Type_block("Bedrock", False, -1, ss.image_at((288, 0, 48, 48)))
+    types_block[5] = Type_block("Sand", False, 20, ss.image_at((240, 0, 48, 48)),5)
+    types_block[6] = Type_block("Bedrock", False, 10*5, ss.image_at((288, 0, 48, 48)))
     types_block[7] = Type_block("Granite", False, 10, ss.image_at((336, 0, 48, 48)),3)
     types_block[8] = Type_block("Amethyst", False, 10, ss.image_at((384, 0, 48, 48)),1)
     types_block[9] = Type_block("Stone1", False, 10, ss.image_at((432, 0, 48, 48)),10)
@@ -53,6 +53,11 @@ def types(types_block, person_images):
     person_images[3] = ss.image_at((96+48, 96, 45, 90), (0, 0, 0))
     person_images[4] = ss.image_at((96+96, 96, 45, 90), (0, 0, 0))
     person_images[5] = ss.image_at((96+96+48, 96, 45, 90), (0, 0, 0))
+    person_images[6] = ss.image_at((0, 192, 45, 90), (255, 255, 255))
+    person_images[7] = ss.image_at((48, 192, 45, 90), (255, 255, 255))
+    person_images[8] = ss.image_at((96, 192, 45, 90), (255, 255, 255))
+    person_images[9] = ss.image_at((96+48, 192, 45, 90), (255, 255, 255))
+    
 
 if __name__ == "__main__":
     main_screen = pygame.display.set_mode((1000, 1000))

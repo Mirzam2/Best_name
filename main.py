@@ -57,8 +57,7 @@ screen = pygame.Surface((size_x * SIZE_BLOCK, size_y * SIZE_BLOCK))
 main_hero = Main_person(10, 0, person_images, main_screen)
 massive_mobs = []
 
-massive_mobs.append(Zombie(20, 0, main_screen))
-massive_mobs.append(Zombie(15, 0, main_screen))
+massive_mobs.append(Zombie(20, 0, person_images, main_screen))
 x_cam = -main_hero.x * SIZE_BLOCK + main_screen.get_size()[0] / 2
 y_cam = -main_hero.y * SIZE_BLOCK + main_screen.get_size()[1] / 2
 finished = False
@@ -87,6 +86,7 @@ while not finished:
         i.input(main_hero)
         i.control_collision(massive_slov)
         i.move()
+        i.update_frame_dependent()
         i.kick(main_hero)
     main_hero.move()
     pygame.display.update()

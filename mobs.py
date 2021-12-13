@@ -157,10 +157,14 @@ class Main_person:
         self.screen.blit(self.images[self.image_idx], rect)
 
 class Zombie(Main_person):
-    def __init__(self, x, y, screen, image=None):
-        super().__init__(x, y, image, screen)
+    def __init__(self, x, y, images, screen):
+        super().__init__(x, y, images, screen)
         self.time_tick = 0
         self.sign = 1
+        self.image_idx = 6
+        self.current_frame = 0
+        self.animation_frames = 10  # Количество кадров между сменой анимации
+        self.images = images
 
     def input(self, main_hero):
         if self.x - main_hero.x > 0:
@@ -177,9 +181,23 @@ class Zombie(Main_person):
         self.vx = self.sign * SPEED_Zombie
         self.vy += GRAVITAION
 
+    def update_frame_dependent(self):
+        self.current_frame += 1
+        if self.current_frame >= self.animation_frames:
+            self.current_frame = 0
+            if self.sign == 1:
+                self.image_idx = (self.image_idx+1) % 2 + 6  # 6 <-> 7
+            elif self.sign == -1:
+                self.image_idx = (self.image_idx + 1) % 2 + 8  # 8 <-> 9
+                print(self.image_idx)
+            else:
+                self.image_idx = 6
+
     def draw(self):
-        pygame.draw.rect(self.screen, (0, 255, 0), (self.x * self.size,
-                         self.y * self.size, self.real_size, self.real_size * 2))
+        rect = self.images[self.image_idx].get_rect()
+        rect.topleft = self.x * self.size, self.y * self.size
+        self.screen.blit(self.images[self.image_idx], rect)
+
     def kick(self, main_hero):
         if math.sqrt((main_hero.x - self.x) ** 2 + (main_hero.y - self.y) ** 2) <= 1:
             main_hero.breath()

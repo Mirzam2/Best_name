@@ -6,16 +6,14 @@ from constans import AIR_LAYER, NUMBER_TREES, SIZE_MAP_Y, SIZE_MAP_X
 
 
 def create_field(map: list):
+    """
+    Функция генерации произвольной карты
+    """
     pygame.init()
-    main_screen = pygame.display.set_mode((1000, 800), pygame.RESIZABLE)
     types_block = {}
     person_images = {}
     types(types_block, person_images)
-    for i in range(AIR_LAYER + 1):
-        layer = []
-        for j in range(SIZE_MAP_X):
-            layer.append(0)
-        map.append(layer)
+    generate_air(map)
     layer = []
     for j in range(SIZE_MAP_X):
         layer.append(2)
@@ -45,8 +43,19 @@ def create_field(map: list):
     generate_curb(map)
     return map
 
-
+def generate_air(map):
+    for i in range(AIR_LAYER + 1):
+        layer = []
+        for j in range(SIZE_MAP_X):
+            layer.append(0)
+        map.append(layer)
+    pass
 def calculate_chance(massive_chance: list, types_block):
+    """
+    Функция подсчёта шанса генерации
+    massive_chance - массив который надо заносить
+    types_block - типы блоков
+    """
     for i in range(len(types_block)):
         type = types_block.get(i, 0)
         massive_chance.append(type.chance_generate)
@@ -66,24 +75,22 @@ def generate_tree(map, x, y):
     map - объект класса list, массив карты
     x, y - координаты верхнего левого дерева
     """
-    tree = [
-        [0, 0, 10, 0, 0],
-        [0, 11, 10, 11, 0],
-        [12, 11, 10, 11, 12],
-        [0, 12, 4, 12, 0],
-        [0, 0, 4, 0, 0],
-        [0, 0, 4, 0, 0]
-    ]
+    tree = [[0, 0, 10, 0, 0], [0, 11, 10, 11, 0], [12, 11, 10, 11, 12],
+            [0, 12, 4, 12, 0], [0, 0, 4, 0, 0], [0, 0, 4, 0, 0]]
     for i in range(len(tree)):
         for j in range(len(tree[i])):
-            map[y+i][j+x] = tree[i][j]
+            map[y + i][j + x] = tree[i][j]
 
 
-def generate_curb(map):
+def generate_curb(map:list):
+    """
+    Функция генерация стенок из бедрока
+    map - карта
+    """
     for i in range(0, SIZE_MAP_X):
         map[0][i] = 6
-        map[SIZE_MAP_Y-2][i] = 6
-    for i in range(0, SIZE_MAP_Y-1):
+        map[SIZE_MAP_Y - 2][i] = 6
+    for i in range(0, SIZE_MAP_Y - 1):
         map[i][0] = 6
         map[i][SIZE_MAP_X - 1] = 6
 

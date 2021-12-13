@@ -70,13 +70,13 @@ def types(types_block, person_images):
     person_images[0] = ss.image_at((0, 96, 45, 90), (0, 0, 0))
     person_images[1] = ss.image_at((48, 96, 45, 90), (0, 0, 0))
     person_images[2] = ss.image_at((96, 96, 45, 90), (0, 0, 0))
-    person_images[3] = ss.image_at((96+48, 96, 45, 90), (0, 0, 0))
-    person_images[4] = ss.image_at((96+96, 96, 45, 90), (0, 0, 0))
-    person_images[5] = ss.image_at((96+96+48, 96, 45, 90), (0, 0, 0))
+    person_images[3] = ss.image_at((144, 96, 45, 90), (0, 0, 0))
+    person_images[4] = ss.image_at((192, 96, 45, 90), (0, 0, 0))
+    person_images[5] = ss.image_at((240, 96, 45, 90), (0, 0, 0))
     person_images[6] = ss.image_at((0, 192, 45, 90), (255, 255, 255))
     person_images[7] = ss.image_at((48, 192, 45, 90), (255, 255, 255))
     person_images[8] = ss.image_at((96, 192, 45, 90), (255, 255, 255))
-    person_images[9] = ss.image_at((96+48, 192, 45, 90), (255, 255, 255))
+    person_images[9] = ss.image_at((144, 192, 45, 90), (255, 255, 255))
 
 
 if __name__ == "__main__":

@@ -5,6 +5,8 @@ import os
 import shutil
 import map
 import inventoty
+import pathlib
+from pathlib import Path
 from file import save_map
 FPS = 60
 clock = pygame.time.Clock()
@@ -17,10 +19,10 @@ def new_game():
     Тем, что перед основным названием будет inventory
     """
     tmp = str(time.time()) + ".json"
-    file = open("Saves_inventory" + "\\" + "inventory" + tmp , 'wt+')
+    file = open(pathlib.Path(pathlib.Path.cwd(), "Saves_inventory", "inventory" + tmp), 'wt+')
     inventoty.new_file(file)
-    file = open("saves" + "\\" + tmp, 'w')
-    shutil.copyfile(r"saves\test.json", r"saves" + "\\" + tmp, follow_symlinks=True)
+    file = open(pathlib.Path(pathlib.Path.cwd(), "saves", tmp), 'w')
+    shutil.copyfile(pathlib.Path(pathlib.Path.cwd(), "saves", "test.json"), pathlib.Path(pathlib.Path.cwd(), "saves", tmp), follow_symlinks=True)
     massive_slov =[]
     massive_slov = map.create_field(massive_slov)
     save_map(massive_slov,tmp)

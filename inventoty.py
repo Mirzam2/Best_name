@@ -1,9 +1,7 @@
 ﻿import pygame
-import sys
 import button
 import json
 import block
-from typing import Text
 import pygame.freetype
 from constans import *
 pygame.font.init()

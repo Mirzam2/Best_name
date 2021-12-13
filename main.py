@@ -75,13 +75,14 @@ while not finished:
     '''конец блока рисования'''
     dt = clock.tick(FPS) / 1000  # Amount of seconds between each loop.
     for event in pygame.event.get():
+        main_hero.angle(event, x_cam, y_cam)
         if event.type == pygame.QUIT:
             finished = True
         elif event.type == pygame.MOUSEBUTTONDOWN:
             main_hero.start_time = pygame.time.get_ticks()
             if event.button == 3:
                 main_hero.build(block_in_hands, massive_slov, types_block, inventory)
-        main_hero.angle(event, x_cam, y_cam)
+            main_hero.hit(event, massive_mobs)
     keys = pygame.key.get_pressed()
     if keys[pygame.K_e]:
         block_in_hands = inventoty.inventoryfunction(main_screen, inventory)

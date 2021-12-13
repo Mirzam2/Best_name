@@ -156,6 +156,16 @@ class Main_person:
                 break
     def breath(self):
         pass
+    def hit(self, event, massive_mobs):
+        if event.button == 1:
+            print(1)
+            for zombie in massive_mobs[::-1]:
+                if (zombie.x - self.x) ** 2 + (zombie.y - self.y) ** 2 <= 3:
+                    zombie.life -= 1
+                    if zombie.life == 0:
+                        massive_mobs.remove(zombie)
+                    break
+                    
     def draw(self):
         rect = self.images[self.image_idx].get_rect()
         rect.topleft = self.x * self.size, self.y * self.size
@@ -170,6 +180,7 @@ class Zombie(Main_person):
         self.current_frame = 0
         self.animation_frames = 10  # Количество кадров между сменой анимации
         self.images = images
+        self.life = 5
 
     def input(self, main_hero):
         if self.x - main_hero.x > 0:

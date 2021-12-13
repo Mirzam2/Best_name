@@ -139,9 +139,9 @@ def exit_():
     """
     return False
 
-def inventoryfunction(screen, inventory):
+def inventoryfunction(screen, inventory, block_in_hands):
     finished = False
-    result = None
+    result = block_in_hands
     while not finished:
         inventory.draw(screen)
         for event in pygame.event.get():
@@ -149,12 +149,18 @@ def inventoryfunction(screen, inventory):
                  finished = True
              elif event.type == pygame.MOUSEBUTTONDOWN:
                  y = inventory.event_(event)
+                 if y == None:
+                     print("snvkjsnlkfsn")
+                     result = 0
                  if type(y) == int:
                      result = y
+                     print(y)
+                     print("fsdf")
                  if type(y) == bool:
                      if y == False:
                          finished = True
         pygame.display.update()
+    print(result)
     return result
 
 

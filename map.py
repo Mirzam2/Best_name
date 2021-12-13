@@ -1,6 +1,5 @@
 from perlin_noise import PerlinNoise
 from random import randint
-import random
 import pygame
 from block import types
 from constans import AIR_LAYER, NUMBER_TREES, SIZE_MAP_Y, SIZE_MAP_X
@@ -12,7 +11,7 @@ def create_field(map: list):
     types_block = {}
     person_images = {}
     types(types_block, person_images)
-    for i in range(AIR_LAYER+1):
+    for i in range(AIR_LAYER + 1):
         layer = []
         for j in range(SIZE_MAP_X):
             layer.append(0)
@@ -42,7 +41,7 @@ def create_field(map: list):
     for i in range(NUMBER_TREES):
         generate_tree(map, randint(i * interval + 2,
                       (i + 1) * interval - 2), AIR_LAYER-5)
-    #generate_cave(map)
+    # generate_cave(map)
     generate_curb(map)
     return map
 
@@ -87,6 +86,8 @@ def generate_curb(map):
     for i in range(0, SIZE_MAP_Y-1):
         map[i][0] = 6
         map[i][SIZE_MAP_X - 1] = 6
+
+
 def generate_cave(map):
     a = 0.00000001
     c = 1
@@ -96,7 +97,7 @@ def generate_cave(map):
         y = int(a*i**3 + b*i**2 + c*i)
         for j in range(i - k, i + k + 1):
             for l in range(y - k, y + k + 1):
-                if l<SIZE_MAP_Y and i <SIZE_MAP_X:
+                if l < SIZE_MAP_Y and i < SIZE_MAP_X:
                     map[l][j] = 0
 
 

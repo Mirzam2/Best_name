@@ -67,24 +67,31 @@ y_cam = -main_hero.y * SIZE_BLOCK + main_screen.get_size()[1] / 2
 finished = False
 
 clock = pygame.time.Clock()
+time = 0
 pygame.display.update()
 while not finished:
+    time+=1
     main_screen.fill((0, 0, 0))
     '''начало блока рисования'''
     x_cam, y_cam = veb_cam(main_screen, x_cam, y_cam)
     '''конец блока рисования'''
+
     dt = clock.tick(FPS) / 1000  # Amount of seconds between each loop.
+    if time % 1000 ==0:
+        massive_mobs.append(Zombie(20, 5, person_images, main_screen))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             finished = True
         elif event.type == pygame.MOUSEBUTTONDOWN:
             main_hero.start_time = pygame.time.get_ticks()
             if event.button == 3:
-                main_hero.build(block_in_hands, massive_slov, types_block, inventory)
+                main_hero.build(block_in_hands, massive_slov,
+                                types_block, inventory)
         main_hero.angle(event, x_cam, y_cam)
     keys = pygame.key.get_pressed()
     if keys[pygame.K_e]:
         block_in_hands = inventoty.inventoryfunction(main_screen, inventory)
+
     main_hero.broke(massive_slov, types_block, inventory)
     main_hero.input(event=0)
     main_hero.control_collision(massive_slov, types_block)

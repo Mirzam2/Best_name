@@ -3,7 +3,7 @@ from random import randint
 
 import pygame
 from block import types
-from constans import AIR_LAYER, SIXE_MAP_Y, SIZE_MAP_X
+from constans import AIR_LAYER, NUMBER_TREES, SIXE_MAP_Y, SIZE_MAP_X
 
 
 def create_field(map: list):
@@ -38,9 +38,12 @@ def create_field(map: list):
                     map1[i][j] = k
                     flag = False
             if flag == True:
-                map1[i][j]=0
+                map1[i][j] = 0
     map += map1
-    map = generate_tree(map, 0 , AIR_LAYER-5)
+    interval = (SIZE_MAP_X-6) // NUMBER_TREES
+    for i in range(NUMBER_TREES):
+        generate_tree(map, randint(i * interval + 2,
+                      (i + 1) * interval - 2), AIR_LAYER-5)
     return map
 
 
@@ -59,18 +62,25 @@ def calculate_chance(massive_chance: list, types_block):
 
 
 def generate_tree(map, x, y):
+    """
+    Функция генерация дерева
+    map - объект класса list, массив карты
+    x, y - координаты верхнего левого дерева
+    """
     tree = [
-        [0 , 0, 10, 0, 0],
+        [0, 0, 10, 0, 0],
         [0, 11, 10, 11, 0],
         [12, 11, 10, 11, 12],
         [0, 12, 4, 12, 0],
         [0, 0, 4, 0, 0],
         [0, 0, 4, 0, 0]
     ]
-    for i in range(6):
-        for j in range(5):
+    for i in range(len(tree)):
+        for j in range(len(tree[i])):
             map[y+i][j+x] = tree[i][j]
-    return map 
+
+def generate_curb(map):
+    pass
 if __name__ == "__main__":
     pygame.init()
     main_screen = pygame.display.set_mode((1000, 800), pygame.RESIZABLE)

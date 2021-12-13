@@ -142,15 +142,17 @@ class Main_person:
                     time_to_die = pygame.time.get_ticks()
                     self.start_time = pygame.time.get_ticks()
 
-    def build(self,block_in_hands, massive_slov, types_block):
+    def build(self,block_in_hands, massive_slov, types_block, inventory):
         for i in range(30):
             self.x_dot = self.x + self.otn / 2 + math.cos(self.an) * i / 10
             self.y_dot = self.y + self.otn + math.sin(self.an) * i / 10
             if massive_slov[int(self.y_dot)][int(self.x_dot)] != 0:
                 massive_slov[int(self.y + self.otn + math.sin(self.an) * (i - 1) / 10)][int(self.x + self.otn / 2 + math.cos(self.an) * (i - 1) / 10)] = block_in_hands
+                inventory.add_or_delete_block(block_in_hands, -1)
                 self.control_collision_of_putting(massive_slov, types_block)
                 if not(self.put):
                     massive_slov[int(self.y + self.otn + math.sin(self.an) * (i - 1) / 10)][int(self.x + self.otn / 2 + math.cos(self.an) * (i - 1) / 10)] = 0
+                    inventory.add_or_delete_block(block_in_hands, 1)
                 break
     def breath(self):
         pass
@@ -160,10 +162,14 @@ class Main_person:
         self.screen.blit(self.images[self.image_idx], rect)
 
 class Zombie(Main_person):
-    def __init__(self, x, y, screen, image=None):
-        super().__init__(x, y, image, screen)
+    def __init__(self, x, y, images, screen):
+        super().__init__(x, y, images, screen)
         self.time_tick = 0
         self.sign = 1
+        self.image_idx = 6
+        self.current_frame = 0
+        self.animation_frames = 10  # Количество кадров между сменой анимации
+        self.images = images
 
     def input(self, main_hero):
         if self.x - main_hero.x > 0:
@@ -180,9 +186,23 @@ class Zombie(Main_person):
         self.vx = self.sign * SPEED_Zombie
         self.vy += GRAVITAION
 
+    def update_frame_dependent(self):
+        self.current_frame += 1
+        if self.current_frame >= self.animation_frames:
+            self.current_frame = 0
+            if self.sign == 1:
+                self.image_idx = (self.image_idx+1) % 2 + 6  # 6 <-> 7
+            elif self.sign == -1:
+                self.image_idx = (self.image_idx + 1) % 2 + 8  # 8 <-> 9
+                print(self.image_idx)
+            else:
+                self.image_idx = 6
+
     def draw(self):
-        pygame.draw.rect(self.screen, (0, 255, 0), (self.x * self.size,
-                         self.y * self.size, self.real_size, self.real_size * 2))
+        rect = self.images[self.image_idx].get_rect()
+        rect.topleft = self.x * self.size, self.y * self.size
+        self.screen.blit(self.images[self.image_idx], rect)
+
     def kick(self, main_hero):
         if math.sqrt((main_hero.x - self.x) ** 2 + (main_hero.y - self.y) ** 2) <= 1:
             main_hero.breath()

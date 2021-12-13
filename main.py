@@ -53,7 +53,7 @@ file = hyme_screen(main_screen)
 #pathlib.Path(pathlib.Path.cwd(), "Saves_inventory", "inventory" + file)
 file_inventory = open(pathlib.Path(pathlib.Path.cwd(), "Saves_inventory", "inventory" + file), 'r')
 inventory = inventoty.Inventory(file_inventory, main_screen)
-block_in_hands = None
+block_in_hands = 0
 massive_slov, map_types = load_map(types_block, file)
 size_y = len(massive_slov)
 size_x = len(massive_slov[1])
@@ -61,8 +61,7 @@ screen = pygame.Surface((size_x * SIZE_BLOCK, size_y * SIZE_BLOCK))
 main_hero = Main_person(10, 0, person_images, main_screen)
 massive_mobs = []
 
-massive_mobs.append(Zombie(20, 0, main_screen))
-massive_mobs.append(Zombie(15, 0, main_screen))
+massive_mobs.append(Zombie(20, 0, person_images, main_screen))
 x_cam = -main_hero.x * SIZE_BLOCK + main_screen.get_size()[0] / 2
 y_cam = -main_hero.y * SIZE_BLOCK + main_screen.get_size()[1] / 2
 finished = False
@@ -81,7 +80,7 @@ while not finished:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             main_hero.start_time = pygame.time.get_ticks()
             if event.button == 3:
-                main_hero.build(block_in_hands, massive_slov, types_block)
+                main_hero.build(block_in_hands, massive_slov, types_block, inventory)
         main_hero.angle(event, x_cam, y_cam)
     keys = pygame.key.get_pressed()
     if keys[pygame.K_e]:
@@ -94,6 +93,7 @@ while not finished:
         i.input(main_hero)
         i.control_collision(massive_slov, types_block)
         i.move()
+        i.update_frame_dependent()
         i.kick(main_hero)
     main_hero.move()
     pygame.display.update()

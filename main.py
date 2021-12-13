@@ -86,7 +86,7 @@ while not finished:
     keys = pygame.key.get_pressed()
     if keys[pygame.K_e]:
         block_in_hands = inventoty.inventoryfunction(main_screen, inventory)
-    main_hero.broke(massive_slov, types_block)
+    main_hero.broke(massive_slov, types_block, inventory)
     main_hero.input(event=0)
     main_hero.control_collision(massive_slov, types_block)
     main_hero.update_frame_dependent()

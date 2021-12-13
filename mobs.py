@@ -121,7 +121,7 @@ class Main_person:
                     event.pos[0] - x0) / self.size - (self.x + self.otn / 2)))
             else:
                 self.an = 0
-    def broke(self, massive_slov, types_block):
+    def broke(self, massive_slov, types_block, inventory):
         self.mouse_pressed = pygame.mouse.get_pressed()
         if self.mouse_pressed[0]:
             time_to_die = pygame.time.get_ticks()
@@ -137,6 +137,7 @@ class Main_person:
                 breakable_block = types_block.get(massive_slov[int(self.y_dot)][int(self.x_dot)], 0)
                 seconds = breakable_block.durability
                 if time_to_die - self.start_time >= seconds * 10 ** 3 / 10:
+                    inventory.add_or_delete_block(massive_slov[int(self.y_dot)][int(self.x_dot)], 1)
                     massive_slov[int(self.y_dot)][int(self.x_dot)] = 0
                     time_to_die = pygame.time.get_ticks()
                     self.start_time = pygame.time.get_ticks()

@@ -85,6 +85,7 @@ while not finished:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             main_hero.start_time = pygame.time.get_ticks()
             if event.button == 3:
+<<<<<<< HEAD
                 main_hero.build(block_in_hands, massive_slov,
                                 types_block, inventory)
         main_hero.angle(event, x_cam, y_cam)
@@ -92,6 +93,10 @@ while not finished:
     if keys[pygame.K_e]:
         block_in_hands = inventoty.inventoryfunction(main_screen, inventory)
 
+=======
+                block_in_hands = main_hero.build(block_in_hands, massive_slov, types_block, inventory)
+        main_hero.angle(event, x_cam, y_cam)
+>>>>>>> 084ebd95683937d1f549fff4e0d59061e6169dc9
     main_hero.broke(massive_slov, types_block, inventory)
     main_hero.input(event=0)
     main_hero.control_collision(massive_slov, types_block)
@@ -103,6 +108,9 @@ while not finished:
         i.update_frame_dependent()
         i.kick(main_hero)
     main_hero.move()
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_e]:
+        block_in_hands = inventoty.inventoryfunction(main_screen, inventory, block_in_hands)
     pygame.display.update()
     pygame.display.flip()
 save_map(massive_slov, file)

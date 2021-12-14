@@ -65,6 +65,7 @@ def saved_games(screen, width, height):
         screen.fill("black")
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                result.append(None)
                 finished = True
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 for i in buttons:

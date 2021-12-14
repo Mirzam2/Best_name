@@ -1,6 +1,6 @@
-from mobs import *
 import pygame
 from pygame import surface
+from constans import SIZE_BLOCK
 from file import *
 from spritesheet import SpriteSheet
 

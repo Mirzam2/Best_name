@@ -50,7 +50,8 @@ pygame.mixer.music.play(-1)
 types_block = {}
 person_images = {}
 block.types(types_block, person_images)
-file_world = Hume_screen.hyme_screen(main_screen)
+file_world = Hume_screen.home_screen(main_screen)
+name_of_file_with_inventory = "Saves_inventory\inventory" + file_world
 file_inventory = open(pathlib.Path(pathlib.Path.cwd(),
                                    "Saves_inventory", "inventory" + file_world), 'r')
 inventory = inventoty.Inventory(file_inventory, main_screen)
@@ -81,13 +82,14 @@ while not finished:
     if time % 1000 == 0:
         massive_mobs.append(mobs.Zombie(20, 5, person_images, main_screen))
     for event in pygame.event.get():
+        main_hero.angle(event, x_cam, y_cam)
         if event.type == pygame.QUIT:
             finished = True
         elif event.type == pygame.MOUSEBUTTONDOWN:
             main_hero.start_time = pygame.time.get_ticks()
             if event.button == 3:
-                main_hero.build(block_in_hands, massive_slov,
-                                types_block, inventory)
+                main_hero.build(block_in_hands, massive_slov, types_block, inventory)
+            main_hero.hit(event, massive_mobs)
         main_hero.angle(event, x_cam, y_cam)
     keys = pygame.key.get_pressed()
     if keys[pygame.K_e]:
@@ -107,9 +109,11 @@ while not finished:
     main_hero.move()
     keys = pygame.key.get_pressed()
     if keys[pygame.K_e]:
-        block_in_hands = inventoty.inventoryfunction(
+        block_in_hands = inventoty.inventory_screen(
             main_screen, inventory, block_in_hands)
     pygame.display.update()
     pygame.display.flip()
 file.save_map(massive_slov, file_world)
+
+inventory.save_inventory(name_of_file_with_inventory)
 pygame.quit()

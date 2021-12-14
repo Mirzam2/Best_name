@@ -40,7 +40,7 @@ def types(types_block, person_images):
     types_block[5] = Type_block(
         "Sand", False, 10, ss.image_at((240, 0, 48, 48)), 5)
     types_block[6] = Type_block(
-        "Bedrock", False, 10*6, ss.image_at((288, 0, 48, 48)))
+        "Bedrock", False, 10 ** 6, ss.image_at((288, 0, 48, 48)))
     types_block[7] = Type_block(
         "Granite", False, 10, ss.image_at((336, 0, 48, 48)), 3)
     types_block[8] = Type_block(

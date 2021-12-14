@@ -80,13 +80,14 @@ while not finished:
     if time % 1000 == 0:
         massive_mobs.append(mobs.Zombie(20, 5, person_images, main_screen))
     for event in pygame.event.get():
+        main_hero.angle(event, x_cam, y_cam)
         if event.type == pygame.QUIT:
             finished = True
         elif event.type == pygame.MOUSEBUTTONDOWN:
             main_hero.start_time = pygame.time.get_ticks()
             if event.button == 3:
-                main_hero.build(block_in_hands, massive_slov,
-                                types_block, inventory)
+                main_hero.build(block_in_hands, massive_slov, types_block, inventory)
+            main_hero.hit(event, massive_mobs)
         main_hero.angle(event, x_cam, y_cam)
     keys = pygame.key.get_pressed()
     if keys[pygame.K_e]:

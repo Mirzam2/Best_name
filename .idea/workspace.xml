@@ -3,9 +3,25 @@
   <component name="ChangeListManager">
     <list default="true" id="77c60f69-ff64-4c3f-bd74-eaffe8f717b2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/Best_name.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Best_name.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/Best_name/config/applicationhost.config" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/Best_name/project-colors.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/Best_name/v17/.suo" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/Best_name/v17/TestStore/0/000.testlog" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/Best_name/v17/TestStore/0/testlog.manifest" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/ProjectSettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/PythonSettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/VSWorkspaceState.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/slnx.sqlite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/tasks.vs.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hume_screen.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hume_screen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MuoOgkxsoVo.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/wallpapers.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/all.xcf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/block.py" beforeDir="false" afterPath="$PROJECT_DIR$/block.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/button.py" beforeDir="false" afterPath="$PROJECT_DIR$/button.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/constans.py" beforeDir="false" afterPath="$PROJECT_DIR$/constans.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/file.py" beforeDir="false" afterPath="$PROJECT_DIR$/file.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventoty.py" beforeDir="false" afterPath="$PROJECT_DIR$/inventoty.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/map.py" beforeDir="false" afterPath="$PROJECT_DIR$/map.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mobs.py" beforeDir="false" afterPath="$PROJECT_DIR$/mobs.py" afterDir="false" />
     </list>

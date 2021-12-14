@@ -3,6 +3,7 @@ from os import write
 import pathlib
 from pathlib import Path
 from block import *
+from not_constant import types_block, person_images
 
 
 def save_map(massive_slov: list, world_name="test"):
@@ -25,7 +26,7 @@ def save_map(massive_slov: list, world_name="test"):
         input_file.write(main_string)
 
 
-def load_map(types_block, world_name="test"):
+def load_map(world_name="test"):
     """
     функция загрузки данных карты мира
     massive_block - массив для блоков
@@ -42,7 +43,7 @@ def load_map(types_block, world_name="test"):
     return massive_slov, map_types
 
 
-def draw_map(massive_slov, types_block, screen):
+def draw_map(massive_slov, screen):
     for i in range(len(massive_slov)):
         for j in range(len(massive_slov[i])):
             drovable_block = types_block.get(massive_slov[i][j], 0)

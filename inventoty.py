@@ -5,8 +5,6 @@ import block
 import pygame.freetype
 from constans import *
 pygame.font.init()
-FPS = 60
-clock = pygame.time.Clock()
 
 def new_file(file):
     """
@@ -61,7 +59,6 @@ class Inventory:
             screen.blit(tmp_text, (self.width - 3 * self.width // 4 + 48 * j * 3/2 + 48,
                       self.height - 3 * self.height // 4 + 48 * k * 3/2))        
             j = j + 1
-        self.massiv_of_buttons[0].drawing(screen)
 
 
     def add_or_delete_block(self, number_of_block, num):
@@ -74,7 +71,7 @@ class Inventory:
         Если блоки этого типа закончились, то возвращает None
         """
         tmp = self.main_massive.get(str(number_of_block))
-        if tmp + num > 0:
+        if tmp + num >= 0:
             self.main_massive[str(number_of_block)] = tmp + num
             return number_of_block
         else:
@@ -91,7 +88,7 @@ class Inventory:
         """
         for i in self.massiv_of_buttons:
             result = i.tap(event)
-            if result != None:
+            if result is not None:
                 return result
 
     def save_inventory(self, file):
@@ -99,6 +96,7 @@ class Inventory:
         Сохраняет инвентарь в фаил
         Откройте фаил с инвентарём для записи и запустите эту функцию
         """
+        file = open(file, 'w')
         json.dump(self.main_massive, file)
 
 
@@ -143,31 +141,8 @@ def inventoryfunction(screen, inventory, block_in_hands):
                  if type(preresult) == int:
                      result = preresult
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_e]:
+        if keys[pygame.K_r]:
             finished = True
         pygame.display.update()
     print(result)
     return result
-
-
-
-
-if __name__ == "__main__":
-    screen = pygame.display.set_mode((1000, 1000))
-    pygame.init()
-    with open ("Saves_inventory\\tmp_invent.json", 'w') as file:
-        new_file(file)
-    file = open ("Saves_inventory\\tmp_invent.json", 'r')
-    m = Inventory(file, screen) 
-    finished = False
-    while not finished:
-        m.draw(screen)
-        for event in pygame.event.get():
-                 if event.type == pygame.QUIT:
-                     finished = True
-                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                     y = m.event_(event)
-                     if type(y) == bool:
-                         if y == False:
-                             finished = y
-        pygame.display.update()

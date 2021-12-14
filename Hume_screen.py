@@ -46,15 +46,17 @@ def saved_games(screen, width, height):
     """
     screen.fill("black")
     content = os.listdir(path='saves')
+    content.sort(reverse = True)
     screen_image = pygame.image.load("wallpapers.jpg")
     buttons = []
     pygame.init()
-    for i in range(min(len(content), 5)):
+    for i in range(min(len(content), 7)):
         tmp = button.Button(width // 2 - width // 8,
-                            height // 3 - height // 16 + height // 8 * i, width // 4,
+                            height // 4 - height // 16 + height // 8 * i, width // 4,
                             height // 16, return_save, (content, i), color=(128, 128, 128), text=content[i])
         buttons.append(tmp)
     finished = False
+    result = []
     while not finished:
         screen.blit(screen_image, (0, 0))
         for i in buttons:
@@ -66,10 +68,14 @@ def saved_games(screen, width, height):
                 finished = True
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 for i in buttons:
-                    result = i.tap(event)
-                    if result is not None:
+                    if i.tap(event) is not None:
+                        result.append(i.tap(event))
                         finished = True
-                        return result
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_ESCAPE]:
+            result.append(None)
+            finished = True
+    return result[0]
 
 
 def finish_game():

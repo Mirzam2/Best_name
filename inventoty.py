@@ -131,7 +131,7 @@ def return_button(main_massive, i):
         return 0
 
 
-def inventoryfunction(screen, inventory, block_in_hands):
+def inventory_screen(screen, inventory, block_in_hands):
     finished = False
     result = block_in_hands
     while not finished:

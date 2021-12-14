@@ -48,19 +48,19 @@ def saved_games(screen, width, height):
     content = os.listdir(path='saves')
     screen_image = pygame.image.load("wallpapers.jpg")
     buttons = []
+    pygame.init()
     for i in range(min(len(content), 5)):
         tmp = button.Button(width // 2 - width // 8,
                             height // 3 - height // 16 + height // 8 * i, width // 4,
                             height // 16, return_save, (content, i), color=(128, 128, 128), text=content[i])
         buttons.append(tmp)
     finished = False
-    result = None
     while not finished:
-        pygame.init()
         screen.blit(screen_image, (0, 0))
         for i in buttons:
             i.drawing(screen)
         pygame.display.update()
+        screen.fill("black")
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 finished = True
@@ -69,9 +69,7 @@ def saved_games(screen, width, height):
                     result = i.tap(event)
                     if result is not None:
                         finished = True
-        screen.fill("black")
-    print(result)
-    return result
+                        return result
 
 
 def finish_game():

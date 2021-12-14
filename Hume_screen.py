@@ -105,16 +105,15 @@ class Menu:
         Returns file when closing the game
         Returns the file when opening saving or creating a new game
         """
-        y = self.exit_button.tap(event)
-        if y is not None:
-            return y
-        y = self.new_game_button.tap(event)
-        if y is not None:
-            return y
-        y = self.button_saved_games.tap(event)
-        if y is not None:
-            print(y)
-            return y
+        result = self.exit_button.tap(event)
+        if result is not None:
+            return result
+        result = self.new_game_button.tap(event)
+        if result is not None:
+            return result
+        result = self.button_saved_games.tap(event)
+        if result is not None:
+            return result
 
     def draw(self, screen):
         """

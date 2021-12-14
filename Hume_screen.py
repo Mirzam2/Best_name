@@ -6,7 +6,6 @@ import shutil
 import map
 import inventoty
 import pathlib
-from pathlib import Path
 from file import save_map
 FPS = 60
 clock = pygame.time.Clock()

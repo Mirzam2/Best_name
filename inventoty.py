@@ -1,8 +1,8 @@
 ﻿import pygame
-import button
-import json
-import block
 import pygame.freetype
+import json
+import button
+import block
 
 pygame.font.init()
 

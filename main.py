@@ -49,7 +49,7 @@ pygame.mixer.music.play(-1)
 types_block = {}
 person_images = {}
 block.types(types_block, person_images)
-file_world = Hume_screen.hyme_screen(main_screen)
+file_world = Hume_screen.home_screen(main_screen)
 name_of_file_with_inventory = "Saves_inventory\inventory" + file_world
 file_inventory = open(pathlib.Path(pathlib.Path.cwd(),
                       name_of_file_with_inventory), 'r')

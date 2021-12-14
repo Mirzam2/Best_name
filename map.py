@@ -5,6 +5,7 @@ from typing import Any
 from constans import AIR_LAYER, GRASS_LAYER, NUMBER_TREES, SIZE_MAP_Y, SIZE_MAP_X
 from not_constant import types_block
 
+
 def create_field(map: list):
     """
     Функция генерации произвольной карты
@@ -33,7 +34,7 @@ def create_field(map: list):
     interval = (SIZE_MAP_X - 6) // NUMBER_TREES
     for i in range(NUMBER_TREES):
         generate_tree(map, randint(i * interval + 2,
-                                   (i + 1) * interval - 2), AIR_LAYER - 4)
+                                   (i + 1) * interval - 2), AIR_LAYER - 6)
     # generate_cave(map)
     generate_curb(map)
     return map

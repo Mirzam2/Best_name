@@ -1,9 +1,10 @@
 ﻿import pygame
+from pygame import image
 import pygame.freetype
 import json
 import button
 import block
-
+from not_constant import types_block
 pygame.font.init()
 
 
@@ -11,10 +12,8 @@ def new_file(file):
     """
     Fills in a new file to save inventory
     """
-    tmp_block = {}
     result = {}
-    block.types(tmp_block, {})
-    for i in tmp_block:
+    for i in types_block:
         result[i] = 0
     json.dump(result, file)
 

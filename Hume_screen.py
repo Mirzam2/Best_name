@@ -6,7 +6,6 @@ import shutil
 import map
 import inventoty
 import pathlib
-from pathlib import Path
 from file import save_map
 FPS = 60
 clock = pygame.time.Clock()
@@ -20,7 +19,7 @@ def new_game():
     Фаил в Saves_inventory будет отличаться от фаила в saves
     Тем, что перед основным названием будет inventory
     """
-    tmp = str(time.time()) + ".json"
+    tmp = str(int(round(time.time()))) + ".json"
     file = open(pathlib.Path(pathlib.Path.cwd(),
                 "Saves_inventory", "inventory" + tmp), 'wt+')
     inventoty.new_file(file)
@@ -56,8 +55,8 @@ def saved_games(screen, width, height):
                             height // 16, return_save, (content, i), color=(128, 128, 128), text=content[i])
         buttons.append(tmp)
     finished = False
-    result = ""
-    while(not finished):
+    result = None
+    while not finished:
         pygame.init()
         screen.blit(screen_image, (0, 0))
         for i in buttons:
@@ -68,20 +67,16 @@ def saved_games(screen, width, height):
                 finished = True
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 for i in buttons:
-                    y = i.tap(event)
-                    if type(y) == str:
+                    result = i.tap(event)
+                    if result is not None:
                         finished = True
-                        result = y
         screen.fill("black")
+    print(result)
     return result
 
 
 def finish_game():
-    """
-    Завершает игру и возвращает False
-    """
-    pygame.quit
-    return False
+    return "exit"
 
 
 class Menu:
@@ -110,13 +105,14 @@ class Menu:
         Возыращает фаил при открытии сохранения или создании новой игры
         """
         y = self.exit_button.tap(eventq)
-        if y != None:
+        if y is not None:
             return y
         y = self.new_game_button.tap(eventq)
-        if y != None:
+        if y is not None:
             return y
         y = self.button_saved_games.tap(eventq)
-        if y != None:
+        if y is not None:
+            print(y)
             return y
 
     def draw(self, screen):
@@ -137,47 +133,24 @@ def hyme_screen(screen):
     pygame.init()
     screen_image = pygame.image.load("MuoOgkxsoVo.jpg")
     x = Menu(screen)
-    f = True
-    while(f):
-        screen.blit(screen_image, (0, 0))
-        pygame.init()
-        x.draw(screen)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                finished = True
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                y = x.event_(event)
-                if type(y) == bool:
-                    if y == False:
-                        f = y
-                    print(y)
-                if type(y) == str:
-                    f = False
-                    print(y)
-                    break
-        pygame.display.update()
-        screen.fill("black")
-    return y
-
-
-if __name__ == "__main__":
+    fin = False
+    result = None
     pygame.init()
-    screen = pygame.display.set_mode((800, 800), pygame.RESIZABLE)
-    screen_image = pygame.image.load("MuoOgkxsoVo.jpg")
-    x = Menu(screen)
-    f = True
-    while(f):
-        pygame.init()
+    while not fin:
         screen.blit(screen_image, (0, 0))
         x.draw(screen)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                finished = True
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                y = x.event_(event)
-                if type(y) == bool:
-                    if y == False:
-                        f = y
-                print(y)
         pygame.display.update()
         screen.fill("black")
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                fin = True
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                result = x.event_(event)
+                if result is not None:
+                    if result == "exit":
+                        fin = True
+                        pygame.quit()
+                        exit()
+                    else:
+                        fin = True
+    return result

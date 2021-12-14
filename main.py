@@ -50,8 +50,9 @@ types_block = {}
 person_images = {}
 block.types(types_block, person_images)
 file_world = Hume_screen.hyme_screen(main_screen)
+name_of_file_with_inventory = "Saves_inventory\inventory" + file_world
 file_inventory = open(pathlib.Path(pathlib.Path.cwd(),
-                      "Saves_inventory", "inventory" + file_world), 'r')
+                      name_of_file_with_inventory), 'r')
 inventory = inventoty.Inventory(file_inventory, main_screen)
 block_in_hands = 0
 massive_slov, map_types = file.load_map(types_block, file_world)
@@ -112,4 +113,6 @@ while not finished:
     pygame.display.update()
     pygame.display.flip()
 file.save_map(massive_slov, file_world)
+
+inventory.save_inventory(name_of_file_with_inventory)
 pygame.quit()

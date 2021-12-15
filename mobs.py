@@ -195,7 +195,8 @@ class Person:
                 if (zombie.x - self.x) ** 2 + (zombie.y - self.y) ** 2 <= 3:
                     zombie.life -= 1
                     zombie.strike = True
-                    zombie.vx = -zombie.vx * 150
+                    zombie.vx = abs(zombie.sign) * KICK_CONSTANT_X * 10
+                    zombie.vy = -KICK_CONSTANT_Y
                     if zombie.life == 0:
                         massive_mobs.remove(zombie)
                     break
@@ -238,7 +239,8 @@ class Zombie(Person):
             elif self.x - main_hero.x < 0:
                 self.sign = 1
             else:
-                self.sign = 0
+                if self.vy == 0:
+                    self.sign = 0
             if self.vx == 0:
                 self.time_tick += 1
             if self.time_tick == TIME_STOP:

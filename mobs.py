@@ -114,25 +114,6 @@ class Person:
                         self.vy = 0
                     break
 
-    def control_collision_of_putting(self, massive_map):
-        """Makes sure that the person does not end up in the block that he wants to put."""
-        self.put = True
-        for i in self.x + DELITA, self.x + 1 * self.otn - DELITA:
-            for j in self.y + DELITA, self.y + 1 * self.otn, self.y + 2 * self.otn - DELITA:
-                if not (point_collision_x(i, j, 0, massive_map)):
-                    self.put = False
-                    break
-                else:
-                    self.put = True
-        if self.put:
-            for i in self.x + DELITA, self.x + 1 * self.otn - DELITA:
-                for j in self.y + DELITA, self.y + 1 * self.otn, self.y + 2 * self.otn - DELITA:
-                    if not (point_collision_y(i, j, 0, massive_map)):
-                        self.put = False
-                        break
-                    else:
-                        self.put = True
-
     def move(self):
         """Moves a person."""
         self.x += self.vx
@@ -194,18 +175,24 @@ class Person:
         return block_in_hands
 
     def breath(self):
-        pass
+        self.life -= 1
+        if self.life == 0:
+            return True
+        return False
 
     def hit(self, event, massive_mobs):
         """A hit on a zombie, determined by clicking the left mouse button."""
         if event.button == 1:
-            print(1)
             for zombie in massive_mobs[::-1]:
                 if (zombie.x - self.x) ** 2 + (zombie.y - self.y) ** 2 <= 3:
                     zombie.life -= 1
+                    zombie.strike = True
+                    zombie.vx = -zombie.vx * 150
                     if zombie.life == 0:
                         massive_mobs.remove(zombie)
                     break
+                else:
+                    zombie.strike = False
 
     def draw(self):
         """Draws the main character."""
@@ -231,22 +218,24 @@ class Zombie(Person):
         self.animation_frames = 10  # Number of frames between animation changes
         self.images = images
         self.life = 5
+        self.strike = False
 
     def input_zombie(self, main_hero):
         """This function sets the speed of the mob depending on the position of the person."""
-        if self.x - main_hero.x > 0:
-            self.sign = -1
-        elif self.x - main_hero.x < 0:
-            self.sign = 1
-        else:
-            self.sign = 0
-        if self.vx == 0:
-            self.time_tick += 1
-        if self.time_tick == TIME_STOP:
-            if self.vy == 0: self.vy = -JUMP_SPEED
-            self.time_tick = 0
-        self.vx = self.sign * SPEED_Zombie
-        self.vy += GRAVITAION
+        if not self.strike:
+            if self.x - main_hero.x > 0:
+                self.sign = -1
+            elif self.x - main_hero.x < 0:
+                self.sign = 1
+            else:
+                self.sign = 0
+            if self.vx == 0:
+                self.time_tick += 1
+            if self.time_tick == TIME_STOP:
+                if self.vy == 0: self.vy = -JUMP_SPEED
+                self.time_tick = 0
+            self.vx = self.sign * SPEED_Zombie
+            self.vy += GRAVITAION
 
     def update_frame_dependent(self):
         self.current_frame += 1
@@ -266,9 +255,19 @@ class Zombie(Person):
         rect.topleft = self.x * self.size, self.y * self.size
         self.screen.blit(self.images[self.image_idx], rect)
 
-    def kick(self, main_hero):
-        """The function describes a zombie hitting a person."""
-        if math.sqrt((main_hero.x - self.x) ** 2 + (main_hero.y - self.y) ** 2) <= 1:
-            main_hero.breath()
-            main_hero.vx += self.sign * KICK_CONSTANT
-            print("Kick")
+    def kick(self, main_hero, finished):
+        """
+        The function describes a zombie hitting a person.
+        Includes a collision with a mob.
+        """
+        hero_rect = pygame.Rect(main_hero.x * 10 ** 5, main_hero.y * 10 ** 5,
+                                main_hero.otn * 10 ** 5,
+                                main_hero.otn * 2 * 10 ** 5)
+        zombie_rect = pygame.Rect(self.x * 10 ** 5, self.y * 10 ** 5, self.otn * 10 ** 5,
+                                  self.otn * 2 * 10 ** 5)
+        if hero_rect.colliderect(zombie_rect):
+            finished = main_hero.breath()
+            main_hero.vx = self.sign * KICK_CONSTANT * 3
+            return finished
+        else:
+            return finished

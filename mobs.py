@@ -83,7 +83,8 @@ class Person:
             self.vx = -SPEED_Player
             self.state = 'L_RUNNING'
         else:
-            self.vx = 0
+            if self.vy == 0:
+                self.vx = 0
             self.state = 'STAYING'
         if keys[pygame.K_w] and self.vy == 0:
             self.vy = -JUMP_SPEED
@@ -274,6 +275,8 @@ class Zombie(Person):
                                 main_hero.otn * 2 * 10 ** 5)
         zombie_rect = pygame.Rect(self.x * 10 ** 5, self.y * 10 ** 5, self.otn * 10 ** 5,
                                   self.otn * 2 * 10 ** 5)
+        if hero_rect.colliderect(zombie_rect):
+            self.vx = -self.sign * DELITA
         if self.can_kick and hero_rect.colliderect(zombie_rect):
             finished = main_hero.breath()
             main_hero.vy -= KICK_CONSTANT_Y

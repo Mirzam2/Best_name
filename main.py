@@ -102,10 +102,10 @@ while not finished:
     "Обработка событий связанных с зомби"
     for i in massive_mobs:
         i.input_zombie(main_hero)
-        i.control_collision(massive_slov)
-        i.move()
         i.update_frame_dependent()
         finished = i.kick(main_hero, finished)
+        i.control_collision(massive_slov)
+        i.move()
     main_hero.control_collision(massive_slov)
     main_hero.move()
     keys = pygame.key.get_pressed()

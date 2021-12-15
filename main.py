@@ -75,7 +75,8 @@ while not finished:
     '''начало блока рисования'''
     x_cam, y_cam = veb_cam(main_screen, x_cam, y_cam)
     '''конец блока рисования'''
-
+    for zombie in massive_mobs:
+        zombie.strike = False
     dt = clock.tick(FPS) / 1000  # Amount of seconds between each loop.
     if time % 1000 == 0:
         massive_mobs.append(mobs.Zombie(20, 5, person_images, main_screen))
@@ -104,8 +105,7 @@ while not finished:
         i.control_collision(massive_slov)
         i.move()
         i.update_frame_dependent()
-        i.kick(main_hero)
-    main_hero.control_collision(massive_slov)
+        finished = i.kick(main_hero, finished)
     main_hero.move()
     keys = pygame.key.get_pressed()
     if keys[pygame.K_e]:

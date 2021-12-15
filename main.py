@@ -8,6 +8,7 @@ import pathlib
 import inventoty
 from not_constant import types_block, person_images
 
+
 def veb_cam(main_screen, x_cam, y_cam):
     """
     Фунция вызывающая камеру, которая рисует картинку в зависимости от положения игрока
@@ -57,7 +58,7 @@ massive_slov, map_types = file.load_map(file_world)
 size_y = len(massive_slov)
 size_x = len(massive_slov[1])
 screen = pygame.Surface((size_x * SIZE_BLOCK, size_y * SIZE_BLOCK))
-main_hero = mobs.Main_person(10, 2, person_images, main_screen)
+main_hero = mobs.Person(10, 2, person_images, main_screen)
 massive_mobs = []
 
 massive_mobs.append(mobs.Zombie(20, 5, person_images, main_screen))
@@ -95,12 +96,12 @@ while not finished:
             main_screen, inventory, block_in_hands)
 
     main_hero.broke(massive_slov, inventory)
-    main_hero.input(event=0)
+    main_hero.input()
     main_hero.control_collision(massive_slov)
     main_hero.update_frame_dependent()
     "Обработка событий связанных с зомби"
     for i in massive_mobs:
-        i.input(main_hero)
+        i.input_zombie(main_hero)
         i.control_collision(massive_slov)
         i.move()
         i.update_frame_dependent()

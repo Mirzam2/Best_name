@@ -3,25 +3,39 @@ import math
 from constans import GRAVITAION, JUMP_SPEED, KICK_CONSTANT, SIZE_BLOCK, TIME_STOP, SPEED_Player, DELITA, SPEED_Zombie
 from not_constant import types_block
 
-def point_collision_x(x, y, vx, massive_slov):
-    drovable_block = types_block.get(massive_slov[int(y // 1)][int((x + vx) // 1)], 0)
-    if not drovable_block.permeability:
+
+def point_collision_x(x, y, vx, massive_map):
+    """
+    The function checks the collision of a point with coordinates (x + vx, y) with map blocks.
+    Returns the possibility of movement along the x-axis.
+    """
+    considered_block = types_block.get(massive_map[int(y // 1)][int((x + vx) // 1)], 0)
+    if not considered_block.permeability:
         move_x = False
     else:
         move_x = True
     return move_x
 
 
-def point_collision_y(x, y, vy, massive_slov):
-    drovable_block = types_block.get(massive_slov[int((y + vy) // 1)][int(x // 1)], 0)
-    if not drovable_block.permeability:
+def point_collision_y(x, y, vy, massive_map):
+    """
+    The function checks the collision of a point with coordinates (x, y + vy) with map blocks
+    Returns the possibility of movement along the y-axis.
+    """
+    considered_block = types_block.get(massive_map[int((y + vy) // 1)][int(x // 1)], 0)
+    if not considered_block.permeability:
         move_y = False
     else:
         move_y = True
     return move_y
 
 
-class Main_person:
+class Person:
+    """
+    Person
+    This class is responsible for all the actions of the main character.
+    """
+
     def __init__(self, x, y, images, screen):
         self.destroy = True
         self.x_dot = None
@@ -35,9 +49,8 @@ class Main_person:
         self.an = 0
         self.image_idx = 0
         self.current_frame = 0
-        self.animation_frames = 10  # Количество кадров между сменой анимации
+        self.animation_frames = 10  # Number of frames between animation changes
         self.images = images
-        # реальный размер, меньше 37 пикселей не надо жеательно больше 40
         self.otn = self.real_size / self.size
         self.screen = screen
         self.state = 'STAYING'  # can be STAYING/R_RUNNING/L_RUNNING/JUMPING/...
@@ -57,7 +70,10 @@ class Main_person:
             else:
                 self.image_idx = 0
 
-    def input(self, event):
+    def input(self):
+        """
+        Sets the speed by pressing the movement buttons on the keyboard and by gravity.
+        """
         keys = pygame.key.get_pressed()
         if keys[pygame.K_d]:
             self.vx = SPEED_Player
@@ -72,10 +88,14 @@ class Main_person:
             self.vy = -JUMP_SPEED
         self.vy += GRAVITAION
 
-    def control_collision(self, massive_slov):
+    def control_collision(self, massive_map):
+        """
+        Checks collisions with blocks at specified speeds, determines the possibility of movement in these directions.
+        Makes sure that when shifting, none of the selected points of the person does not end up in an invalid block.
+        """
         for i in self.x + DELITA, self.x + 1 * self.otn - DELITA:
             for j in self.y + DELITA, self.y + 1 * self.otn, self.y + 2 * self.otn - DELITA:
-                if not (point_collision_x(i, j, self.vx, massive_slov)):
+                if not (point_collision_x(i, j, self.vx, massive_map)):
                     if self.vx > 0:
                         self.x = round(self.x) + 1 - self.otn
                     else:
@@ -87,7 +107,7 @@ class Main_person:
                     self.put = True
         for i in self.x + DELITA, self.x + 1 * self.otn - DELITA:
             for j in self.y + DELITA, self.y + 1 * self.otn, self.y + 2 * self.otn - DELITA:
-                if not (point_collision_y(i, j, self.vy, massive_slov)):
+                if not (point_collision_y(i, j, self.vy, massive_map)):
                     if self.vy < 0:
                         self.y = round(self.y)
                         self.vy = 0.002
@@ -96,11 +116,14 @@ class Main_person:
                         self.vy = 0
                     break
 
-    def control_collision_of_putting(self, massive_slov):
+    def control_collision_of_putting(self, massive_map):
+        """
+        Makes sure that the person does not end up in the block that he wants to put.
+        """
         self.put = True
         for i in self.x + DELITA, self.x + 1 * self.otn - DELITA:
             for j in self.y + DELITA, self.y + 1 * self.otn, self.y + 2 * self.otn - DELITA:
-                if not (point_collision_x(i, j, 0, massive_slov)):
+                if not (point_collision_x(i, j, 0, massive_map)):
                     self.put = False
                     break
                 else:
@@ -108,61 +131,72 @@ class Main_person:
         if self.put:
             for i in self.x + DELITA, self.x + 1 * self.otn - DELITA:
                 for j in self.y + DELITA, self.y + 1 * self.otn, self.y + 2 * self.otn - DELITA:
-                    if not (point_collision_y(i, j, 0, massive_slov)):
+                    if not (point_collision_y(i, j, 0, massive_map)):
                         self.put = False
                         break
                     else:
                         self.put = True
 
     def move(self):
+        """
+        Moves a person.
+        """
         self.x += self.vx
         self.y += self.vy
 
     def angle(self, event, x0, y0):
+        """
+        Counts the angle between the center of the person and the mouse cursor.
+        It is necessary for setting and removing the block in the right place.
+        """
         if event.type == pygame.MOUSEMOTION:
             if event:
-                self.an = math.atan2(((event.pos[1] - y0) / self.size - (self.y + self.otn)), ((
-                                                                                                       event.pos[
-                                                                                                           0] - x0) / self.size - (
-                                                                                                       self.x + self.otn / 2)))
+                self.an = math.atan2(((event.pos[1] - y0) / self.size - (self.y + self.otn)),
+                                     ((event.pos[0] - x0) / self.size - (self.x + self.otn / 2)))
             else:
                 self.an = 0
 
-    def broke(self, massive_slov, inventory):
+    def broke(self, massive_map, inventory):
+        """
+        Breaks blocks at a certain distance when the left mouse button is pressed for a certain time
+        (closest in the direction of the cursor).
+        """
         self.mouse_pressed = pygame.mouse.get_pressed()
         if self.mouse_pressed[0]:
             time_to_die = pygame.time.get_ticks()
             for i in range(30):
                 self.x_dot = self.x + self.otn / 2 + math.cos(self.an) * i / 10
                 self.y_dot = self.y + self.otn + math.sin(self.an) * i / 10
-                if massive_slov[int(self.y_dot)][int(self.x_dot)] != 0:
+                if massive_map[int(self.y_dot)][int(self.x_dot)] != 0:
                     self.destroy = True
                     break
                 else:
                     self.destroy = False
             if self.destroy:
-                breakable_block = types_block.get(massive_slov[int(self.y_dot)][int(self.x_dot)], 0)
+                breakable_block = types_block.get(massive_map[int(self.y_dot)][int(self.x_dot)], 0)
                 seconds = breakable_block.durability
                 if time_to_die - self.start_time >= seconds * 10 ** 3 / 10:
-                    inventory.add_or_delete_block(massive_slov[int(self.y_dot)][int(self.x_dot)], 1)
-                    massive_slov[int(self.y_dot)][int(self.x_dot)] = 0
-                    time_to_die = pygame.time.get_ticks()
+                    inventory.add_or_delete_block(massive_map[int(self.y_dot)][int(self.x_dot)], 1)
+                    massive_map[int(self.y_dot)][int(self.x_dot)] = 0
                     self.start_time = pygame.time.get_ticks()
 
-    def build(self, block_in_hands, massive_slov, inventory):
-
+    def build(self, block_in_hands, massive_map, inventory):
+        """
+        Puts the block in the hand in the place indicated by the mouse cursor.
+        """
         if block_in_hands != 0:
             for i in range(30):
                 self.x_dot = self.x + self.otn / 2 + math.cos(self.an) * i / 10
                 self.y_dot = self.y + self.otn + math.sin(self.an) * i / 10
-                if massive_slov[int(self.y_dot)][int(self.x_dot)] != 0:
-                    man_rect = pygame.Rect((self.x * 10 ** 5, self.y * 10 ** 5, self.otn * 10 ** 5, 2 * self.otn * 10 ** 5))
+                if massive_map[int(self.y_dot)][int(self.x_dot)] != 0:
+                    man_rect = pygame.Rect(
+                        (self.x * 10 ** 5, self.y * 10 ** 5, self.otn * 10 ** 5, 2 * self.otn * 10 ** 5))
                     block_rect = pygame.Rect((int(self.x + self.otn / 2 + math.cos(self.an) * (i - 1) / 10) * 10 ** 5,
-                                              int(self.y + self.otn + math.sin(self.an) * (i - 1) / 10) * 10 ** 5, 10 ** 5, 10 ** 5))
+                                              int(self.y + self.otn + math.sin(self.an) * (i - 1) / 10) * 10 ** 5,
+                                              10 ** 5, 10 ** 5))
                     if not man_rect.colliderect(block_rect):
-                        print(man_rect.topleft, block_rect.topleft)
                         block_in_hands = inventory.add_or_delete_block(block_in_hands, -1)
-                        massive_slov[int(self.y + self.otn + math.sin(self.an) * (i - 1) / 10)][
+                        massive_map[int(self.y + self.otn + math.sin(self.an) * (i - 1) / 10)][
                             int(self.x + self.otn / 2 + math.cos(self.an) * (i - 1) / 10)] = block_in_hands
                     break
         return block_in_hands
@@ -171,6 +205,9 @@ class Main_person:
         pass
 
     def hit(self, event, massive_mobs):
+        """
+        A hit on a zombie, determined by clicking the left mouse button.
+        """
         if event.button == 1:
             print(1)
             for zombie in massive_mobs[::-1]:
@@ -181,23 +218,28 @@ class Main_person:
                     break
 
     def draw(self):
+        """
+        Draws the main character.
+        """
         rect = self.images[self.image_idx].get_rect()
         rect.topleft = self.x * self.size, self.y * self.size
         self.screen.blit(self.images[self.image_idx], rect)
 
 
-class Zombie(Main_person):
+class Zombie(Person):
     def __init__(self, x, y, images, screen):
         super().__init__(x, y, images, screen)
+        self.vx = 0
+        self.vy = 0
         self.time_tick = 0
         self.sign = 1
         self.image_idx = 6
         self.current_frame = 0
-        self.animation_frames = 10  # Количество кадров между сменой анимации
+        self.animation_frames = 10  # Number of frames between animation changes
         self.images = images
         self.life = 5
 
-    def input(self, main_hero):
+    def input_zombie(self, main_hero):
         if self.x - main_hero.x > 0:
             self.sign = -1
         elif self.x - main_hero.x < 0:

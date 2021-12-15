@@ -1,78 +1,82 @@
 ﻿import pygame
-import button
 import time
 import os
+import pathlib
 import shutil
+import button
 import map
 import inventoty
-import pathlib
+
 from file import save_map
-FPS = 60
-clock = pygame.time.Clock()
 
 
 def new_game():
     """
-    Создаёт фаил с новой игрой
-    Созвдаёт файл с картой в saves
-    Создаёт фаил с инвентарём в Saves_inventory
-    Фаил в Saves_inventory будет отличаться от фаила в saves
-    Тем, что перед основным названием будет inventory
+    Creates a file with a new game
+    Creates a file with a map in saves
+    Creates an inventory file in Saves_inventory
+    The file in Saves_inventory will be different from the file in saves
+    The fact that before the main name will be inventory
     """
     tmp = str(int(round(time.time()))) + ".json"
     file = open(pathlib.Path(pathlib.Path.cwd(),
                 "Saves_inventory", "inventory" + tmp), 'wt+')
     inventoty.new_file(file)
-    file = open(pathlib.Path(pathlib.Path.cwd(), "saves", tmp), 'w')
+    open(pathlib.Path(pathlib.Path.cwd(), "saves", tmp), 'w')
     shutil.copyfile(pathlib.Path(pathlib.Path.cwd(), "saves", "test.json"), pathlib.Path(
         pathlib.Path.cwd(), "saves", tmp), follow_symlinks=True)
-    massive_slov = []
-    massive_slov = map.create_field(massive_slov)
-    save_map(massive_slov, tmp)
+    massive_words = []
+    massive_words = map.create_field(massive_words)
+    save_map(massive_words, tmp)
     return tmp
 
 
 def return_save(content, number):
     """
-    Возвращает сохранение
+    Returns a save
     """
     return content[number]
 
 
 def saved_games(screen, width, height):
     """
-    Рисует сохранения
-    width - ширина экрана
-    height - высота экрана
+    Draws saves
+    width - width of the screen
+    height - screen height
     """
     screen.fill("black")
     content = os.listdir(path='saves')
-    screen_image = pygame.image.load("MuoOgkxsoVo.jpg")
+    content.sort(reverse = True)
+    screen_image = pygame.image.load("wallpapers.jpg")
     buttons = []
-    for i in range(min(len(content), 5)):
+    pygame.init()
+    for i in range(min(len(content), 7)):
         tmp = button.Button(width // 2 - width // 8,
-                            height // 3 - height // 16 + height // 8 * i, width // 4,
+                            height // 4 - height // 16 + height // 8 * i, width // 4,
                             height // 16, return_save, (content, i), color=(128, 128, 128), text=content[i])
         buttons.append(tmp)
     finished = False
-    result = None
+    result = []
     while not finished:
-        pygame.init()
         screen.blit(screen_image, (0, 0))
         for i in buttons:
             i.drawing(screen)
         pygame.display.update()
+        screen.fill("black")
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                result.append(None)
                 finished = True
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 for i in buttons:
-                    result = i.tap(event)
-                    if result is not None:
+                    if i.tap(event) is not None:
+                        result.append(i.tap(event))
                         finished = True
-        screen.fill("black")
-    print(result)
-    return result
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_ESCAPE]:
+            result.append(None)
+            finished = True
+    return result[0]
 
 
 def finish_game():
@@ -81,8 +85,8 @@ def finish_game():
 
 class Menu:
     """
-    Главное меню
-    Надо подать только pygame.Surface
+    Main Menu
+    It is necessary to submit only pygame.Surface
     """
 
     def __init__(self, screen):
@@ -92,46 +96,47 @@ class Menu:
                                              self.height // 2 - self.height // 16, self.width // 4,
                                              self.height // 16, new_game, (), color=(128, 128, 128), text="New game")
         self.button_saved_games = button.Button(self.width // 2 - self.width // 8,
-                                                self.height // 2 - self.height // 16 + self.height // 8, self.width // 4,
-                                                self.height // 16, saved_games, (screen, self.width, self.height), color=(128, 128, 128), text="Saved games")
+                                                self.height // 2 - self.height // 16 + self.height // 8,
+                                                self.width // 4, self.height // 16, saved_games,
+                                                (screen, self.width, self.height), color=(128, 128, 128),
+                                                text="Saved games")
         self.exit_button = button.Button(self.width // 2 - self.width // 8,
                                          self.height // 2 - self.height // 16 + self.height // 4, self.width // 4,
                                          self.height // 16, finish_game, (), color=(128, 128, 128), text="Exit")
 
-    def event_(self, eventq):
+    def event_(self, event):
         """
-        Принимает event из pygame.event.get()
-        Возвращает False при закрытии игры
-        Возыращает фаил при открытии сохранения или создании новой игры
+        Accepts event from pygame.event.get()
+        Returns file when closing the game
+        Returns the file when opening saving or creating a new game
         """
-        y = self.exit_button.tap(eventq)
-        if y is not None:
-            return y
-        y = self.new_game_button.tap(eventq)
-        if y is not None:
-            return y
-        y = self.button_saved_games.tap(eventq)
-        if y is not None:
-            print(y)
-            return y
+        result = self.exit_button.tap(event)
+        if result is not None:
+            return result
+        result = self.new_game_button.tap(event)
+        if result is not None:
+            return result
+        result = self.button_saved_games.tap(event)
+        if result is not None:
+            return result
 
     def draw(self, screen):
         """
-        Рисукт Menu
+        Draws Menu
         """
         self.new_game_button.drawing(screen)
         self.button_saved_games.drawing(screen)
         self.exit_button.drawing(screen)
 
 
-def hyme_screen(screen):
+def home_screen(screen):
     """
-    Рисует главный экран
-    Возвращает фаил сохранения или новый фаил
-    Может вернуть False,  что будет означать закрытие
+    Draws the main screen
+    Returns a save file or a new file
+    It can return False, which will mean closing
     """
     pygame.init()
-    screen_image = pygame.image.load("MuoOgkxsoVo.jpg")
+    screen_image = pygame.image.load("wallpapers.jpg")
     x = Menu(screen)
     fin = False
     result = None

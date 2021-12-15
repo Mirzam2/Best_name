@@ -1,9 +1,9 @@
 import pygame
 import math
 from constans import GRAVITAION, JUMP_SPEED, KICK_CONSTANT, SIZE_BLOCK, TIME_STOP, SPEED_Player, DELITA, SPEED_Zombie
+from not_constant import types_block
 
-
-def point_collision_x(x, y, vx, massive_slov, types_block):
+def point_collision_x(x, y, vx, massive_slov):
     drovable_block = types_block.get(massive_slov[int(y // 1)][int((x + vx) // 1)], 0)
     if not drovable_block.permeability:
         move_x = False
@@ -12,7 +12,7 @@ def point_collision_x(x, y, vx, massive_slov, types_block):
     return move_x
 
 
-def point_collision_y(x, y, vy, massive_slov, types_block):
+def point_collision_y(x, y, vy, massive_slov):
     drovable_block = types_block.get(massive_slov[int((y + vy) // 1)][int(x // 1)], 0)
     if not drovable_block.permeability:
         move_y = False
@@ -72,10 +72,10 @@ class Main_person:
             self.vy = -JUMP_SPEED
         self.vy += GRAVITAION
 
-    def control_collision(self, massive_slov, types_block):
+    def control_collision(self, massive_slov):
         for i in self.x + DELITA, self.x + 1 * self.otn - DELITA:
             for j in self.y + DELITA, self.y + 1 * self.otn, self.y + 2 * self.otn - DELITA:
-                if not (point_collision_x(i, j, self.vx, massive_slov, types_block)):
+                if not (point_collision_x(i, j, self.vx, massive_slov)):
                     if self.vx > 0:
                         self.x = round(self.x) + 1 - self.otn
                     else:
@@ -87,7 +87,7 @@ class Main_person:
                     self.put = True
         for i in self.x + DELITA, self.x + 1 * self.otn - DELITA:
             for j in self.y + DELITA, self.y + 1 * self.otn, self.y + 2 * self.otn - DELITA:
-                if not (point_collision_y(i, j, self.vy, massive_slov, types_block)):
+                if not (point_collision_y(i, j, self.vy, massive_slov)):
                     if self.vy < 0:
                         self.y = round(self.y)
                         self.vy = 0.002
@@ -96,11 +96,11 @@ class Main_person:
                         self.vy = 0
                     break
 
-    def control_collision_of_putting(self, massive_slov, types_block):
+    def control_collision_of_putting(self, massive_slov):
         self.put = True
         for i in self.x + DELITA, self.x + 1 * self.otn - DELITA:
             for j in self.y + DELITA, self.y + 1 * self.otn, self.y + 2 * self.otn - DELITA:
-                if not (point_collision_x(i, j, 0, massive_slov, types_block)):
+                if not (point_collision_x(i, j, 0, massive_slov)):
                     self.put = False
                     break
                 else:
@@ -108,7 +108,7 @@ class Main_person:
         if self.put:
             for i in self.x + DELITA, self.x + 1 * self.otn - DELITA:
                 for j in self.y + DELITA, self.y + 1 * self.otn, self.y + 2 * self.otn - DELITA:
-                    if not (point_collision_y(i, j, 0, massive_slov, types_block)):
+                    if not (point_collision_y(i, j, 0, massive_slov)):
                         self.put = False
                         break
                     else:
@@ -128,7 +128,7 @@ class Main_person:
             else:
                 self.an = 0
 
-    def broke(self, massive_slov, types_block, inventory):
+    def broke(self, massive_slov, inventory):
         self.mouse_pressed = pygame.mouse.get_pressed()
         if self.mouse_pressed[0]:
             time_to_die = pygame.time.get_ticks()
@@ -149,7 +149,7 @@ class Main_person:
                     time_to_die = pygame.time.get_ticks()
                     self.start_time = pygame.time.get_ticks()
 
-    def build(self, block_in_hands, massive_slov, types_block, inventory):
+    def build(self, block_in_hands, massive_slov, inventory):
 
         if block_in_hands != 0:
             for i in range(30):

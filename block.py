@@ -1,7 +1,6 @@
-from mobs import *
 import pygame
 from pygame import surface
-from file import *
+from constans import SIZE_BLOCK
 from spritesheet import SpriteSheet
 
 
@@ -40,7 +39,7 @@ def types(types_block, person_images):
     types_block[5] = Type_block(
         "Sand", False, 10, ss.image_at((240, 0, 48, 48)), 5)
     types_block[6] = Type_block(
-        "Bedrock", False, 10*6, ss.image_at((288, 0, 48, 48)))
+        "Bedrock", False, 10 ** 6, ss.image_at((288, 0, 48, 48)))
     types_block[7] = Type_block(
         "Granite", False, 10, ss.image_at((336, 0, 48, 48)), 3)
     types_block[8] = Type_block(
@@ -70,13 +69,13 @@ def types(types_block, person_images):
     person_images[0] = ss.image_at((0, 96, 45, 90), (0, 0, 0))
     person_images[1] = ss.image_at((48, 96, 45, 90), (0, 0, 0))
     person_images[2] = ss.image_at((96, 96, 45, 90), (0, 0, 0))
-    person_images[3] = ss.image_at((96+48, 96, 45, 90), (0, 0, 0))
-    person_images[4] = ss.image_at((96+96, 96, 45, 90), (0, 0, 0))
-    person_images[5] = ss.image_at((96+96+48, 96, 45, 90), (0, 0, 0))
+    person_images[3] = ss.image_at((144, 96, 45, 90), (0, 0, 0))
+    person_images[4] = ss.image_at((192, 96, 45, 90), (0, 0, 0))
+    person_images[5] = ss.image_at((240, 96, 45, 90), (0, 0, 0))
     person_images[6] = ss.image_at((0, 192, 45, 90), (255, 255, 255))
     person_images[7] = ss.image_at((48, 192, 45, 90), (255, 255, 255))
     person_images[8] = ss.image_at((96, 192, 45, 90), (255, 255, 255))
-    person_images[9] = ss.image_at((96+48, 192, 45, 90), (255, 255, 255))
+    person_images[9] = ss.image_at((144, 192, 45, 90), (255, 255, 255))
 
 
 if __name__ == "__main__":

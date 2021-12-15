@@ -5,6 +5,7 @@ import json
 import button
 import block
 from not_constant import types_block
+
 pygame.font.init()
 
 

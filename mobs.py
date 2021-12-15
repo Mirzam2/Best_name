@@ -71,9 +71,7 @@ class Person:
                 self.image_idx = 0
 
     def input(self):
-        """
-        Sets the speed by pressing the movement buttons on the keyboard and by gravity.
-        """
+        """Sets the speed by pressing the movement buttons on the keyboard and by gravity."""
         keys = pygame.key.get_pressed()
         if keys[pygame.K_d]:
             self.vx = SPEED_Player
@@ -117,9 +115,7 @@ class Person:
                     break
 
     def control_collision_of_putting(self, massive_map):
-        """
-        Makes sure that the person does not end up in the block that he wants to put.
-        """
+        """Makes sure that the person does not end up in the block that he wants to put."""
         self.put = True
         for i in self.x + DELITA, self.x + 1 * self.otn - DELITA:
             for j in self.y + DELITA, self.y + 1 * self.otn, self.y + 2 * self.otn - DELITA:
@@ -138,9 +134,7 @@ class Person:
                         self.put = True
 
     def move(self):
-        """
-        Moves a person.
-        """
+        """Moves a person."""
         self.x += self.vx
         self.y += self.vy
 
@@ -181,9 +175,7 @@ class Person:
                     self.start_time = pygame.time.get_ticks()
 
     def build(self, block_in_hands, massive_map, inventory):
-        """
-        Puts the block in the hand in the place indicated by the mouse cursor.
-        """
+        """Puts the block in the hand in the place indicated by the mouse cursor."""
         if block_in_hands != 0:
             for i in range(30):
                 self.x_dot = self.x + self.otn / 2 + math.cos(self.an) * i / 10
@@ -205,9 +197,7 @@ class Person:
         pass
 
     def hit(self, event, massive_mobs):
-        """
-        A hit on a zombie, determined by clicking the left mouse button.
-        """
+        """A hit on a zombie, determined by clicking the left mouse button."""
         if event.button == 1:
             print(1)
             for zombie in massive_mobs[::-1]:
@@ -218,15 +208,18 @@ class Person:
                     break
 
     def draw(self):
-        """
-        Draws the main character.
-        """
+        """Draws the main character."""
         rect = self.images[self.image_idx].get_rect()
         rect.topleft = self.x * self.size, self.y * self.size
         self.screen.blit(self.images[self.image_idx], rect)
 
 
 class Zombie(Person):
+    """
+    Zombie
+    The zombie mob is fully described in this class.
+    """
+
     def __init__(self, x, y, images, screen):
         super().__init__(x, y, images, screen)
         self.vx = 0
@@ -240,6 +233,7 @@ class Zombie(Person):
         self.life = 5
 
     def input_zombie(self, main_hero):
+        """This function sets the speed of the mob depending on the position of the person."""
         if self.x - main_hero.x > 0:
             self.sign = -1
         elif self.x - main_hero.x < 0:
@@ -267,11 +261,13 @@ class Zombie(Person):
                 self.image_idx = 6
 
     def draw(self):
+        """Draws the zombie."""
         rect = self.images[self.image_idx].get_rect()
         rect.topleft = self.x * self.size, self.y * self.size
         self.screen.blit(self.images[self.image_idx], rect)
 
     def kick(self, main_hero):
+        """The function describes a zombie hitting a person."""
         if math.sqrt((main_hero.x - self.x) ** 2 + (main_hero.y - self.y) ** 2) <= 1:
             main_hero.breath()
             main_hero.vx += self.sign * KICK_CONSTANT

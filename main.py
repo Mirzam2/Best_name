@@ -97,7 +97,6 @@ while not finished:
 
     main_hero.broke(massive_slov, inventory)
     main_hero.input()
-    main_hero.control_collision(massive_slov)
     main_hero.update_frame_dependent()
     "Обработка событий связанных с зомби"
     for i in massive_mobs:
@@ -106,6 +105,7 @@ while not finished:
         i.move()
         i.update_frame_dependent()
         i.kick(main_hero)
+    main_hero.control_collision(massive_slov)
     main_hero.move()
     keys = pygame.key.get_pressed()
     if keys[pygame.K_e]:

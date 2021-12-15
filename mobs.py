@@ -1,6 +1,6 @@
 import pygame
 import math
-from constans import GRAVITAION, JUMP_SPEED, KICK_CONSTANT, SIZE_BLOCK, TIME_STOP, SPEED_Player, DELITA, SPEED_Zombie
+from constans import GRAVITAION, JUMP_SPEED, KICK_CONSTANT_X, KICK_CONSTANT_Y, SIZE_BLOCK, TIME_KICK, TIME_STOP, SPEED_Player, DELITA, SPEED_Zombie
 from not_constant import types_block
 
 
@@ -199,7 +199,6 @@ class Person:
     def hit(self, event, massive_mobs):
         """A hit on a zombie, determined by clicking the left mouse button."""
         if event.button == 1:
-            print(1)
             for zombie in massive_mobs[::-1]:
                 if (zombie.x - self.x) ** 2 + (zombie.y - self.y) ** 2 <= 3:
                     zombie.life -= 1
@@ -231,6 +230,8 @@ class Zombie(Person):
         self.animation_frames = 10  # Number of frames between animation changes
         self.images = images
         self.life = 5
+        self.time = 0
+        self.can_kick = True
 
     def input_zombie(self, main_hero):
         """This function sets the speed of the mob depending on the position of the person."""
@@ -256,7 +257,6 @@ class Zombie(Person):
                 self.image_idx = (self.image_idx + 1) % 2 + 6  # 6 <-> 7
             elif self.sign == -1:
                 self.image_idx = (self.image_idx + 1) % 2 + 8  # 8 <-> 9
-                print(self.image_idx)
             else:
                 self.image_idx = 6
 
@@ -268,7 +268,13 @@ class Zombie(Person):
 
     def kick(self, main_hero):
         """The function describes a zombie hitting a person."""
-        if math.sqrt((main_hero.x - self.x) ** 2 + (main_hero.y - self.y) ** 2) <= 1:
+        if self.can_kick and (math.sqrt((main_hero.x - self.x) ** 2 + (main_hero.y - self.y) ** 2) <= 1):
             main_hero.breath()
-            main_hero.vx += self.sign * KICK_CONSTANT
-            print("Kick")
+            main_hero.vx += self.sign * KICK_CONSTANT_X
+            main_hero.vy -= KICK_CONSTANT_Y
+            self.time = 0
+            self.can_kick = False
+        elif not self.can_kick:
+            self.time += 1
+            if self.time == TIME_KICK:
+                self.can_kick = True

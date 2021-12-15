@@ -106,6 +106,7 @@ while not finished:
         i.move()
         i.update_frame_dependent()
         finished = i.kick(main_hero, finished)
+    main_hero.control_collision(massive_slov)
     main_hero.move()
     keys = pygame.key.get_pressed()
     if keys[pygame.K_e]:

@@ -1,6 +1,7 @@
 import pygame
 import math
-from constans import GRAVITAION, JUMP_SPEED, KICK_CONSTANT_X, KICK_CONSTANT_Y, SIZE_BLOCK, TIME_KICK, TIME_STOP, SPEED_Player, DELITA, SPEED_Zombie
+from constans import GRAVITAION, JUMP_SPEED, KICK_CONSTANT_X, KICK_CONSTANT_Y, SIZE_BLOCK, TIME_KICK, TIME_STOP, \
+    SPEED_Player, DELITA, SPEED_Zombie
 from not_constant import types_block
 
 

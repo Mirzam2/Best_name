@@ -41,10 +41,3 @@ def load_map(world_name="test"):
         for j in range(len(massive_slov[i])):
             map_types[i].append(types_block.get(massive_slov[i][j], 0))
     return massive_slov, map_types
-
-
-def draw_map(massive_slov, screen):
-    for i in range(len(massive_slov)):
-        for j in range(len(massive_slov[i])):
-            drovable_block = types_block.get(massive_slov[i][j], 0)
-            drovable_block.draw(j, i, screen)

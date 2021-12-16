@@ -1,4 +1,3 @@
-import block
 import mobs
 import pygame
 import file
@@ -6,10 +5,11 @@ from constans import *
 import Hume_screen
 import pathlib
 import inventoty
-from not_constant import types_block, person_images
+from not_constant import person_images
+import map
 
 
-def veb_cam(screen, x, y):
+def veb_cam(blit_screen, x, y, cam_screen):
     """
     Фунция вызывающая камеру, которая рисует картинку в зависимости от положения игрока
     main_screen - главный экран на котором должна быть картинка
@@ -17,13 +17,10 @@ def veb_cam(screen, x, y):
     """
     speed_cam = 1  # коэфициент пропорциональности скорости
     max_distant = 2 * SIZE_BLOCK  # максимальное удаление
-    cam_screen = pygame.Surface(
-        (SIZE_MAP_X * SIZE_BLOCK, SIZE_MAP_Y * SIZE_BLOCK))
-    main_hero.screen = cam_screen
     # отдаление от центра по X
-    diff_x = -main_hero.x * SIZE_BLOCK + screen.get_size()[0] / 2 - x
+    diff_x = -main_hero.x * SIZE_BLOCK + blit_screen.get_size()[0] / 2 - x
     # отдаление от центра по Y
-    diff_y = -main_hero.y * SIZE_BLOCK + screen.get_size()[1] / 2 - y
+    diff_y = -main_hero.y * SIZE_BLOCK + blit_screen.get_size()[1] / 2 - y
     "Собственно движение камеры"
     if diff_x >= max_distant:
         x += speed_cam * diff_x / max_distant
@@ -33,17 +30,19 @@ def veb_cam(screen, x, y):
         y += speed_cam * diff_y / max_distant
     if diff_y <= -max_distant:
         y += speed_cam * diff_y / max_distant
-    file.draw_map(massive_slov, cam_screen)
+    map.draw_map(massive_slov, cam_screen)
     main_hero.draw()
     for mob in massive_mobs:
-        mob.screen = cam_screen
         mob.draw()
-    screen.blit(cam_screen, (x, y))
+    blit_screen.blit(cam_screen, (x, y))
     return x, y
 
 
 pygame.init()
+# главный экран, место где показывается картинка
 main_screen = pygame.display.set_mode((1000, 800), pygame.RESIZABLE)
+screen = pygame.Surface(
+    (SIZE_MAP_X * SIZE_BLOCK, SIZE_MAP_Y * SIZE_BLOCK))
 file_world = pathlib.Path(pathlib.Path.cwd(), "music.wav")
 pygame.mixer.music.load(file_world)
 pygame.mixer.music.play(-1)
@@ -54,9 +53,8 @@ file_inventory = open(pathlib.Path(pathlib.Path.cwd(),
 inventory = inventoty.Inventory(file_inventory, main_screen)
 block_in_hands = 0
 massive_slov, map_types = file.load_map(file_world)
-main_hero = mobs.Person(10, 2, person_images, main_screen)
+main_hero = mobs.Person(SIZE_MAP_X // 2, AIR_LAYER - 2, person_images, screen)
 massive_mobs = list()
-massive_mobs.append(mobs.Zombie(20, 5, person_images, main_screen))
 x_cam = -main_hero.x * SIZE_BLOCK + main_screen.get_size()[0] / 2
 y_cam = -main_hero.y * SIZE_BLOCK + main_screen.get_size()[1] / 2
 finished = False
@@ -68,13 +66,14 @@ while not finished:
     time += 1
     main_screen.fill((0, 0, 0))
     '''начало блока рисования'''
-    x_cam, y_cam = veb_cam(main_screen, x_cam, y_cam)
+    x_cam, y_cam = veb_cam(main_screen, x_cam, y_cam, screen)
     '''конец блока рисования'''
     for zombie in massive_mobs:
         zombie.strike = False
     dt = clock.tick(FPS) / 1000  # Amount of seconds between each loop.
     if time % 1000 == 0:
-        massive_mobs.append(mobs.Zombie(20, 5, person_images, main_screen))
+        x1, y1 = mobs.generate_mobs(massive_slov)
+        massive_mobs.append(mobs.Zombie(x1, y1, person_images, screen))
     for event in pygame.event.get():
         main_hero.angle(event, x_cam, y_cam)
         if event.type == pygame.QUIT:
@@ -111,7 +110,6 @@ while not finished:
             main_screen, inventory, block_in_hands)
     pygame.display.update()
     pygame.display.flip()
-    print(main_hero.life)
 file.save_map(massive_slov, file_world)
 
 inventory.save_inventory(name_of_file_with_inventory)

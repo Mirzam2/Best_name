@@ -47,9 +47,9 @@ def generate_layer(map: list, id: int, number: int = 1):
     id - индекс блока, слой которого надо сделать
     number - количество слоёв
     """
-    for i in range(number):
+    for _ in range(number):
         layer = []
-        for j in range(SIZE_MAP_X):
+        for _ in range(SIZE_MAP_X):
             layer.append(id)
         map.append(layer)
 
@@ -109,6 +109,13 @@ def generate_cave(map):
             for l in range(y - k, y + k + 1):
                 if l < SIZE_MAP_Y and i < SIZE_MAP_X:
                     map[l][j] = 0
+
+
+def draw_map(massive_slov, screen):
+    for i in range(len(massive_slov)):
+        for j in range(len(massive_slov[i])):
+            drovable_block = types_block.get(massive_slov[i][j], 0)
+            drovable_block.draw(j, i, screen)
 
 
 if __name__ == "__main__":

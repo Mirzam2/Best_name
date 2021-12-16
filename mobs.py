@@ -1,8 +1,9 @@
 import pygame
 import math
-from constans import GRAVITAION, JUMP_SPEED, KICK_CONSTANT_X, KICK_CONSTANT_Y, SIZE_BLOCK, TIME_KICK, TIME_STOP, \
+from constans import GRAVITAION, JUMP_SPEED, KICK_CONSTANT_X, KICK_CONSTANT_Y, SIZE_BLOCK, SIZE_MAP_X, SIZE_MAP_Y, TIME_KICK, TIME_STOP, \
     SPEED_Player, DELITA, SPEED_Zombie
 from not_constant import types_block
+import random
 
 
 def point_collision_x(x, y, vx, massive_map):
@@ -145,7 +146,8 @@ class Person:
         if self.mouse_pressed[0]:
             time_to_die = pygame.time.get_ticks()
             for i in range(300):
-                self.x_dot = self.x + self.otn / 2 + math.cos(self.an) * i / 100
+                self.x_dot = self.x + self.otn / \
+                    2 + math.cos(self.an) * i / 100
                 self.y_dot = self.y + self.otn + math.sin(self.an) * i / 100
                 if massive_map[int(self.y_dot)][int(self.x_dot)] != 0:
                     self.destroy = True
@@ -291,3 +293,14 @@ class Zombie(Person):
             if self.time == TIME_KICK:
                 self.can_kick = True
         return finished
+
+
+def generate_mobs(map):
+    flag = 0
+    while flag <= 10:
+        spawn_x = random.randint(1, SIZE_MAP_X - 1)
+        for spawn_y in range(SIZE_MAP_Y - 1):
+            if types_block.get(map[spawn_y][spawn_x], 0).permeability and types_block.get(map[spawn_y + 1][spawn_x], 0).permeability:
+                return spawn_x, spawn_y
+        flag += 1
+    return 1, 1

@@ -111,6 +111,7 @@ while not finished:
             main_screen, inventory, block_in_hands)
     pygame.display.update()
     pygame.display.flip()
+    print(main_hero.life)
 file.save_map(massive_slov, file_world)
 
 inventory.save_inventory(name_of_file_with_inventory)

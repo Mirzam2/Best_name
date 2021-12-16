@@ -184,7 +184,7 @@ class Person:
 
     def breath(self):
         self.life -= 1
-        if self.life == 0:
+        if self.life <= 0:
             return True
         return False
 
@@ -195,7 +195,7 @@ class Person:
                 if (zombie.x - self.x) ** 2 + (zombie.y - self.y) ** 2 <= 3:
                     zombie.life -= 1
                     zombie.strike = True
-                    zombie.vx = abs(zombie.sign) * KICK_CONSTANT_X * 10
+                    zombie.vx = -zombie.sign * KICK_CONSTANT_X * 10
                     zombie.vy = -KICK_CONSTANT_Y
                     if zombie.life == 0:
                         massive_mobs.remove(zombie)

@@ -143,9 +143,9 @@ class Person:
         self.mouse_pressed = pygame.mouse.get_pressed()
         if self.mouse_pressed[0]:
             time_to_die = pygame.time.get_ticks()
-            for i in range(30):
-                self.x_dot = self.x + self.otn / 2 + math.cos(self.an) * i / 10
-                self.y_dot = self.y + self.otn + math.sin(self.an) * i / 10
+            for i in range(300):
+                self.x_dot = self.x + self.otn / 2 + math.cos(self.an) * i / 100
+                self.y_dot = self.y + self.otn + math.sin(self.an) * i / 100
                 if massive_map[int(self.y_dot)][int(self.x_dot)] != 0:
                     self.destroy = True
                     break

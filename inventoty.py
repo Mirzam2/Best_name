@@ -124,7 +124,6 @@ def return_button(main_massive, i):
     if the blocks are not 0
     In other cases it returns 0
     """
-    print(i)
     if main_massive.get(str(i)) != 0:
         return int(i)
     else:
@@ -147,5 +146,4 @@ def inventory_screen(screen, inventory, block_in_hands):
         if keys[pygame.K_r]:
             finished = True
         pygame.display.update()
-    print(result)
     return result

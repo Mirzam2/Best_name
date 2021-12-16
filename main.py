@@ -9,43 +9,42 @@ import inventoty
 from not_constant import types_block, person_images
 
 
-def veb_cam(main_screen, x_cam, y_cam):
+def veb_cam(screen, x, y):
     """
     Фунция вызывающая камеру, которая рисует картинку в зависимости от положения игрока
     main_screen - главный экран на котором должна быть картинка
     x_cam, y_cam - положение камеры в предудущий тик
     """
-    size_y = len(massive_slov)
-    size_x = len(massive_slov[1])
     speed_cam = 1  # коэфициент пропорциональности скорости
     max_distant = 2 * SIZE_BLOCK  # максимальное удаление
-    screen = pygame.Surface((size_x * SIZE_BLOCK, size_y * SIZE_BLOCK))
-    main_hero.screen = screen
+    cam_screen = pygame.Surface(
+        (SIZE_MAP_X * SIZE_BLOCK, SIZE_MAP_Y * SIZE_BLOCK))
+    main_hero.screen = cam_screen
     # отдаление от центра по X
-    diff_x = -main_hero.x * SIZE_BLOCK + main_screen.get_size()[0] / 2 - x_cam
+    diff_x = -main_hero.x * SIZE_BLOCK + screen.get_size()[0] / 2 - x
     # отдаление от центра по Y
-    diff_y = -main_hero.y * SIZE_BLOCK + main_screen.get_size()[1] / 2 - y_cam
+    diff_y = -main_hero.y * SIZE_BLOCK + screen.get_size()[1] / 2 - y
     "Собственно движение камеры"
     if diff_x >= max_distant:
-        x_cam += speed_cam * diff_x / max_distant
+        x += speed_cam * diff_x / max_distant
     if diff_x <= -max_distant:
-        x_cam += speed_cam * diff_x / max_distant
+        x += speed_cam * diff_x / max_distant
     if diff_y >= max_distant:
-        y_cam += speed_cam * diff_y / max_distant
+        y += speed_cam * diff_y / max_distant
     if diff_y <= -max_distant:
-        y_cam += speed_cam * diff_y / max_distant
-    file.draw_map(massive_slov, screen)
+        y += speed_cam * diff_y / max_distant
+    file.draw_map(massive_slov, cam_screen)
     main_hero.draw()
-    for i in massive_mobs:
-        i.screen = screen
-        i.draw()
-    main_screen.blit(screen, (x_cam, y_cam))
-    return x_cam, y_cam
+    for mob in massive_mobs:
+        mob.screen = cam_screen
+        mob.draw()
+    screen.blit(cam_screen, (x, y))
+    return x, y
 
 
 pygame.init()
 main_screen = pygame.display.set_mode((1000, 800), pygame.RESIZABLE)
-file_world = pathlib.Path(pathlib.Path.cwd(), "Queen Bee-Fire-kissvk.com.wav")
+file_world = pathlib.Path(pathlib.Path.cwd(), "music.wav")
 pygame.mixer.music.load(file_world)
 pygame.mixer.music.play(-1)
 file_world = Hume_screen.home_screen(main_screen)
@@ -55,12 +54,8 @@ file_inventory = open(pathlib.Path(pathlib.Path.cwd(),
 inventory = inventoty.Inventory(file_inventory, main_screen)
 block_in_hands = 0
 massive_slov, map_types = file.load_map(file_world)
-size_y = len(massive_slov)
-size_x = len(massive_slov[1])
-screen = pygame.Surface((size_x * SIZE_BLOCK, size_y * SIZE_BLOCK))
 main_hero = mobs.Person(10, 2, person_images, main_screen)
-massive_mobs = []
-
+massive_mobs = list()
 massive_mobs.append(mobs.Zombie(20, 5, person_images, main_screen))
 x_cam = -main_hero.x * SIZE_BLOCK + main_screen.get_size()[0] / 2
 y_cam = -main_hero.y * SIZE_BLOCK + main_screen.get_size()[1] / 2
@@ -95,17 +90,19 @@ while not finished:
     if keys[pygame.K_e]:
         block_in_hands = inventoty.inventory_screen(
             main_screen, inventory, block_in_hands)
-
+    """
+    Обработка событий связанных с персонажем и зомби
+    """
     main_hero.broke(massive_slov, inventory)
     main_hero.input()
     main_hero.update_frame_dependent()
     "Обработка событий связанных с зомби"
-    for i in massive_mobs:
-        i.input_zombie(main_hero)
-        i.update_frame_dependent()
-        finished = i.kick(main_hero, finished)
-        i.control_collision(massive_slov)
-        i.move()
+    for zombie in massive_mobs:
+        zombie.input_zombie(main_hero)
+        zombie.update_frame_dependent()
+        finished = zombie.kick(main_hero, finished)
+        zombie.control_collision(massive_slov)
+        zombie.move()
     main_hero.control_collision(massive_slov)
     main_hero.move()
     keys = pygame.key.get_pressed()

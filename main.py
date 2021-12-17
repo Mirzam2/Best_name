@@ -44,6 +44,8 @@ main_screen = pygame.display.set_mode((1000, 800), pygame.RESIZABLE)
 screen = pygame.Surface(
     (SIZE_MAP_X * SIZE_BLOCK, SIZE_MAP_Y * SIZE_BLOCK))
 file_world = pathlib.Path(pathlib.Path.cwd(), "music.wav")
+pygame.display.set_icon(pygame.image.load(pathlib.Path(pathlib.Path.cwd(), "icon.jpg")))
+pygame.display.set_caption('Best_name')
 pygame.mixer.music.load(file_world)
 pygame.mixer.music.play(-1)
 file_world = Hume_screen.home_screen(main_screen)

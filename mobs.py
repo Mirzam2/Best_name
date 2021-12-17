@@ -1,9 +1,12 @@
-import pygame
 import math
-from constans import GRAVITAION, JUMP_SPEED, KICK_CONSTANT_X, KICK_CONSTANT_Y, SIZE_BLOCK, SIZE_MAP_X, SIZE_MAP_Y, TIME_KICK, TIME_STOP, \
-    SPEED_Player, DELITA, SPEED_Zombie
-from not_constant import types_block
 import random
+
+import pygame
+
+from constans import (DELITA, GRAVITAION, JUMP_SPEED, KICK_CONSTANT_X,
+                      KICK_CONSTANT_Y, SIZE_BLOCK, SIZE_MAP_X, SIZE_MAP_Y,
+                      TIME_KICK, TIME_STOP, SPEED_Player, SPEED_Zombie)
+from not_constant import types_block
 
 
 def point_collision_x(x, y, vx, massive_map):

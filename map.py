@@ -1,8 +1,11 @@
-import pygame
-from perlin_noise import PerlinNoise
 from random import randint
 from typing import Any
-from constans import AIR_LAYER, GRASS_LAYER, NUMBER_TREES, SIZE_MAP_Y, SIZE_MAP_X
+
+import pygame
+from perlin_noise import PerlinNoise
+
+from constans import (AIR_LAYER, GRASS_LAYER, NUMBER_TREES, SIZE_MAP_X,
+                      SIZE_MAP_Y)
 from not_constant import types_block
 
 

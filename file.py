@@ -1,9 +1,10 @@
 import json
-from os import write
 import pathlib
+from os import write
 from pathlib import Path
+
 from block import *
-from not_constant import types_block, person_images
+from not_constant import person_images, types_block
 
 
 def save_map(massive_slov: list, world_name="test"):

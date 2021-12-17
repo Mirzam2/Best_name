@@ -1,12 +1,13 @@
-﻿import pygame
-import time
-import os
+﻿import os
 import pathlib
 import shutil
-import button
-import map
-import inventoty
+import time
 
+import pygame
+
+import button
+import inventoty
+import map
 from file import save_map
 
 

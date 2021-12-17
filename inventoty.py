@@ -1,9 +1,11 @@
-﻿import pygame
-from pygame import image
+﻿import json
+
+import pygame
 import pygame.freetype
-import json
-import button
+from pygame import image
+
 import block
+import button
 from not_constant import types_block
 
 pygame.font.init()

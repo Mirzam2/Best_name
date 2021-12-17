@@ -1,5 +1,5 @@
 import pygame
-from pygame import surface
+
 from constans import SIZE_BLOCK
 from spritesheet import SpriteSheet
 

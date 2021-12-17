@@ -1,14 +1,14 @@
-from pygame import surface
+import pathlib
+
 import pygame
-from constans import SIZE_BLOCK
+from pygame import surface
+
+import file
+import Hume_screen
+import inventoty
 import map
 import mobs
-import pygame
-import file
 from constans import *
-import Hume_screen
-import pathlib
-import inventoty
 from not_constant import person_images
 
 
@@ -132,6 +132,6 @@ class Game:
             self.main_hero.move()
             pygame.display.update()
             pygame.display.flip()
-        self.file.save_map(self.massive_slov, self.file_world)
+        file.save_map(self.massive_slov, self.file_world)
         self.inventory.save_inventory(self.name_of_file_with_inventory)
         pygame.quit()

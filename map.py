@@ -3,6 +3,7 @@ from typing import Any
 
 import pygame
 from perlin_noise import PerlinNoise
+from pygame import surface
 
 from constans import (AIR_LAYER, GRASS_LAYER, NUMBER_TREES, SIZE_MAP_X,
                       SIZE_MAP_Y)
@@ -11,21 +12,21 @@ from not_constant import types_block
 
 def create_field(map: list):
     """
-    Функция генерации произвольной карты
-    map - массив где сохраняется карта
+    random card generation function
+    map - the array where the card is saved
     """
     generate_layer(map, 0, AIR_LAYER)
     generate_layer(map, 2, GRASS_LAYER)
 
     noise = PerlinNoise(octaves=10, seed=randint(1, 1000))
-    xpix = SIZE_MAP_X
-    ypix = SIZE_MAP_Y - AIR_LAYER - GRASS_LAYER
-    map1 = [[noise([i / xpix, j / ypix]) for j in range(xpix)]
-            for i in range(ypix)]
+    x_gen = SIZE_MAP_X
+    y_gen = SIZE_MAP_Y - AIR_LAYER - GRASS_LAYER
+    map1 = [[noise([i / x_gen, j / y_gen]) for j in range(x_gen)]
+            for i in range(y_gen)]
     massive_chance = []
     calculate_chance(massive_chance)
-    for i in range(ypix):
-        for j in range(xpix):
+    for i in range(y_gen):
+        for j in range(x_gen):
             flag: Any = True
             for k in range(len(massive_chance)):
                 if map1[i][j] < massive_chance[k] and flag:
@@ -38,17 +39,16 @@ def create_field(map: list):
     for i in range(NUMBER_TREES):
         generate_tree(map, randint(i * interval + 2,
                                    (i + 1) * interval - 2), AIR_LAYER - 6)
-    # generate_cave(map)
     generate_curb(map)
     return map
 
 
 def generate_layer(map: list, id: int, number: int = 1):
     """
-    Фунция генерации сплошного слоя
-    map - массив где хранится карта
-    id - индекс блока, слой которого надо сделать
-    number - количество слоёв
+    Full Layer Generation Function
+    map - the array where the card is stored
+    id - the index of a block whose layer must be made
+    number - number of layers
     """
     for _ in range(number):
         layer = []
@@ -57,29 +57,28 @@ def generate_layer(map: list, id: int, number: int = 1):
         map.append(layer)
 
 
-def calculate_chance(massive_chance: list):
+def calculate_chance(list_chance: list):
     """
-    Функция подсчёта шанса генерации
-    massive_chance - массив в который надо заносить
-    types_block - типы блоков
+    Function of counting the chance of generation
+    list_chance - an array to be filled
     """
     for i in range(len(types_block)):
         type = types_block.get(i, 0)
-        massive_chance.append(type.chance_generate)
-    summa = sum(massive_chance)
-    for i in range(len(massive_chance)):
-        massive_chance[i] = massive_chance[i] / summa
-    for i in range(len(massive_chance)):
-        massive_chance[i] += massive_chance[i - 1]
-    for i in range(len(massive_chance)):
-        massive_chance[i] = massive_chance[i] - 0.5
+        list_chance.append(type.chance_generate)
+    summa = sum(list_chance)
+    for i in range(len(list_chance)):
+        list_chance[i] = list_chance[i] / summa
+    for i in range(len(list_chance)):
+        list_chance[i] += list_chance[i - 1]
+    for i in range(len(list_chance)):
+        list_chance[i] = list_chance[i] - 0.5
 
 
 def generate_tree(map: list, x_tree: int, y_tree: int):
     """
-    Функция генерация дерева
-    map - объект класса list, массив карты
-    x, y - координаты верхнего левого дерева
+    Tree generating function
+    map - map array
+    x, y - the coordinates of the upper left tree
     """
     tree = [[0, 0, 10, 0, 0], [0, 11, 10, 11, 0], [12, 11, 4, 11, 12],
             [0, 12, 4, 12, 0], [0, 0, 4, 0, 0], [0, 0, 4, 0, 0]]
@@ -90,8 +89,8 @@ def generate_tree(map: list, x_tree: int, y_tree: int):
 
 def generate_curb(map: list):
     """
-    Функция генерация стенок из бедрока
-    map - карта
+    Bedrock wall generation function
+    map - list of map
     """
     for i in range(0, SIZE_MAP_X - 1):
         map[0][i] = 6
@@ -101,24 +100,16 @@ def generate_curb(map: list):
         map[i][SIZE_MAP_X - 1] = 6
 
 
-def generate_cave(map):
-    a = 0.00000001
-    c = 1
-    b = SIZE_MAP_Y / SIZE_MAP_X * 2 - c / SIZE_MAP_Y - a * SIZE_MAP_X
-    for i in range(5, 25):
-        k = 2 - 1
-        y = int(a * i ** 3 + b * i ** 2 + c * i)
-        for j in range(i - k, i + k + 1):
-            for l in range(y - k, y + k + 1):
-                if l < SIZE_MAP_Y and i < SIZE_MAP_X:
-                    map[l][j] = 0
-
-
-def draw_map(massive_slov, screen):
-    for i in range(len(massive_slov)):
-        for j in range(len(massive_slov[i])):
-            drovable_block = types_block.get(massive_slov[i][j], 0)
-            drovable_block.draw(j, i, screen)
+def draw_map(list_map: list, screen: surface):
+    """
+    Drawing map function
+    list_map - map array
+    screen - map drawing area
+    """
+    for i in range(len(list_map)):
+        for j in range(len(list_map[i])):
+            block = types_block.get(list_map[i][j], 0)
+            block.draw(j, i, screen)
 
 
 if __name__ == "__main__":

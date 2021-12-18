@@ -1,18 +1,26 @@
 import pygame
+from pygame import surface
 
 from constans import SIZE_BLOCK
 from spritesheet import SpriteSheet
 
 
 class TypeBlock:
-    def __init__(self, name, permeability, durability, image, chance_generate=0, alpha=1):
+    def __init__(self, name: str, permeability: bool, durability: int, image: surface, chance_generate: int = 0):
+        """
+        Block subtype generation
+        name - name
+        permeability - whether to go through a block
+        durability - how many ticks will break the block
+        image - the image corresponding to the block
+        chance_generate - probability to appear
+        """
         self.name = name
-        self.permeability = permeability  # проницаемость
-        self.durability = durability  # прочность
-        self.size = SIZE_BLOCK  # размер
-        self.image = image  # пока цвет кваратика
+        self.permeability = permeability
+        self.durability = durability
+        self.size = SIZE_BLOCK
+        self.image = image
         self.chance_generate = chance_generate
-        self.alpha = alpha  # масштаб
         self.rect = self.image.get_rect()
         self.x = 0
         self.y = 0

@@ -3,9 +3,9 @@ import random
 
 import pygame
 
-from constans import (DELITA, GRAVITAION, JUMP_SPEED, KICK_CONSTANT_X,
+from constans import (DELTA, GRAVITY, JUMP_SPEED, KICK_CONSTANT_X,
                       KICK_CONSTANT_Y, SIZE_BLOCK, SIZE_MAP_X, SIZE_MAP_Y,
-                      TIME_KICK, TIME_STOP, SPEED_Player, SPEED_Zombie)
+                      TIME_KICK, TIME_STOP, SPEED_PLAYER, SPEED_ZOMBIE)
 from not_constant import types_block
 
 
@@ -82,10 +82,10 @@ class Person:
         """Sets the speed by pressing the movement buttons on the keyboard and by gravity."""
         keys = pygame.key.get_pressed()
         if keys[pygame.K_d]:
-            self.vx = SPEED_Player
+            self.vx = SPEED_PLAYER
             self.state = 'R_RUNNING'
         elif keys[pygame.K_a]:
-            self.vx = -SPEED_Player
+            self.vx = -SPEED_PLAYER
             self.state = 'L_RUNNING'
         else:
             if self.vy == 0:
@@ -93,15 +93,15 @@ class Person:
             self.state = 'STAYING'
         if keys[pygame.K_w] and self.vy == 0:
             self.vy = -JUMP_SPEED
-        self.vy += GRAVITAION
+        self.vy += GRAVITY
 
     def control_collision(self, massive_map):
         """
         Checks collisions with blocks at specified speeds, determines the possibility of movement in these directions.
         Makes sure that when shifting, none of the selected points of the person does not end up in an invalid block.
         """
-        for i in self.x + DELITA, self.x + 1 * self.otn - DELITA:
-            for j in self.y + DELITA, self.y + 1 * self.otn, self.y + 2 * self.otn - DELITA:
+        for i in self.x + DELTA, self.x + 1 * self.otn - DELTA:
+            for j in self.y + DELTA, self.y + 1 * self.otn, self.y + 2 * self.otn - DELTA:
                 if not (point_collision_x(i, j, self.vx, massive_map)):
                     if self.vx > 0:
                         self.x = round(self.x) + 1 - self.otn
@@ -112,8 +112,8 @@ class Person:
                     break
                 else:
                     self.put = True
-        for i in self.x + DELITA, self.x + 1 * self.otn - DELITA:
-            for j in self.y + DELITA, self.y + 1 * self.otn, self.y + 2 * self.otn - DELITA:
+        for i in self.x + DELTA, self.x + 1 * self.otn - DELTA:
+            for j in self.y + DELTA, self.y + 1 * self.otn, self.y + 2 * self.otn - DELTA:
                 if not (point_collision_y(i, j, self.vy, massive_map)):
                     if self.vy < 0:
                         self.y = round(self.y)
@@ -257,8 +257,8 @@ class Zombie(Person):
                 if self.vy == 0:
                     self.vy = -JUMP_SPEED
                 self.time_tick = 0
-            self.vx = self.sign * SPEED_Zombie
-            self.vy += GRAVITAION
+            self.vx = self.sign * SPEED_ZOMBIE
+            self.vy += GRAVITY
 
     def update_frame_dependent(self):
         self.current_frame += 1
@@ -292,7 +292,7 @@ class Zombie(Person):
         zombie_rect = pygame.Rect(self.x * 10 ** 5, self.y * 10 ** 5, self.otn * 10 ** 5,
                                   self.otn * 2 * 10 ** 5)
         if hero_rect.colliderect(zombie_rect):
-            self.vx = -self.sign * DELITA
+            self.vx = -self.sign * DELTA
         if self.can_kick and hero_rect.colliderect(zombie_rect):
             finished = main_hero.breath()
             main_hero.vy -= KICK_CONSTANT_Y

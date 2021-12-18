@@ -68,6 +68,7 @@ class Person:
         self.put = True
 
     def update_frame_dependent(self):
+        """This function is responsible for changing frames when a person walks"""
         self.current_frame += 1
         if self.current_frame >= self.animation_frames:
             self.current_frame = 0
@@ -189,6 +190,7 @@ class Person:
         return block_in_hands
 
     def breath(self):
+        """This function working with person's health"""
         self.life -= 1
         if self.life <= 0:
             return True
@@ -210,7 +212,7 @@ class Person:
                     zombie.strike = False
 
     def draw(self):
-        """Draws the main character."""
+        """Draws the main character with his health"""
         rect = self.images[self.image_idx].get_rect()
         rect.topleft = self.x * self.size, self.y * self.size
         self.screen.blit(self.images[self.image_idx], rect)
@@ -261,6 +263,7 @@ class Zombie(Person):
             self.vy += GRAVITAION
 
     def update_frame_dependent(self):
+        """This function is responsible for changing frames when a zombie walks"""
         self.current_frame += 1
         if self.current_frame >= self.animation_frames:
             self.current_frame = 0
@@ -307,6 +310,7 @@ class Zombie(Person):
 
 
 def generate_mobs(map):
+    """This function is responsible for generating zombies on the map."""
     flag = 0
     while flag <= 10:
         spawn_x = random.randint(1, SIZE_MAP_X - 1)

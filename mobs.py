@@ -150,7 +150,7 @@ class Person:
             time_to_die = pygame.time.get_ticks()
             for i in range(300):
                 self.x_dot = self.x + self.otn / \
-                    2 + math.cos(self.an) * i / 100
+                             2 + math.cos(self.an) * i / 100
                 self.y_dot = self.y + self.otn + math.sin(self.an) * i / 100
                 if massive_map[int(self.y_dot)][int(self.x_dot)] != 0:
                     self.destroy = True
@@ -214,6 +214,10 @@ class Person:
         rect = self.images[self.image_idx].get_rect()
         rect.topleft = self.x * self.size, self.y * self.size
         self.screen.blit(self.images[self.image_idx], rect)
+        pygame.draw.rect(self.screen, (0, 0, 0),
+                         (self.x * self.size, (self.y - 0.5) * self.size, self.size, 10))
+        pygame.draw.rect(self.screen, (0, 225, 0),
+                         (self.x * self.size, (self.y - 0.5) * self.size, self.life * self.size / 10, 10))
 
 
 class Zombie(Person):
@@ -272,6 +276,10 @@ class Zombie(Person):
         rect = self.images[self.image_idx].get_rect()
         rect.topleft = self.x * self.size, self.y * self.size
         self.screen.blit(self.images[self.image_idx], rect)
+        pygame.draw.rect(self.screen, (0, 0, 0),
+                         (self.x * self.size, (self.y - 0.5) * self.size, self.size, 10))
+        pygame.draw.rect(self.screen, (225, 0, 0),
+                         (self.x * self.size, (self.y - 0.5) * self.size, self.life * self.size / 5, 10))
 
     def kick(self, main_hero, finished):
         """
@@ -303,7 +311,8 @@ def generate_mobs(map):
     while flag <= 10:
         spawn_x = random.randint(1, SIZE_MAP_X - 1)
         for spawn_y in range(SIZE_MAP_Y - 1):
-            if types_block.get(map[spawn_y][spawn_x], 0).permeability and types_block.get(map[spawn_y + 1][spawn_x], 0).permeability:
+            if types_block.get(map[spawn_y][spawn_x], 0).permeability and types_block.get(map[spawn_y + 1][spawn_x],
+                                                                                          0).permeability:
                 return spawn_x, spawn_y
         flag += 1
     return 1, 1

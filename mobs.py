@@ -49,6 +49,8 @@ class Person:
         self.y_dot = None
         self.x = x
         self.y = y
+        self.initial_x = x
+        self.initial_y = y
         self.vx = 0
         self.vy = 0
         self.size = SIZE_BLOCK
@@ -66,6 +68,11 @@ class Person:
         self.start_time = 0
         self.life = 10
         self.put = True
+
+    def revive(self):
+        self.life = 10
+        self.x = self.initial_x
+        self.y = self.initial_y
 
     def update_frame_dependent(self):
         """This function is responsible for changing frames when a person walks"""

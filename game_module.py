@@ -75,9 +75,14 @@ class Game:
 
             pygame.display.update()
             pygame.display.flip()
-        file.save_map(self.list_words, self.file_world)
-        self.inventory.save_inventory(self.name_of_file_with_inventory)
-        pygame.quit()
+
+        result = Hume_screen.death_screen(self.main_screen, self.main_hero)
+        if result == "exit":
+            file.save_map(self.list_words, self.file_world)
+            self.inventory.save_inventory(self.name_of_file_with_inventory)
+            pygame.quit()
+        elif result == "restart":
+            self.finished = False
 
     def veb_cam(self):
         """

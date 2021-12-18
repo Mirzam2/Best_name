@@ -32,6 +32,10 @@ def new_game():
     return tmp
 
 
+def restart_game():
+    return "restart"
+
+
 def return_save(content, number):
     """
     Returns a save
@@ -130,6 +134,45 @@ class Menu:
         self.exit_button.drawing(screen)
 
 
+class DeathMenu:
+    """
+    Death Menu
+    It is necessary to submit only pygame.Surface
+    """
+
+    def __init__(self, screen):
+        self.height = screen.get_height()
+        self.width = screen.get_width()
+        self.restart_game_button = button.Button(self.width // 2 - self.width // 8,
+                                                 self.height // 2 - self.height // 16, self.width // 4,
+                                                 self.height // 16, restart_game, (), color=(128, 128, 128),
+                                                 text="Restart game")
+
+        self.exit_button = button.Button(self.width // 2 - self.width // 8,
+                                         self.height // 2 - self.height // 16 + self.height // 4, self.width // 4,
+                                         self.height // 16, finish_game, (), color=(128, 128, 128), text="Exit")
+
+    def event_(self, event):
+        """
+        Accepts event from pygame.event.get()
+        Returns file when closing the game
+        Returns the file when opening saving or creating a new game
+        """
+        result = self.exit_button.tap(event)
+        if result is not None:
+            return result
+        result = self.restart_game_button.tap(event)
+        if result is not None:
+            return result
+
+    def draw(self, screen):
+        """
+        Draws Menu
+        """
+        self.restart_game_button.drawing(screen)
+        self.exit_button.drawing(screen)
+
+
 def home_screen(screen):
     """
     Draws the main screen
@@ -159,4 +202,36 @@ def home_screen(screen):
                         exit()
                     else:
                         fin = True
+    return result
+
+
+def death_screen(screen, hero):
+    """
+    Draws the death screen
+    """
+    pygame.init()
+    x = DeathMenu(screen)
+    fin = False
+    result = None
+    pygame.init()
+    while not fin:
+        x.draw(screen)
+        pygame.display.update()
+        screen.fill("black")
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                fin = True
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                result = x.event_(event)
+                if result is not None:
+                    if result == "exit":
+                        fin = True
+                        pygame.quit()
+                        exit()
+                    elif result == "restart":
+                        fin = True
+                        hero.revive()
+                    else:
+                        fin = True
+    print("result1: ", result)
     return result

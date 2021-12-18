@@ -20,9 +20,9 @@ def save_map(massive_slov: list, world_name="test"):
             string = ""
             for i in slovo:
                 string += (str(i) + ", ")
-            string = string[:len(string)-2]
+            string = string[:len(string) - 2]
             main_string += ("[" + string + "]," + "\n")
-        main_string = main_string[:len(main_string)-2]
+        main_string = main_string[:len(main_string) - 2]
         main_string += ("\n" + "]")
         input_file.write(main_string)
 

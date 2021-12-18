@@ -21,7 +21,7 @@ def new_game():
     """
     tmp = str(int(round(time.time()))) + ".json"
     file = open(pathlib.Path(pathlib.Path.cwd(),
-                "Saves_inventory", "inventory" + tmp), 'wt+')
+                             "Saves_inventory", "inventory" + tmp), 'wt+')
     inventoty.new_file(file)
     open(pathlib.Path(pathlib.Path.cwd(), "saves", tmp), 'w')
     shutil.copyfile(pathlib.Path(pathlib.Path.cwd(), "saves", "test.json"), pathlib.Path(
@@ -47,7 +47,7 @@ def saved_games(screen, width, height):
     """
     screen.fill("black")
     content = os.listdir(path='saves')
-    content.sort(reverse = True)
+    content.sort(reverse=True)
     screen_image = pygame.image.load("wallpapers.jpg")
     buttons = []
     pygame.init()

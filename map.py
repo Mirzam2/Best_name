@@ -109,9 +109,9 @@ def generate_cave(map):
         k = 2 - 1
         y = int(a * i ** 3 + b * i ** 2 + c * i)
         for j in range(i - k, i + k + 1):
-            for l in range(y - k, y + k + 1):
-                if l < SIZE_MAP_Y and i < SIZE_MAP_X:
-                    map[l][j] = 0
+            for g in range(y - k, y + k + 1):
+                if g < SIZE_MAP_Y and i < SIZE_MAP_X:
+                    map[g][j] = 0
 
 
 def draw_map(massive_slov, screen):

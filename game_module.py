@@ -13,7 +13,7 @@ from constans import *
 from not_constant import person_images
 
 
-def music_event(keyboard_buttons : event):
+def music_event(keyboard_buttons: event):
     if keyboard_buttons[pygame.K_1]:
         pygame.mixer.music.pause()
         # pygame.mixer.music.stop()
@@ -40,14 +40,13 @@ class Game:
         pygame.mixer.music.play(-1)
         self.file_world = Hume_screen.home_screen(self.main_screen)
         self.name_of_file_with_inventory = pathlib.Path(pathlib.Path.cwd(),
-                                   "Saves_inventory", "inventory" + self.file_world)
+                                                        "Saves_inventory", "inventory" + self.file_world)
         self.file_inventory = open(self.name_of_file_with_inventory, 'r')
         self.inventory = inventoty.Inventory(self.file_inventory, main_screen)
         self.block_in_hands = 0
         self.list_words, self.map_types = file.load_map(self.file_world)
-        self.main_hero = mobs.Person(
-            SIZE_MAP_X // 2, AIR_LAYER - 2, person_images, self.screen)
-        self.massive_mobs = list()
+        self.main_hero, self.massive_mobs = file.load_units(
+            self.screen, self.file_world)
         self.x_cam = -self.main_hero.x * \
             SIZE_BLOCK + main_screen.get_size()[0] / 2
         self.y_cam = -self.main_hero.y * \
@@ -79,12 +78,14 @@ class Game:
             pygame.display.update()
             pygame.display.flip()
         file.save_map(self.list_words, self.file_world)
+        file.save_units(self.massive_mobs, self.main_hero, self.file_world)
         self.inventory.save_inventory(self.name_of_file_with_inventory)
         result = Hume_screen.death_screen(self.main_screen, self.main_hero)
         if result == "exit":
             pygame.quit()
         elif result == "restart":
             self.finished = False
+
     def veb_cam(self):
         """
         A function calls a camera that draws a picture depending on the position of the player

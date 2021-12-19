@@ -21,7 +21,7 @@ class Button:
         self.text = text
         self.function = function
         self.option = option
-        self.font = (self.x2 / len(self.text))  # font size
+        self.font = self.x2 / len(self.text)  # font size
         self.my_font = pygame.freetype.SysFont('Times New Roman', self.font)
 
     def tap(self, event):

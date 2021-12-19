@@ -2,6 +2,7 @@ import pathlib
 
 import pygame
 from pygame import surface
+from pygame import event
 
 import file
 import Hume_screen
@@ -12,7 +13,7 @@ from constans import *
 from not_constant import person_images
 
 
-def music_event(keyboard_buttons):
+def music_event(keyboard_buttons : event):
     if keyboard_buttons[pygame.K_1]:
         pygame.mixer.music.pause()
         # pygame.mixer.music.stop()
@@ -75,7 +76,6 @@ class Game:
 
             pygame.display.update()
             pygame.display.flip()
-
         result = Hume_screen.death_screen(self.main_screen, self.main_hero)
         if result == "exit":
             file.save_map(self.list_words, self.file_world)
@@ -83,7 +83,6 @@ class Game:
             pygame.quit()
         elif result == "restart":
             self.finished = False
-
     def veb_cam(self):
         """
         A function calls a camera that draws a picture depending on the position of the player

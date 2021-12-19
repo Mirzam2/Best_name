@@ -33,7 +33,7 @@ def create_field(map: list):
                     map1[i][j] = k
                     flag = False
             if flag:
-                map1[i][j] = 0
+                map1[i][j] = 1
     map += map1
     interval = (SIZE_MAP_X - 6) // NUMBER_TREES
     for i in range(NUMBER_TREES):

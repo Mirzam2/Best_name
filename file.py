@@ -7,11 +7,11 @@ from block import *
 from not_constant import person_images, types_block
 
 
-def save_map(massive_slov: list, world_name="test"):
+def save_map(massive_slov: list, world_name: str = "test"):
     """
-    функция сохранения данных карты мира
-    massive_block - массив для блоков
-    world_name - название мира который нужно сохранять
+    function for storing world map data
+    massive_block - an array for blocks
+    world_name - the name of the world that you want to save
     """
     file = pathlib.Path(pathlib.Path.cwd(), "saves", world_name)
     with open(file, 'w') as input_file:
@@ -27,11 +27,11 @@ def save_map(massive_slov: list, world_name="test"):
         input_file.write(main_string)
 
 
-def load_map(world_name="test"):
+def load_map(world_name: str = "test"):
     """
-    функция загрузки данных карты мира
-    massive_block - массив для блоков
-    world_name - название мира который нужно загружать
+    world map download function
+    massive_block - an array for blocks
+    world_name - the name of the world that you want to download
     """
     file = pathlib.Path(pathlib.Path.cwd(), "saves", world_name)
     with open(file, 'r') as f:

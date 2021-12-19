@@ -2,6 +2,7 @@
 import pathlib
 import shutil
 import time
+import sys
 
 import pygame
 
@@ -24,8 +25,6 @@ def new_game():
                              "Saves_inventory", "inventory" + tmp), 'wt+')
     inventoty.new_file(file)
     open(pathlib.Path(pathlib.Path.cwd(), "saves", tmp), 'w')
-    shutil.copyfile(pathlib.Path(pathlib.Path.cwd(), "saves", "test.json"), pathlib.Path(
-        pathlib.Path.cwd(), "saves", tmp), follow_symlinks=True)
     massive_words = []
     massive_words = map.create_field(massive_words)
     save_map(massive_words, tmp)
@@ -98,6 +97,10 @@ def saved_games(screen, width, height):
 def finish_game():
     return "exit"
 
+    
+def open_main_menu():
+    os.execl(sys.executable, sys.executable, *sys.argv)
+
 
 class Menu:
     """
@@ -136,13 +139,31 @@ class Menu:
         if result is not None:
             return result
 
+    def update(self, screen):
+        """
+        Updates the buttons when the screen changes
+        """
+        self.height = screen.get_height()
+        self.width = screen.get_width()
+        self.new_game_button = button.Button(self.width // 2 - self.width // 8,
+                                             self.height // 2 - self.height // 16, self.width // 4,
+                                             self.height // 16, new_game, (), color=(128, 128, 128), text="New game")
+        self.button_saved_games = button.Button(self.width // 2 - self.width // 8,
+                                                self.height // 2 - self.height // 16 + self.height // 8,
+                                                self.width // 4, self.height // 16, saved_games,
+                                                (screen, self.width, self.height), color=(128, 128, 128),
+                                                text="Saved games")
+        self.exit_button = button.Button(self.width // 2 - self.width // 8,
+                                         self.height // 2 - self.height // 16 + self.height // 4, self.width // 4,
+                                         self.height // 16, finish_game, (), color=(128, 128, 128), text="Exit")
+
     def draw(self, screen):
         """
         Draws Menu
-        If the window size has changed, it calls update (__init__)
+        If the window size has changed, it calls update
         """
         if screen.get_height() != self.height or screen.get_width() != self.width:
-            self.__init__(screen)
+            self.update(screen)
         self.new_game_button.drawing(screen)
         self.button_saved_games.drawing(screen)
         self.exit_button.drawing(screen)
@@ -161,7 +182,10 @@ class DeathMenu:
                                                  self.height // 2 - self.height // 16, self.width // 4,
                                                  self.height // 16, restart_game, (), color=(128, 128, 128),
                                                  text="Restart game")
-
+        self.button_new_menu = button.Button(self.width // 2 - self.width // 8,
+                                                self.height // 2 - self.height // 16 + self.height // 8,
+                                                self.width // 4, self.height // 16, open_main_menu, (), 
+                                                color=(128, 128, 128), text="Main menu")
         self.exit_button = button.Button(self.width // 2 - self.width // 8,
                                          self.height // 2 - self.height // 16 + self.height // 4, self.width // 4,
                                          self.height // 16, finish_game, (), color=(128, 128, 128), text="Exit")
@@ -178,6 +202,21 @@ class DeathMenu:
         result = self.restart_game_button.tap(event)
         if result is not None:
             return result
+        result = self.button_new_menu.tap(event)
+        if result is not None:
+            return result
+
+    def update(self, screen):
+        self.height = screen.get_height()
+        self.width = screen.get_width()
+        self.restart_game_button = button.Button(self.width // 2 - self.width // 8,
+                                                 self.height // 2 - self.height // 16, self.width // 4,
+                                                 self.height // 16, restart_game, (), color=(128, 128, 128),
+                                                 text="Restart game")
+
+        self.exit_button = button.Button(self.width // 2 - self.width // 8,
+                                         self.height // 2 - self.height // 16 + self.height // 4, self.width // 4,
+                                         self.height // 16, finish_game, (), color=(128, 128, 128), text="Exit")
 
     def draw(self, screen):
         """
@@ -185,9 +224,10 @@ class DeathMenu:
         If the window size has changed, it calls update
         """
         if screen.get_height() != self.height or screen.get_width() != self.width:
-            self.__init__(screen)
+            self.update(screen)
         self.restart_game_button.drawing(screen)
         self.exit_button.drawing(screen)
+        self.button_new_menu.drawing(screen)
 
 
 def home_screen(screen):

@@ -39,6 +39,7 @@ class Inventory:
         self.width = screen.get_width()
         self.main_massive = json.load(file)
         self.mas_of_buttons = []
+        self.update(screen)
 
     def update(self, screen):
         """
@@ -95,7 +96,6 @@ class Inventory:
         """
         Takes event from pygame.event.get()
         And returns the block type if there are no blocks 0
-        Returns False if the exit button is clicked
         Returns None in all other cases,
         even if there are 0 blocks
         """

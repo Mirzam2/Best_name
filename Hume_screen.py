@@ -64,13 +64,13 @@ def saved_games(screen, width, height):
     screen.fill("black")
     content = os.listdir(path='saves')
     content.sort(reverse=True)
-    screen_image = pygame.image.load("wallpapers.jpg")
+    screen_image = pygame.image.load("wallpapers.png")
     buttons = []
     pygame.init()
     for i in range(min(len(content), 7)):
         tmp = button.Button(width // 2 - width // 8,
                             height // 4 - height // 16 + height // 8 * i, width // 4,
-                            height // 16, return_save, (content, i), color=(128, 128, 128), text=content[i])
+                            height // 16, return_save, (content, i), color=(208, 208, 208), text=content[i])
         buttons.append(tmp)
     finished = False
     result = []
@@ -83,7 +83,7 @@ def saved_games(screen, width, height):
             for i in range(min(len(content), 7)):
                 tmp = button.Button(width // 2 - width // 8,
                                     height // 4 - height // 16 + height // 8 * i, width // 4,
-                                    height // 16, return_save, (content, i), color=(128, 128, 128), text=content[i])
+                                    height // 16, return_save, (content, i), color=(208, 208, 208), text=content[i])
                 buttons.append(tmp)
         screen_image = pygame.transform.scale(screen_image, (screen.get_width(), screen.get_height()))
         screen.blit(screen_image, (0, 0))
@@ -118,15 +118,15 @@ class Menu:
         self.width = screen.get_width()
         self.new_game_button = button.Button(self.width // 2 - self.width // 8,
                                              self.height // 2 - self.height // 16, self.width // 4,
-                                             self.height // 16, new_game, (), color=(128, 128, 128), text="New game")
+                                             self.height // 16, new_game, (), color=(208, 208, 208), text="New game")
         self.button_saved_games = button.Button(self.width // 2 - self.width // 8,
                                                 self.height // 2 - self.height // 16 + self.height // 8,
                                                 self.width // 4, self.height // 16, saved_games,
-                                                (screen, self.width, self.height), color=(128, 128, 128),
+                                                (screen, self.width, self.height), color=(208, 208, 208),
                                                 text="Saved games")
         self.exit_button = button.Button(self.width // 2 - self.width // 8,
                                          self.height // 2 - self.height // 16 + self.height // 4, self.width // 4,
-                                         self.height // 16, finish_game, (), color=(128, 128, 128), text="Exit")
+                                         self.height // 16, finish_game, (), color=(208, 208, 208), text="Exit")
 
     def event_(self, event):
         """
@@ -155,15 +155,15 @@ class Menu:
         self.width = screen.get_width()
         self.new_game_button = button.Button(self.width // 2 - self.width // 8,
                                              self.height // 2 - self.height // 16, self.width // 4,
-                                             self.height // 16, new_game, (), color=(128, 128, 128), text="New game")
+                                             self.height // 16, new_game, (), color=(208, 208, 208), text="New game")
         self.button_saved_games = button.Button(self.width // 2 - self.width // 8,
                                                 self.height // 2 - self.height // 16 + self.height // 8,
                                                 self.width // 4, self.height // 16, saved_games,
-                                                (screen, self.width, self.height), color=(128, 128, 128),
+                                                (screen, self.width, self.height), color=(208, 208, 208),
                                                 text="Saved games")
         self.exit_button = button.Button(self.width // 2 - self.width // 8,
                                          self.height // 2 - self.height // 16 + self.height // 4, self.width // 4,
-                                         self.height // 16, finish_game, (), color=(128, 128, 128), text="Exit")
+                                         self.height // 16, finish_game, (), color=(208, 208, 208), text="Exit")
 
     def draw(self, screen):
         """
@@ -188,15 +188,15 @@ class DeathMenu:
         self.width = screen.get_width()
         self.restart_game_button = button.Button(self.width // 2 - self.width // 8,
                                                  self.height // 2 - self.height // 16, self.width // 4,
-                                                 self.height // 16, restart_game, (), color=(128, 128, 128),
+                                                 self.height // 16, restart_game, (), color=(136, 0, 21),
                                                  text="Restart game")
         self.button_new_menu = button.Button(self.width // 2 - self.width // 8,
                                              self.height // 2 - self.height // 16 + self.height // 8,
                                              self.width // 4, self.height // 16, open_main_menu, (),
-                                             color=(128, 128, 128), text="Main menu")
+                                             color=(136, 0, 21), text="Main menu")
         self.exit_button = button.Button(self.width // 2 - self.width // 8,
                                          self.height // 2 - self.height // 16 + self.height // 4, self.width // 4,
-                                         self.height // 16, finish_game, (), color=(128, 128, 128), text="Exit")
+                                         self.height // 16, finish_game, (), color=(136, 0, 21), text="Exit")
 
     def event_(self, event):
         """
@@ -222,12 +222,12 @@ class DeathMenu:
         self.width = screen.get_width()
         self.restart_game_button = button.Button(self.width // 2 - self.width // 8,
                                                  self.height // 2 - self.height // 16, self.width // 4,
-                                                 self.height // 16, restart_game, (), color=(128, 128, 128),
+                                                 self.height // 16, restart_game, (), color=(208, 208, 208),
                                                  text="Restart game")
 
         self.exit_button = button.Button(self.width // 2 - self.width // 8,
                                          self.height // 2 - self.height // 16 + self.height // 4, self.width // 4,
-                                         self.height // 16, finish_game, (), color=(128, 128, 128), text="Exit")
+                                         self.height // 16, finish_game, (), color=(208, 208, 208), text="Exit")
 
     def draw(self, screen):
         """
@@ -236,6 +236,9 @@ class DeathMenu:
         """
         if screen.get_height() != self.height or screen.get_width() != self.width:
             self.update(screen)
+        screen_image = pygame.image.load("death.jpg")
+        screen_image = pygame.transform.scale(screen_image, (screen.get_width(), screen.get_height()))
+        screen.blit(screen_image, (0, 0))        
         self.restart_game_button.drawing(screen)
         self.exit_button.drawing(screen)
         self.button_new_menu.drawing(screen)
@@ -248,7 +251,7 @@ def home_screen(screen):
     It can return False, which will mean closing
     """
     pygame.init()
-    screen_image = pygame.image.load("wallpapers.jpg")
+    screen_image = pygame.image.load("wallpapers.png")
     x = Menu(screen)
     fin = False
     result = None
@@ -280,13 +283,13 @@ def death_screen(screen, hero):
     """
     pygame.init()
     x = DeathMenu(screen)
+
     fin = False
     result = None
     pygame.init()
     while not fin:
         x.draw(screen)
         pygame.display.update()
-        screen.fill("black")
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 fin = True

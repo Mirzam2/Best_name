@@ -1,5 +1,6 @@
 import pygame
 from pygame import surface
+import json
 
 from constans import SIZE_BLOCK
 from spritesheet import SpriteSheet
@@ -35,45 +36,12 @@ class TypeBlock:
 
 def types(types_block, person_images):
     ss = SpriteSheet("./all.png")
-    types_block[0] = TypeBlock(
-        "Air", True, -1, ss.image_at((96, 0, 48, 48)), 0)
-    types_block[1] = TypeBlock(
-        "Dirt", False, 5, ss.image_at((0, 0, 48, 48)), 20)
-    types_block[2] = TypeBlock(
-        "Grass", False, 5, ss.image_at((48, 0, 48, 48)), 0)
-    types_block[3] = TypeBlock(
-        "Stone", False, 10, ss.image_at((144, 0, 48, 48)), 20)
-    types_block[4] = TypeBlock("Log", True, 10, ss.image_at((192, 0, 48, 48)))
-    types_block[5] = TypeBlock(
-        "Sand", False, 10, ss.image_at((240, 0, 48, 48)), 5)
-    types_block[6] = TypeBlock(
-        "Bedrock", False, 10 ** 6, ss.image_at((288, 0, 48, 48)))
-    types_block[7] = TypeBlock(
-        "Granite", False, 10, ss.image_at((336, 0, 48, 48)), 3)
-    types_block[8] = TypeBlock(
-        "Amethyst", False, 10, ss.image_at((384, 0, 48, 48)), 1)
-    types_block[9] = TypeBlock(
-        "Stone1", False, 10, ss.image_at((432, 0, 48, 48)), 10)
-    types_block[10] = TypeBlock(
-        "Leaves", True, 10, ss.image_at((0, 48, 48, 48)))
-    types_block[11] = TypeBlock(
-        "Leaves1", True, 10, ss.image_at((48, 48, 48, 48)))
-    types_block[12] = TypeBlock(
-        "Leaves2", True, 10, ss.image_at((96, 48, 48, 48)))
-    types_block[13] = TypeBlock(
-        "EmeraldOre", False, 10, ss.image_at((144, 48, 48, 48)), 3)
-    types_block[14] = TypeBlock(
-        "Emerald", False, 10, ss.image_at((192, 48, 48, 48)))
-    types_block[15] = TypeBlock(
-        "GoldOre", False, 10, ss.image_at((240, 48, 48, 48)), 3)
-    types_block[16] = TypeBlock(
-        "Gold", False, 10, ss.image_at((288, 48, 48, 48)))
-    types_block[17] = TypeBlock(
-        "CoalOre", False, 10, ss.image_at((336, 48, 48, 48)), 4)
-    types_block[18] = TypeBlock(
-        "Coal", False, 10, ss.image_at((384, 48, 48, 48)))
-    types_block[19] = TypeBlock(
-        "Planks", False, 10, ss.image_at((432, 0, 48, 48)))
+    with open('blocks.json', 'r') as f:
+        data = json.load(f)
+        for btype, binfo in data.items():
+            types_block[binfo["id"]] = TypeBlock(btype, binfo["permeability"], binfo["durability"],
+                                                 ss.image_at(tuple(binfo["sheet_rect"])), binfo["chance_generate"])
+
     person_images[0] = ss.image_at((0, 96, 45, 90), (0, 0, 0))
     person_images[1] = ss.image_at((48, 96, 45, 90), (0, 0, 0))
     person_images[2] = ss.image_at((96, 96, 45, 90), (0, 0, 0))

@@ -1,0 +1,237 @@
+{
+  "Air": {
+    "id": 0,
+    "permeability": true,
+    "durability": -1,
+    "sheet_rect": [96, 0, 48, 48],
+    "chance_generate": 0
+  },
+  "Dirt": {
+    "id": 1,
+    "permeability": false,
+    "durability": 5,
+    "sheet_rect": [
+      0,
+      0,
+      48,
+      48
+    ],
+    "chance_generate": 20
+  },
+  "Grass": {
+    "id": 2,
+    "permeability": false,
+    "durability": 5,
+    "sheet_rect": [
+      48,
+      0,
+      48,
+      48
+    ],
+    "chance_generate": 0
+  },
+  "Stone": {
+    "id": 3,
+    "permeability": false,
+    "durability": 10,
+    "sheet_rect": [
+      144,
+      0,
+      48,
+      48
+    ],
+    "chance_generate": 20
+  },
+  "Log": {
+    "id": 4,
+    "permeability": true,
+    "durability": 10,
+    "sheet_rect": [
+      192,
+      0,
+      48,
+      48
+    ],
+    "chance_generate": 0
+  },
+  "Sand": {
+    "id": 5,
+    "permeability": false,
+    "durability": 10,
+    "sheet_rect": [
+      240,
+      0,
+      48,
+      48
+    ],
+    "chance_generate": 5
+  },
+  "Bedrock": {
+    "id": 6,
+    "permeability": false,
+    "durability": 1000000,
+    "sheet_rect": [
+      288,
+      0,
+      48,
+      48
+    ],
+    "chance_generate": 0
+  },
+  "Granite": {
+    "id": 7,
+    "permeability": false,
+    "durability": 10,
+    "sheet_rect": [
+      336,
+      0,
+      48,
+      48
+    ],
+    "chance_generate": 3
+  },
+  "Amethyst": {
+    "id": 8,
+    "permeability": false,
+    "durability": 10,
+    "sheet_rect": [
+      384,
+      0,
+      48,
+      48
+    ],
+    "chance_generate": 1
+  },
+  "Stone1": {
+    "id": 9,
+    "permeability": false,
+    "durability": 10,
+    "sheet_rect": [
+      432,
+      0,
+      48,
+      48
+    ],
+    "chance_generate": 10
+  },
+  "Leaves": {
+    "id": 10,
+    "permeability": true,
+    "durability": 10,
+    "sheet_rect": [
+      0,
+      48,
+      48,
+      48
+    ],
+    "chance_generate": 0
+  },
+  "Leaves1": {
+    "id": 11,
+    "permeability": true,
+    "durability": 10,
+    "sheet_rect": [
+      48,
+      48,
+      48,
+      48
+    ],
+    "chance_generate": 0
+  },
+  "Leaves2": {
+    "id": 12,
+    "permeability": true,
+    "durability": 10,
+    "sheet_rect": [
+      96,
+      48,
+      48,
+      48
+    ],
+    "chance_generate": 0
+  },
+  "EmeraldOre": {
+    "id": 13,
+    "permeability": false,
+    "durability": 10,
+    "sheet_rect": [
+      144,
+      48,
+      48,
+      48
+    ],
+    "chance_generate": 3
+  },
+  "Emerald": {
+    "id": 14,
+    "permeability": false,
+    "durability": 10,
+    "sheet_rect": [
+      192,
+      48,
+      48,
+      48
+    ],
+    "chance_generate": 0
+  },
+  "GoldOre": {
+    "id": 15,
+    "permeability": false,
+    "durability": 10,
+    "sheet_rect": [
+      240,
+      48,
+      48,
+      48
+    ],
+    "chance_generate": 3
+  },
+  "Gold": {
+    "id": 16,
+    "permeability": false,
+    "durability": 10,
+    "sheet_rect": [
+      288,
+      48,
+      48,
+      48
+    ],
+    "chance_generate": 0
+  },
+  "CoalOre": {
+    "id": 17,
+    "permeability": false,
+    "durability": 10,
+    "sheet_rect": [
+      336,
+      48,
+      48,
+      48
+    ],
+    "chance_generate": 4
+  },
+  "Coal": {
+    "id": 18,
+    "permeability": false,
+    "durability": 10,
+    "sheet_rect": [
+      144,
+      48,
+      48,
+      48
+    ],
+    "chance_generate": 0
+  },
+  "Planks": {
+    "id": 19,
+    "permeability": false,
+    "durability": 10,
+    "sheet_rect": [
+      432,
+      48,
+      48,
+      48
+    ],
+    "chance_generate": 0
+  }
+}

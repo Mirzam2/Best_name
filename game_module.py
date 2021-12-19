@@ -73,6 +73,8 @@ class Game:
                     self.x1, self.y1, person_images, self.screen))
             self.event_handling()
             self.processes_units()
+            if pygame.key.get_pressed()[pygame.K_ESCAPE]:
+                self.finished = True
 
             pygame.display.update()
             pygame.display.flip()

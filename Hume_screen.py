@@ -128,15 +128,18 @@ class Menu:
         Returns file when closing the game
         Returns the file when opening saving or creating a new game
         """
-        result = self.exit_button.tap(event)
-        if result is not None:
-            return result
-        result = self.new_game_button.tap(event)
-        if result is not None:
-            return result
-        result = self.button_saved_games.tap(event)
-        if result is not None:
-            return result
+        result = []
+        pre_result = self.exit_button.tap(event)
+        if pre_result is not None:
+            result.append(pre_result)
+        pre_result = self.new_game_button.tap(event)
+        if pre_result is not None:
+            result.append(pre_result)
+        pre_result = self.button_saved_games.tap(event)
+        if pre_result is not None:
+            result.append(pre_result)
+        result.append(None)
+        return result[0]
 
     def update(self, screen):
         """
@@ -195,15 +198,18 @@ class DeathMenu:
         Returns file when closing the game
         Returns the file when opening saving or creating a new game
         """
-        result = self.exit_button.tap(event)
-        if result is not None:
-            return result
-        result = self.restart_game_button.tap(event)
-        if result is not None:
-            return result
-        result = self.button_new_menu.tap(event)
-        if result is not None:
-            return result
+        result = []
+        pre_result = self.exit_button.tap(event)
+        if pre_result is not None:
+            result.append(pre_result)
+        pre_result = self.restart_game_button.tap(event)
+        if pre_result is not None:
+            result.append(pre_result)
+        pre_result = self.button_new_menu.tap(event)
+        if pre_result is not None:
+            result.append(pre_result)
+        result.append(None)
+        return result[0]
 
     def update(self, screen):
         self.height = screen.get_height()

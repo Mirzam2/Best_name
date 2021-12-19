@@ -73,13 +73,15 @@ class Game:
                     self.x1, self.y1, person_images, self.screen))
             self.event_handling()
             self.processes_units()
+            if pygame.key.get_pressed()[pygame.K_ESCAPE]:
+                self.finished = True
 
             pygame.display.update()
             pygame.display.flip()
+        file.save_map(self.list_words, self.file_world)
+        self.inventory.save_inventory(self.name_of_file_with_inventory)
         result = Hume_screen.death_screen(self.main_screen, self.main_hero)
         if result == "exit":
-            file.save_map(self.list_words, self.file_world)
-            self.inventory.save_inventory(self.name_of_file_with_inventory)
             pygame.quit()
         elif result == "restart":
             self.finished = False

@@ -2,7 +2,6 @@
 
 import pygame
 import pygame.freetype
-from pygame import image
 
 import block
 import button

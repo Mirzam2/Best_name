@@ -1,6 +1,5 @@
 ﻿import os
 import pathlib
-import shutil
 import time
 import sys
 
@@ -40,6 +39,14 @@ def return_save(content, number):
     Returns a save
     """
     return content[number]
+
+
+def finish_game():
+    return "exit"
+
+
+def open_main_menu():
+    os.execl(sys.executable, sys.executable, *sys.argv)
 
 
 def saved_games(screen, width, height):
@@ -92,14 +99,6 @@ def saved_games(screen, width, height):
             result.append(None)
             finished = True
     return result[0]
-
-
-def finish_game():
-    return "exit"
-
-    
-def open_main_menu():
-    os.execl(sys.executable, sys.executable, *sys.argv)
 
 
 class Menu:
@@ -183,9 +182,9 @@ class DeathMenu:
                                                  self.height // 16, restart_game, (), color=(128, 128, 128),
                                                  text="Restart game")
         self.button_new_menu = button.Button(self.width // 2 - self.width // 8,
-                                                self.height // 2 - self.height // 16 + self.height // 8,
-                                                self.width // 4, self.height // 16, open_main_menu, (), 
-                                                color=(128, 128, 128), text="Main menu")
+                                             self.height // 2 - self.height // 16 + self.height // 8,
+                                             self.width // 4, self.height // 16, open_main_menu, (),
+                                             color=(128, 128, 128), text="Main menu")
         self.exit_button = button.Button(self.width // 2 - self.width // 8,
                                          self.height // 2 - self.height // 16 + self.height // 4, self.width // 4,
                                          self.height // 16, finish_game, (), color=(128, 128, 128), text="Exit")

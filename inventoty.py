@@ -39,6 +39,13 @@ class Inventory:
         self.width = screen.get_width()
         self.main_massive = json.load(file)
         self.mas_of_buttons = []
+
+    def update(self, screen):
+        """
+        If the window size has changed, it creates new buttons
+        """
+        self.height = screen.get_height()
+        self.width = screen.get_width()
         create_buttons(self.main_massive, self.mas_of_buttons, self.blocks,
                        self.width, self.height)
 
@@ -46,7 +53,10 @@ class Inventory:
         """
         Accepts pygame.Surface
         Draws inventory on it
+        If the window size has changed, it calls update
         """
+        if self.width != screen.get_width() or self.height != screen.get_height():
+            self.update(screen)
         f1 = pygame.font.SysFont('arial', 36)
         pygame.draw.rect(screen, (128, 128, 128), (self.width - 3 * self.width // 4,
                                                    self.height - 3 * self.height // 4, self.width // 2,

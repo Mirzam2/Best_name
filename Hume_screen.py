@@ -63,6 +63,17 @@ def saved_games(screen, width, height):
     finished = False
     result = []
     while not finished:
+        if screen.get_height() != height or screen.get_width() != width:  # If the window size has changed,
+            # it creates new buttons
+            height = screen.get_height()
+            width = screen.get_width()
+            buttons.clear()
+            for i in range(min(len(content), 7)):
+                tmp = button.Button(width // 2 - width // 8,
+                                    height // 4 - height // 16 + height // 8 * i, width // 4,
+                                    height // 16, return_save, (content, i), color=(128, 128, 128), text=content[i])
+                buttons.append(tmp)
+        screen_image = pygame.transform.scale(screen_image, (screen.get_width(), screen.get_height()))
         screen.blit(screen_image, (0, 0))
         for i in buttons:
             i.drawing(screen)
@@ -128,7 +139,10 @@ class Menu:
     def draw(self, screen):
         """
         Draws Menu
+        If the window size has changed, it calls update (__init__)
         """
+        if screen.get_height() != self.height or screen.get_width() != self.width:
+            self.__init__(screen)
         self.new_game_button.drawing(screen)
         self.button_saved_games.drawing(screen)
         self.exit_button.drawing(screen)
@@ -168,7 +182,10 @@ class DeathMenu:
     def draw(self, screen):
         """
         Draws Menu
+        If the window size has changed, it calls update
         """
+        if screen.get_height() != self.height or screen.get_width() != self.width:
+            self.__init__(screen)
         self.restart_game_button.drawing(screen)
         self.exit_button.drawing(screen)
 
@@ -186,6 +203,7 @@ def home_screen(screen):
     result = None
     pygame.init()
     while not fin:
+        screen_image = pygame.transform.scale(screen_image, (screen.get_width(), screen.get_height()))
         screen.blit(screen_image, (0, 0))
         x.draw(screen)
         pygame.display.update()

@@ -7,7 +7,7 @@ from block import *
 from not_constant import person_images, types_block
 
 
-def save_map(massive_slov: list, world_name: str = "test"):
+def save_map(massive_block: list, world_name: str = "test"):
     """
     function for storing world map data
     massive_block - an array for blocks
@@ -16,9 +16,9 @@ def save_map(massive_slov: list, world_name: str = "test"):
     file = pathlib.Path(pathlib.Path.cwd(), "saves", world_name)
     with open(file, 'w') as input_file:
         main_string = "[" + "\n"
-        for slovo in massive_slov:
+        for word in massive_block:
             string = ""
-            for i in slovo:
+            for i in word:
                 string += (str(i) + ", ")
             string = string[:len(string) - 2]
             main_string += ("[" + string + "]," + "\n")
@@ -30,15 +30,14 @@ def save_map(massive_slov: list, world_name: str = "test"):
 def load_map(world_name: str = "test"):
     """
     world map download function
-    massive_block - an array for blocks
     world_name - the name of the world that you want to download
     """
     file = pathlib.Path(pathlib.Path.cwd(), "saves", world_name)
     with open(file, 'r') as f:
-        massive_slov = json.load(f)
+        list_map = json.load(f)
     map_types = []
-    for i in range(len(massive_slov)):
+    for i in range(len(list_map)):
         map_types.append([])
-        for j in range(len(massive_slov[i])):
-            map_types[i].append(types_block.get(massive_slov[i][j], 0))
-    return massive_slov, map_types
+        for j in range(len(list_map[i])):
+            map_types[i].append(types_block.get(list_map[i][j], 0))
+    return list_map, map_types

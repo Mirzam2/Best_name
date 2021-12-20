@@ -239,6 +239,12 @@ class Zombie(Person):
     """
 
     def __init__(self, x: int, y: int, images: pygame.Surface, screen: pygame.Surface):
+        """
+        x - coordinate x
+        y - coordinate y
+        images - coordinate array of images
+        screen - the screen on which the pictures are drawn
+        """
         super().__init__(x, y, images, screen)
         self.vx = 0
         self.vy = 0

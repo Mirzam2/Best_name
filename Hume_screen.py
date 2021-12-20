@@ -7,10 +7,12 @@ import time
 import pygame
 
 import button
+from constans import AIR_LAYER, SIZE_MAP_X, XP_PERSON
 import inventoty
 import map
 from constans import AIR_LAYER, SIZE_MAP_X
 from file import save_map
+
 
 
 def new_game():
@@ -30,7 +32,7 @@ def new_game():
     massive_words = map.create_field(massive_words)
     save_map(massive_words, tmp)
     with open(pathlib.Path(pathlib.Path.cwd(), "saves_units", "units" + tmp), 'w') as f:
-        json.dump([[SIZE_MAP_X // 2, AIR_LAYER - 2, 10]],f)
+        json.dump([[SIZE_MAP_X // 2, AIR_LAYER - 2, XP_PERSON]], f)
 
     return tmp
 
@@ -237,7 +239,7 @@ class DeathMenu:
             self.update(screen)
         screen_image = pygame.image.load("death.jpg")
         screen_image = pygame.transform.scale(screen_image, (screen.get_width(), screen.get_height()))
-        screen.blit(screen_image, (0, 0))        
+        screen.blit(screen_image, (0, 0))
         self.restart_game_button.drawing(screen)
         self.exit_button.drawing(screen)
         self.button_new_menu.drawing(screen)

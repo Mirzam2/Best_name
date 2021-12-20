@@ -128,7 +128,7 @@ class Menu:
                                          self.height // 2 - self.height // 16 + self.height // 4, self.width // 4,
                                          self.height // 16, finish_game, (), color=(208, 208, 208), text="Exit")
 
-    def event_(self, event)
+    def event_(self, event):
         """
         Accepts event from pygame.event.get()
         Returns file when closing the game

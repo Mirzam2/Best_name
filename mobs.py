@@ -69,6 +69,7 @@ class Person:
         self.life = XP_PERSON
 
     def revive(self):
+        """Revive person"""
         self.life = XP_PERSON
         self.x = self.initial_x
         self.y = self.initial_y

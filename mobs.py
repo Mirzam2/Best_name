@@ -1,6 +1,5 @@
 import math
 import random
-
 import pygame
 
 from constans import (DELTA, GRAVITY, JUMP_SPEED, KICK_CONSTANT_X,

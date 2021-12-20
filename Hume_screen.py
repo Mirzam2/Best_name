@@ -1,18 +1,17 @@
 ﻿import json
 import os
 import pathlib
-import time
 import sys
+import time
 
 import pygame
 
 import button
-from constans import AIR_LAYER, SIZE_MAP_X
 import inventoty
 import map
-from file import save_map, save_units
-from mobs import Person
-from not_constant import person_images
+from constans import AIR_LAYER, SIZE_MAP_X
+from file import save_map
+
 
 def new_game():
     """

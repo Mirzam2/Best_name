@@ -27,7 +27,7 @@ class Inventory:
     And Pygame.Surface
     """
 
-    def __init__(self, file, screen):
+    def __init__(self, file, screen: pygame.Surface):
         self.file = file
         self.blocks = {}
         block.types(self.blocks, {})
@@ -40,7 +40,7 @@ class Inventory:
         self.mas_of_buttons = []
         self.update(screen)
 
-    def update(self, screen):
+    def update(self, screen: pygame.Surface):
         """
         If the window size has changed, it creates new buttons
         """
@@ -49,7 +49,7 @@ class Inventory:
         create_buttons(self.main_massive, self.mas_of_buttons, self.blocks,
                        self.width, self.height)
 
-    def draw(self, screen):
+    def draw(self, screen: pygame.Surface):
         """
         Accepts pygame.Surface
         Draws inventory on it
@@ -75,7 +75,7 @@ class Inventory:
                                    self.height - 3 * self.height // 4 + 48 * k * 3 / 2))
             j = j + 1
 
-    def add_or_delete_block(self, number_of_block, num):
+    def add_or_delete_block(self, number_of_block: int, num: int):
         """
         Accepts number_of_block - the block number and changes the number of blocks in the inventory
         num - the number of blocks to add or remove
@@ -112,7 +112,7 @@ class Inventory:
         json.dump(self.main_massive, file)
 
 
-def create_buttons(main_massive, mas_of_buttons, blocks, width, height):
+def create_buttons(main_massive, mas_of_buttons, blocks, width: int, height: int):
     """
     Creates buttons in the inventory
     """

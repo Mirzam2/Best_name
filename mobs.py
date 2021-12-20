@@ -5,7 +5,7 @@ import pygame
 
 from constans import (DELTA, GRAVITY, JUMP_SPEED, KICK_CONSTANT_X,
                       KICK_CONSTANT_Y, SIZE_BLOCK, SIZE_MAP_X, SIZE_MAP_Y,
-                      TIME_KICK, TIME_STOP, SPEED_PLAYER, SPEED_ZOMBIE)
+                      TIME_KICK, TIME_STOP, SPEED_PLAYER, SPEED_ZOMBIE, XP_PERSON, XP_ZOMBIE)
 from not_constant import types_block
 
 
@@ -66,11 +66,11 @@ class Person:
         self.state = 'STAYING'
         self.mouse_pressed = None
         self.start_time = 0
-        self.life = 10
+        self.life = XP_PERSON
         self.put = True
 
     def revive(self):
-        self.life = 10
+        self.life = XP_PERSON
         self.x = self.initial_x
         self.y = self.initial_y
 
@@ -224,9 +224,9 @@ class Person:
         rect.topleft = self.x * self.size, self.y * self.size
         self.screen.blit(self.images[self.image_idx], rect)
         pygame.draw.rect(self.screen, (0, 0, 0),
-                         (self.x * self.size, (self.y - 0.5) * self.size, self.size, 10))
+                         (self.x * self.size, (self.y - 0.5) * self.size, self.real_size, 10))
         pygame.draw.rect(self.screen, (0, 225, 0),
-                         (self.x * self.size, (self.y - 0.5) * self.size, self.life * self.size / 10, 10))
+                         (self.x * self.size, (self.y - 0.5) * self.size, (self.life * self.real_size / XP_PERSON), 10))
 
 
 class Zombie(Person):
@@ -245,7 +245,7 @@ class Zombie(Person):
         self.current_frame = 0
         self.animation_frames = 10  # Number of frames between animation changes
         self.images = images
-        self.life = 5
+        self.life = XP_ZOMBIE
         self.time = 0
         self.can_kick = True
         self.strike = False
@@ -289,7 +289,7 @@ class Zombie(Person):
         pygame.draw.rect(self.screen, (0, 0, 0),
                          (self.x * self.size, (self.y - 0.5) * self.size, self.size, 10))
         pygame.draw.rect(self.screen, (225, 0, 0),
-                         (self.x * self.size, (self.y - 0.5) * self.size, self.life * self.size / 5, 10))
+                         (self.x * self.size, (self.y - 0.5) * self.size, self.life * self.size / XP_ZOMBIE, 10))
 
     def kick(self, main_hero, finished):
         """

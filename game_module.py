@@ -37,7 +37,7 @@ class Game:
         pygame.mixer.music.play(-1)
         self.file_world = Hume_screen.home_screen(self.main_screen)
         self.name_of_file_with_inventory = pathlib.Path(pathlib.Path.cwd(),
-                                                        "Saves_inventory", "inventory" + self.file_world)
+                                                        "saves_invent", "inventory" + self.file_world)
         self.file_inventory = open(self.name_of_file_with_inventory, 'r')
         self.inventory = inventoty.Inventory(self.file_inventory, main_screen)
         self.block_in_hands = 0

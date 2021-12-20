@@ -14,7 +14,6 @@ from constans import AIR_LAYER, SIZE_MAP_X
 from file import save_map
 
 
-
 def new_game():
     """
     Creates a file with a new game

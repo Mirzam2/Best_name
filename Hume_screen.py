@@ -51,10 +51,6 @@ def finish_game():
     return "exit"
 
 
-def open_main_menu():
-    os.execl(sys.executable, sys.executable, *sys.argv)
-
-
 def saved_games(screen: pygame.Surface, width: int, height: int):
     """
     Draws saves
@@ -175,6 +171,9 @@ class Menu:
         self.new_game_button.drawing(screen)
         self.button_saved_games.drawing(screen)
         self.exit_button.drawing(screen)
+
+def open_main_menu():
+    os.execl(sys.executable, sys.executable, *sys.argv)
 
 
 class DeathMenu:

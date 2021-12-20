@@ -67,7 +67,6 @@ class Person:
         self.mouse_pressed = None
         self.start_time = 0
         self.life = XP_PERSON
-        self.put = True
 
     def revive(self):
         self.life = XP_PERSON
@@ -116,10 +115,7 @@ class Person:
                     else:
                         self.x = round(self.x)
                     self.vx = 0
-                    self.put = False
                     break
-                else:
-                    self.put = True
         for i in self.x + DELTA, self.x + 1 * self.otn - DELTA:
             for j in self.y + DELTA, self.y + 1 * self.otn, self.y + 2 * self.otn - DELTA:
                 if not (point_collision_y(i, j, self.vy, massive_map)):

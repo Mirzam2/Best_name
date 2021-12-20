@@ -3,7 +3,7 @@ import pygame.freetype
 
 
 class Button:
-    def __init__(self, x1, y1, x2, y2, function, option: tuple, color=(255, 255, 255), text="button"):
+    def __init__(self, x1: int, y1: int, x2: int, y2: int, function, option: tuple, color=(255, 255, 255), text="button"):
         """
         Creating a button
         x1,y1 - coordinates of the upper-left corner
@@ -34,7 +34,7 @@ class Button:
                 y = self.function(*self.option)
                 return y
 
-    def drawing(self, surface):
+    def drawing(self, surface: pygame.Surface):
         """
         Draws a button on the surface of the surface
         """

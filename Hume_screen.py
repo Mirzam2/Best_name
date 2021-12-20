@@ -55,7 +55,7 @@ def open_main_menu():
     os.execl(sys.executable, sys.executable, *sys.argv)
 
 
-def saved_games(screen, width, height):
+def saved_games(screen: pygame.Surface, width: int, height: int):
     """
     Draws saves
     width - width of the screen
@@ -113,7 +113,7 @@ class Menu:
     It is necessary to submit only pygame.Surface
     """
 
-    def __init__(self, screen):
+    def __init__(self, screen: pygame.Surface):
         self.height = screen.get_height()
         self.width = screen.get_width()
         self.new_game_button = button.Button(self.width // 2 - self.width // 8,
@@ -147,7 +147,7 @@ class Menu:
         result.append(None)
         return result[0]
 
-    def update(self, screen):
+    def update(self, screen: pygame.Surface):
         """
         Updates the buttons when the screen changes
         """
@@ -165,7 +165,7 @@ class Menu:
                                          self.height // 2 - self.height // 16 + self.height // 4, self.width // 4,
                                          self.height // 16, finish_game, (), color=(208, 208, 208), text="Exit")
 
-    def draw(self, screen):
+    def draw(self, screen: pygame.Surface):
         """
         Draws Menu
         If the window size has changed, it calls update
@@ -183,7 +183,7 @@ class DeathMenu:
     It is necessary to submit only pygame.Surface
     """
 
-    def __init__(self, screen):
+    def __init__(self, screen: pygame.Surface):
         self.height = screen.get_height()
         self.width = screen.get_width()
         self.restart_game_button = button.Button(self.width // 2 - self.width // 8,
@@ -217,7 +217,7 @@ class DeathMenu:
         result.append(None)
         return result[0]
 
-    def update(self, screen):
+    def update(self, screen: pygame.Surface):
         self.height = screen.get_height()
         self.width = screen.get_width()
         self.restart_game_button = button.Button(self.width // 2 - self.width // 8,
@@ -229,7 +229,7 @@ class DeathMenu:
                                          self.height // 2 - self.height // 16 + self.height // 4, self.width // 4,
                                          self.height // 16, finish_game, (), color=(208, 208, 208), text="Exit")
 
-    def draw(self, screen):
+    def draw(self, screen: pygame.Surface):
         """
         Draws Menu
         If the window size has changed, it calls update
@@ -244,7 +244,7 @@ class DeathMenu:
         self.button_new_menu.drawing(screen)
 
 
-def home_screen(screen):
+def home_screen(screen: pygame.Surface):
     """
     Draws the main screen
     Returns a save file or a new file
@@ -277,7 +277,7 @@ def home_screen(screen):
     return result
 
 
-def death_screen(screen, hero):
+def death_screen(screen: pygame.Surface, hero):
     """
     Draws the death screen
     """

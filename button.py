@@ -1,5 +1,6 @@
 import pygame
 import pygame.freetype
+import mobs
 
 
 class Button:
@@ -24,7 +25,7 @@ class Button:
         self.font = self.x2 / len(self.text)  # font size
         self.my_font = pygame.freetype.SysFont('Times New Roman', self.font)
 
-    def tap(self, event):
+    def tap(self, event: pygame.event):
         """
         Event processing of type pygame.event.get()
         Returns the value that the button function returns

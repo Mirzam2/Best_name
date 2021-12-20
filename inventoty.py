@@ -1,4 +1,5 @@
-﻿import json
+﻿from io import TextIOWrapper
+import json
 
 import pygame
 import pygame.freetype
@@ -10,7 +11,7 @@ from not_constant import types_block
 pygame.font.init()
 
 
-def new_file(file):
+def new_file(file: TextIOWrapper):
     """
     Fills in a new file to save inventory
     """
@@ -27,7 +28,7 @@ class Inventory:
     And Pygame.Surface
     """
 
-    def __init__(self, file, screen: pygame.Surface):
+    def __init__(self, file: TextIOWrapper, screen: pygame.Surface):
         self.file = file
         self.blocks = {}
         block.types(self.blocks, {})
@@ -91,7 +92,7 @@ class Inventory:
         else:
             return 0
 
-    def event_(self, event):
+    def event_handling(self, event: pygame.event):
         """
         Takes event from pygame.event.get()
         And returns the block type if there are no blocks 0
@@ -103,7 +104,7 @@ class Inventory:
             if result is not None:
                 return result
 
-    def save_inventory(self, file):
+    def save_inventory(self, file: TextIOWrapper):
         """
         Saves inventory to a file
         Open the inventory file for recording and run this function
@@ -112,7 +113,7 @@ class Inventory:
         json.dump(self.main_massive, file)
 
 
-def create_buttons(main_massive, mas_of_buttons, blocks, width: int, height: int):
+def create_buttons(main_massive: dict, mas_of_buttons: list, blocks: dict, width: int, height: int):
     """
     Creates buttons in the inventory
     """
@@ -129,7 +130,7 @@ def create_buttons(main_massive, mas_of_buttons, blocks, width: int, height: int
         mas_of_buttons.append(tmp)
 
 
-def return_button(main_massive, i):
+def return_button(main_massive: list, i: int):
     """
     Returns a block when you click on it,
     if the blocks are not 0
@@ -141,7 +142,7 @@ def return_button(main_massive, i):
         return 0
 
 
-def inventory_screen(screen, inventory, block_in_hands):
+def inventory_screen(screen: pygame.Surface, inventory: Inventory, block_in_hands: int):
     finished = False
     result = block_in_hands
     while not finished:
@@ -150,7 +151,7 @@ def inventory_screen(screen, inventory, block_in_hands):
             if event.type == pygame.QUIT:
                 finished = True
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                pre_result = inventory.event_(event)
+                pre_result = inventory.event_handling(event)
                 if type(pre_result) == int:
                     result = pre_result
         keys = pygame.key.get_pressed()

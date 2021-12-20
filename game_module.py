@@ -1,8 +1,7 @@
 import pathlib
 
 import pygame
-from pygame import surface
-from pygame import event
+from pygame import event, surface
 
 import file
 import Hume_screen
@@ -16,10 +15,8 @@ from not_constant import person_images
 def music_event(keyboard_buttons: event):
     if keyboard_buttons[pygame.K_1]:
         pygame.mixer.music.pause()
-        # pygame.mixer.music.stop()
     elif keyboard_buttons[pygame.K_2]:
         pygame.mixer.music.unpause()
-        # pygame.mixer.music.play()
         pygame.mixer.music.set_volume(0.5)
 
 
@@ -31,7 +28,7 @@ class Game:
         """
         self.main_screen = main_screen
         self.screen = pygame.Surface(
-            (SIZE_MAP_X * SIZE_BLOCK, SIZE_MAP_Y * SIZE_BLOCK))
+            (SIZE_MAP_X * SIZE_BLOCK, SIZE_MAP_Y * SIZE_BLOCK))  # surface which draw intermideate
         self.file_world = pathlib.Path(pathlib.Path.cwd(), "music.wav")
         pygame.display.set_icon(pygame.image.load(
             pathlib.Path(pathlib.Path.cwd(), "icon.jpg")))

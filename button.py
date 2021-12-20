@@ -1,10 +1,10 @@
 import pygame
 import pygame.freetype
-import mobs
 
 
 class Button:
-    def __init__(self, x1: int, y1: int, x2: int, y2: int, function, option: tuple, color=(255, 255, 255), text="button"):
+    def __init__(self, x1: int, y1: int, x2: int, y2: int, function, option: tuple, color=(255, 255, 255),
+                 text="button"):
         """
         Creating a button
         x1,y1 - coordinates of the upper-left corner
@@ -23,7 +23,7 @@ class Button:
         self.function = function
         self.option = option
         self.font = self.x2 / len(self.text)  # font size
-        self.my_font = pygame.freetype.SysFont('Times New Roman', self.font)
+        self.my_font = pygame.freetype.SysFont('Times New Roman', int(self.font))
 
     def tap(self, event: pygame.event):
         """
@@ -42,4 +42,4 @@ class Button:
         pygame.draw.rect(surface, self.color,
                          (self.x1, self.y1, self.x2, self.y2))
         self.my_font.render_to(
-            surface, (self.x1 + self.x2 / 4, self.y1 + self.y2 / 2 - self.font / 2), self.text, (0, 0, 0))
+            surface, (self.x1 + self.x2 // 4, self.y1 + self.y2 / 2 - self.font // 2), self.text, (0, 0, 0))

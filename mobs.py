@@ -238,7 +238,7 @@ class Zombie(Person):
     The zombie mob is fully described in this class.
     """
 
-    def __init__(self, x: int, y: int, images: pygame.Surface, screen: pygame.Surface):
+    def __init__(self, x: int, y: int, images, screen: pygame.Surface):
         """
         x - coordinate x
         y - coordinate y
@@ -325,14 +325,14 @@ class Zombie(Person):
         return finished
 
 
-def generate_mobs(map: list):
+def generate_mobs(map_list: list):
     """This function is responsible for generating zombies on the map."""
     flag = 0
     while flag <= 10:
         spawn_x = random.randint(1, SIZE_MAP_X - 1)
         for spawn_y in range(SIZE_MAP_Y - 1):
-            if types_block.get(map[spawn_y][spawn_x], 0).permeability and types_block.get(map[spawn_y + 1][spawn_x],
-                                                                                          0).permeability:
+            if types_block.get(map_list[spawn_y][spawn_x],
+                               0).permeability and types_block.get(map_list[spawn_y + 1][spawn_x], 0).permeability:
                 return spawn_x, spawn_y
         flag += 1
     return 1, 1

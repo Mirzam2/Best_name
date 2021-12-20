@@ -61,8 +61,8 @@ class Game:
             self.time += 1
             self.main_screen.fill((0, 0, 0))
             self.veb_cam()
-            for self.zombie in self.massive_mobs:
-                self.zombie.strike = False
+            for zombie in self.massive_mobs:
+                zombie.strike = False
             if self.time % TIME_ZOMBIE_GENERATE == 0:
                 self.x1, self.y1 = mobs.generate_mobs(self.list_words)
                 self.massive_mobs.append(mobs.Zombie(
@@ -104,25 +104,25 @@ class Game:
             self.y_cam += SPEED_CAM * self.diff_y / MAX_DISTANT
         map.draw_map(self.list_words, self.screen)
         self.main_hero.draw()
-        for self.mob in self.massive_mobs:
-            self.mob.draw()
+        for mob in self.massive_mobs:
+            mob.draw()
         self.main_screen.blit(self.screen, (self.x_cam, self.y_cam))
 
     def event_handling(self):
         """
         function handles events, clicks, mouse moves
         """
-        for self.event in pygame.event.get():
-            self.main_hero.angle(self.event, self.x_cam, self.y_cam)
-            if self.event.type == pygame.QUIT:
+        for event in pygame.event.get():
+            self.main_hero.angle(event, self.x_cam, self.y_cam)
+            if event.type == pygame.QUIT:
                 self.finished = True
-            elif self.event.type == pygame.MOUSEBUTTONDOWN:
+            elif event.type == pygame.MOUSEBUTTONDOWN:
                 self.main_hero.start_time = pygame.time.get_ticks()
-                if self.event.button == 3:
+                if event.button == 3:
                     self.main_hero.build(self.block_in_hands, self.list_words,
                                          self.inventory)
-                self.main_hero.hit(self.event, self.massive_mobs)
-            self.main_hero.angle(self.event, self.x_cam, self.y_cam)
+                self.main_hero.hit(event, self.massive_mobs)
+            self.main_hero.angle(event, self.x_cam, self.y_cam)
         self.keys = pygame.key.get_pressed()
         music_event(self.keys)
         if self.keys[pygame.K_e]:
@@ -136,11 +136,11 @@ class Game:
         self.main_hero.broke(self.list_words, self.inventory)
         self.main_hero.input()
         self.main_hero.update_frame_dependent()
-        for self.zombie in self.massive_mobs:
-            self.zombie.input_zombie(self.main_hero)
-            self.zombie.update_frame_dependent()
-            self.finished = self.zombie.kick(self.main_hero, self.finished)
-            self.zombie.control_collision(self.list_words)
-            self.zombie.move()
+        for zombie in self.massive_mobs:
+            zombie.input_zombie(self.main_hero)
+            zombie.update_frame_dependent()
+            self.finished = zombie.kick(self.main_hero, self.finished)
+            zombie.control_collision(self.list_words)
+            zombie.move()
         self.main_hero.control_collision(self.list_words)
         self.main_hero.move()

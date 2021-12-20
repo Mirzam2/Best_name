@@ -1,5 +1,4 @@
-﻿from io import TextIOWrapper
-import json
+﻿import json
 
 import pygame
 import pygame.freetype
@@ -11,7 +10,7 @@ from not_constant import types_block
 pygame.font.init()
 
 
-def new_file(file: TextIOWrapper):
+def new_file(file):
     """
     Fills in a new file to save inventory
     """
@@ -28,7 +27,7 @@ class Inventory:
     And Pygame.Surface
     """
 
-    def __init__(self, file: TextIOWrapper, screen: pygame.Surface):
+    def __init__(self, file, screen: pygame.Surface):
         self.file = file
         self.blocks = {}
         block.types(self.blocks, {})
@@ -104,7 +103,7 @@ class Inventory:
             if result is not None:
                 return result
 
-    def save_inventory(self, file: TextIOWrapper):
+    def save_inventory(self, file):
         """
         Saves inventory to a file
         Open the inventory file for recording and run this function
@@ -130,7 +129,7 @@ def create_buttons(main_massive: dict, mas_of_buttons: list, blocks: dict, width
         mas_of_buttons.append(tmp)
 
 
-def return_button(main_massive: list, i: int):
+def return_button(main_massive, i: int):
     """
     Returns a block when you click on it,
     if the blocks are not 0

@@ -7,7 +7,7 @@ import time
 import pygame
 
 import button
-from constans import AIR_LAYER, SIZE_MAP_X, XP_PERSON
+from constans import XP_PERSON
 import inventoty
 import map
 from constans import AIR_LAYER, SIZE_MAP_X

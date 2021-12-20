@@ -1,16 +1,18 @@
 ﻿import json
 import os
 import pathlib
-import time
 import sys
+import time
 
 import pygame
 
 import button
-from constans import AIR_LAYER, SIZE_MAP_X
+from constans import AIR_LAYER, SIZE_MAP_X, XP_PERSON
 import inventoty
 import map
+from constans import AIR_LAYER, SIZE_MAP_X
 from file import save_map
+
 
 
 def new_game():
@@ -23,14 +25,14 @@ def new_game():
     """
     tmp = str(int(round(time.time()))) + ".json"
     file = open(pathlib.Path(pathlib.Path.cwd(),
-                             "saves_invent", "inventory" + tmp), 'w')
+                             "Saves_inventory", "inventory" + tmp), 'wt+')
     inventoty.new_file(file)
-    open(pathlib.Path(pathlib.Path.cwd(), "saves_map", tmp), 'w')
+    open(pathlib.Path(pathlib.Path.cwd(), "saves", tmp), 'w')
     massive_words = []
     massive_words = map.create_field(massive_words)
     save_map(massive_words, tmp)
-    with open(pathlib.Path(pathlib.Path.cwd(), "saves_units_", "units" + tmp), 'w') as f:
-        json.dump([[SIZE_MAP_X // 2, AIR_LAYER - 2, 10]], f)
+    with open(pathlib.Path(pathlib.Path.cwd(), "saves_units", "units" + tmp), 'w') as f:
+        json.dump([[SIZE_MAP_X // 2, AIR_LAYER - 2, XP_PERSON]], f)
 
     return tmp
 
@@ -61,7 +63,7 @@ def saved_games(screen, width, height):
     height - screen height
     """
     screen.fill("black")
-    content = os.listdir(path='saves_map')
+    content = os.listdir(path='saves')
     content.sort(reverse=True)
     screen_image = pygame.image.load("wallpapers.png")
     buttons = []
@@ -221,15 +223,12 @@ class DeathMenu:
         self.width = screen.get_width()
         self.restart_game_button = button.Button(self.width // 2 - self.width // 8,
                                                  self.height // 2 - self.height // 16, self.width // 4,
-                                                 self.height // 16, restart_game, (), color=(136, 0, 21),
+                                                 self.height // 16, restart_game, (), color=(208, 208, 208),
                                                  text="Restart game")
-        self.button_new_menu = button.Button(self.width // 2 - self.width // 8,
-                                             self.height // 2 - self.height // 16 + self.height // 8,
-                                             self.width // 4, self.height // 16, open_main_menu, (),
-                                             color=(136, 0, 21), text="Main menu")
+
         self.exit_button = button.Button(self.width // 2 - self.width // 8,
                                          self.height // 2 - self.height // 16 + self.height // 4, self.width // 4,
-                                         self.height // 16, finish_game, (), color=(136, 0, 21), text="Exit")
+                                         self.height // 16, finish_game, (), color=(208, 208, 208), text="Exit")
 
     def draw(self, screen):
         """

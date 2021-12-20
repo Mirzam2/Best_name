@@ -1,15 +1,15 @@
 import math
 import random
-
 import pygame
 
+from inventoty import Inventory
 from constans import (DELTA, GRAVITY, JUMP_SPEED, KICK_CONSTANT_X,
                       KICK_CONSTANT_Y, SIZE_BLOCK, SIZE_MAP_X, SIZE_MAP_Y,
-                      TIME_KICK, TIME_STOP, SPEED_PLAYER, SPEED_ZOMBIE)
+                      TIME_KICK, TIME_STOP, SPEED_PLAYER, SPEED_ZOMBIE, XP_PERSON, XP_ZOMBIE)
 from not_constant import types_block
 
 
-def point_collision_x(x, y, vx, massive_map):
+def point_collision_x(x: int, y: int, vx: int, massive_map: list):
     """
     The function checks the collision of a point with coordinates (x + vx, y) with map blocks.
     Returns the possibility of movement along the x-axis.
@@ -23,7 +23,7 @@ def point_collision_x(x, y, vx, massive_map):
     return move_x
 
 
-def point_collision_y(x, y, vy, massive_map):
+def point_collision_y(x: int, y: int, vy: int, massive_map: list):
     """
     The function checks the collision of a point with coordinates (x, y + vy) with map blocks
     Returns the possibility of movement along the y-axis.
@@ -43,7 +43,7 @@ class Person:
     This class is responsible for all the actions of the main character.
     """
 
-    def __init__(self, x, y, images, screen):
+    def __init__(self, x: int, y: int, images: pygame.Surface, screen: pygame.Surface):
         self.destroy = True
         self.x_dot = None
         self.y_dot = None
@@ -66,11 +66,11 @@ class Person:
         self.state = 'STAYING'
         self.mouse_pressed = None
         self.start_time = 0
-        self.life = 10
+        self.life = XP_PERSON
         self.put = True
 
     def revive(self):
-        self.life = 10
+        self.life = XP_PERSON
         self.x = self.initial_x
         self.y = self.initial_y
 
@@ -103,7 +103,7 @@ class Person:
             self.vy = -JUMP_SPEED
         self.vy += GRAVITY
 
-    def control_collision(self, massive_map):
+    def control_collision(self, massive_map: list):
         """
         Checks collisions with blocks at specified speeds, determines the possibility of movement in these directions.
         Makes sure that when shifting, none of the selected points of the person does not end up in an invalid block.
@@ -148,7 +148,7 @@ class Person:
             else:
                 self.an = 0
 
-    def broke(self, massive_map, inventory):
+    def broke(self, massive_map: list, inventory: Inventory):
         """
         Breaks blocks at a certain distance when the left mouse button is pressed for a certain time
         (closest in the direction of the cursor).
@@ -175,7 +175,7 @@ class Person:
                     massive_map[int(self.y_dot)][int(self.x_dot)] = 0
                     self.start_time = pygame.time.get_ticks()
 
-    def build(self, block_in_hands, massive_map, inventory):
+    def build(self, block_in_hands: int, massive_map: list, inventory: Inventory):
         """Puts the block in the hand in the place indicated by the mouse cursor."""
         if block_in_hands != 0:
             for i in range(30):
@@ -203,7 +203,7 @@ class Person:
             return True
         return False
 
-    def hit(self, event, massive_mobs):
+    def hit(self, event: pygame.event, massive_mobs: list):
         """A hit on a zombie, determined by clicking the left mouse button."""
         if event.button == 1:
             for zombie in massive_mobs[::-1]:
@@ -224,9 +224,9 @@ class Person:
         rect.topleft = self.x * self.size, self.y * self.size
         self.screen.blit(self.images[self.image_idx], rect)
         pygame.draw.rect(self.screen, (0, 0, 0),
-                         (self.x * self.size, (self.y - 0.5) * self.size, self.size, 10))
+                         (self.x * self.size, (self.y - 0.5) * self.size, self.real_size, 10))
         pygame.draw.rect(self.screen, (0, 225, 0),
-                         (self.x * self.size, (self.y - 0.5) * self.size, self.life * self.size / 10, 10))
+                         (self.x * self.size, (self.y - 0.5) * self.size, (self.life * self.real_size / XP_PERSON), 10))
 
 
 class Zombie(Person):
@@ -235,7 +235,7 @@ class Zombie(Person):
     The zombie mob is fully described in this class.
     """
 
-    def __init__(self, x, y, images, screen):
+    def __init__(self, x: int, y: int, images: pygame.Surface, screen: pygame.Surface):
         super().__init__(x, y, images, screen)
         self.vx = 0
         self.vy = 0
@@ -245,12 +245,12 @@ class Zombie(Person):
         self.current_frame = 0
         self.animation_frames = 10  # Number of frames between animation changes
         self.images = images
-        self.life = 5
+        self.life = XP_ZOMBIE
         self.time = 0
         self.can_kick = True
         self.strike = False
 
-    def input_zombie(self, main_hero):
+    def input_zombie(self, main_hero: Person):
         """This function sets the speed of the mob depending on the position of the person."""
         if not self.strike:
             if self.x - main_hero.x > 0:
@@ -289,9 +289,9 @@ class Zombie(Person):
         pygame.draw.rect(self.screen, (0, 0, 0),
                          (self.x * self.size, (self.y - 0.5) * self.size, self.size, 10))
         pygame.draw.rect(self.screen, (225, 0, 0),
-                         (self.x * self.size, (self.y - 0.5) * self.size, self.life * self.size / 5, 10))
+                         (self.x * self.size, (self.y - 0.5) * self.size, self.life * self.size / XP_ZOMBIE, 10))
 
-    def kick(self, main_hero, finished):
+    def kick(self, main_hero: Person, finished: bool):
         """
         The function describes a zombie hitting a person.
         Includes a collision with a mob.
@@ -316,7 +316,7 @@ class Zombie(Person):
         return finished
 
 
-def generate_mobs(map):
+def generate_mobs(map: list):
     """This function is responsible for generating zombies on the map."""
     flag = 0
     while flag <= 10:

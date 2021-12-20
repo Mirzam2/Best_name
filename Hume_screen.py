@@ -10,9 +10,8 @@ import button
 from constans import AIR_LAYER, SIZE_MAP_X
 import inventoty
 import map
-from file import save_map, save_units
-from mobs import Person
-from not_constant import person_images
+from file import save_map
+
 
 def new_game():
     """
@@ -31,7 +30,7 @@ def new_game():
     massive_words = map.create_field(massive_words)
     save_map(massive_words, tmp)
     with open(pathlib.Path(pathlib.Path.cwd(), "saves_units", "units" + tmp), 'w') as f:
-        json.dump([[SIZE_MAP_X // 2, AIR_LAYER - 2, 10]],f)
+        json.dump([[SIZE_MAP_X // 2, AIR_LAYER - 2, 10]], f)
 
     return tmp
 
@@ -222,12 +221,15 @@ class DeathMenu:
         self.width = screen.get_width()
         self.restart_game_button = button.Button(self.width // 2 - self.width // 8,
                                                  self.height // 2 - self.height // 16, self.width // 4,
-                                                 self.height // 16, restart_game, (), color=(208, 208, 208),
+                                                 self.height // 16, restart_game, (), color=(136, 0, 21),
                                                  text="Restart game")
-
+        self.button_new_menu = button.Button(self.width // 2 - self.width // 8,
+                                             self.height // 2 - self.height // 16 + self.height // 8,
+                                             self.width // 4, self.height // 16, open_main_menu, (),
+                                             color=(136, 0, 21), text="Main menu")
         self.exit_button = button.Button(self.width // 2 - self.width // 8,
                                          self.height // 2 - self.height // 16 + self.height // 4, self.width // 4,
-                                         self.height // 16, finish_game, (), color=(208, 208, 208), text="Exit")
+                                         self.height // 16, finish_game, (), color=(136, 0, 21), text="Exit")
 
     def draw(self, screen):
         """
@@ -238,7 +240,7 @@ class DeathMenu:
             self.update(screen)
         screen_image = pygame.image.load("death.jpg")
         screen_image = pygame.transform.scale(screen_image, (screen.get_width(), screen.get_height()))
-        screen.blit(screen_image, (0, 0))        
+        screen.blit(screen_image, (0, 0))
         self.restart_game_button.drawing(screen)
         self.exit_button.drawing(screen)
         self.button_new_menu.drawing(screen)

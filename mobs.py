@@ -43,7 +43,13 @@ class Person:
     This class is responsible for all the actions of the main character.
     """
 
-    def __init__(self, x: int, y: int, images: pygame.Surface, screen: pygame.Surface):
+    def __init__(self, x: int, y: int, images: list, screen: pygame.Surface):
+        """
+        x - coordinate x
+        y - coordinate y
+        images - coordinate array of images
+        screen - the screen on which the pictures are drawn
+        """
         self.destroy = True
         self.x_dot = None
         self.y_dot = None

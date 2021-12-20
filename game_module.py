@@ -117,7 +117,7 @@ class Game:
         """
         for self.event in pygame.event.get():
             self.main_hero.angle(self.event, self.x_cam, self.y_cam)
-            if self.event.type == pygame.QUIT or self :
+            if self.event.type == pygame.QUIT:
                 self.finished = True
             elif self.event.type == pygame.MOUSEBUTTONDOWN:
                 self.main_hero.start_time = pygame.time.get_ticks()

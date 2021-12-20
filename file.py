@@ -11,7 +11,7 @@ def save_map(massive_block: list, world_name: str = "test"):
     massive_block - an array for blocks
     world_name - the name of the world that you want to save
     """
-    file = pathlib.Path(pathlib.Path.cwd(), "saves", world_name)
+    file = pathlib.Path(pathlib.Path.cwd(), "saves_map", world_name)
     with open(file, 'w') as input_file:
         main_string = "[" + "\n"
         for word in massive_block:
@@ -30,7 +30,7 @@ def load_map(world_name: str = "test"):
     world map download function
     world_name - the name of the world that you want to download
     """
-    file = pathlib.Path(pathlib.Path.cwd(), "saves", world_name)
+    file = pathlib.Path(pathlib.Path.cwd(), "saves_map", world_name)
     with open(file, 'r') as f:
         list_map = json.load(f)
     map_types = []
@@ -48,7 +48,7 @@ def save_units(list_mob: list, hero: mobs.Person,  world_name: str = "test"):
     hero - main hero
     world_name - the name of the world that you want to save
     """
-    file = pathlib.Path(pathlib.Path.cwd(), "saves_units", "units" + world_name)
+    file = pathlib.Path(pathlib.Path.cwd(), "saves_units_", "units" + world_name)
     data = [[hero.x, hero.y, hero.life]]
     for i in list_mob:
         data.append([i.x, i.y, i.life])
@@ -61,7 +61,7 @@ def load_units(screen: surface, world_name: str = "test"):
     mobs data download function
     world_name - the name of the world that you want to download
     """
-    file = pathlib.Path(pathlib.Path.cwd(), "saves_units", "units" + world_name)
+    file = pathlib.Path(pathlib.Path.cwd(), "saves_units_", "units" + world_name)
     with open(file, 'r') as f:
         list_units = json.load(f)
     list_mobs = list()
